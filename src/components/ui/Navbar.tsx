@@ -1,4 +1,4 @@
-import { auth } from "@/api/firebase";
+import { auth } from "@/api/auth/auth.api";
 import { FirebaseError } from "firebase/app";
 import { deleteUser, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ function Navbar() {
       if (error instanceof FirebaseError) {
         alert(error.code || "로그인에 실패하였습니다.");
       } else {
-        alert("오류가 발생했습니다. 다시 시도해주세요");
+      alert("오류가 발생했습니다. 다시 시도해주세요");
       }
     }
   };
@@ -32,6 +32,7 @@ function Navbar() {
 
   return (
     <div>
+      <h2>Header!</h2>
       <button onClick={handleClickLogOut}>로그아웃</button>
       <button onClick={handleClickDeleteAccount}>회원 탈퇴</button>
     </div>
