@@ -1,8 +1,12 @@
+import { Outlet } from "react-router-dom";
+import Navbar from "./components/ui/Navbar";
+
 function App() {
   return (
-    <div className="w-full h-screen flex flex-col justify-start items-center">
-      MAIN
-    </div>
+    <>
+      <Navbar />
+      <Outlet />
+    </>
   );
 }
 
