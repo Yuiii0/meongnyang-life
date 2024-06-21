@@ -1,5 +1,5 @@
-import { authErrorMessages } from "@/api/authErrorMessages";
-import { auth } from "@/api/firebase";
+import { auth } from "@/api/auth/auth.api";
+import { authErrorMessages } from "@/api/auth/authErrorMessages";
 import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
@@ -27,9 +27,15 @@ function LogInForm() {
       const email = data.email;
       const password = data.password;
 
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       navigate("/main");
+     
     } catch (error) {
+
       if (error instanceof FirebaseError) {
         alert(authErrorMessages[error.code] || "로그인에 실패하였습니다.");
       } else {

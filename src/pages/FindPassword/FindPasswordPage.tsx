@@ -1,4 +1,4 @@
-import { auth } from "@/api/firebase";
+import { auth } from "@/api/auth/auth.api";
 import Heading from "@/components/ui/Heading";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";

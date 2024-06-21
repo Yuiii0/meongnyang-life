@@ -1,5 +1,5 @@
-import { authErrorMessages } from "@/api/authErrorMessages";
-import { auth } from "@/api/firebase";
+import { auth } from "@/api/auth/auth.api";
+import { authErrorMessages } from "@/api/auth/authErrorMessages";
 import { FirebaseError } from "firebase/app";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
@@ -42,9 +42,10 @@ function SignUpForm() {
           email,
           password
         );
+        console.log("회원가입 완료", userCredential.user);
         await updateProfile(userCredential.user, { displayName: name });
         // 로그인 상태 변경 등의 작업 수행
-        navigate("/main");
+        // navigate("/main");
 
         //이름 프로필에 등록
       } catch (error) {
