@@ -1,8 +1,10 @@
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
 import App from "./App";
 import {
   BookmarkPage,
+  FindPasswordPage,
   LikePage,
   LogInPage,
   MainPage,
@@ -14,17 +16,23 @@ import {
   UserPage,
 } from "./pages";
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
+import ProtectedRoute from "./pages/ProtectedRoute/ProtectedRoute";
 import "./styles/index.css";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <ProtectedRoute>
+        <App />
+      </ProtectedRoute>
+    ),
     errorElement: <NotFoundPage />,
     children: [
-      { index: true, path: "/", element: <LogInPage /> },
-      { path: "/main", element: <MainPage /> },
-      { path: "/signup", element: <SignUpPage /> },
+      {
+        path: "/main",
+        element: <MainPage />,
+      },
       { path: "/profiles/:userId", element: <UserPage /> },
       { path: "/search", element: <SearchPage /> },
       { path: "/posts/:postId", element: <PostDetailPage /> },
@@ -34,6 +42,9 @@ const router = createBrowserRouter([
       { path: "/bookmarks/:userId", element: <BookmarkPage /> },
     ],
   },
+  { index: true, path: "/", element: <LogInPage /> },
+  { path: "/signup", element: <SignUpPage /> },
+  { path: "/find/pw", element: <FindPasswordPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
