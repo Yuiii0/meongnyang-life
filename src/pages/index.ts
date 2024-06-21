@@ -1,4 +1,5 @@
 export { default as BookmarkPage } from "./Bookmark/BookMarkPage";
+export { default as FindPasswordPage } from "./FindPassword/FindPasswordPage";
 export { default as LikePage } from "./Like/LikePage";
 export { default as LogInPage } from "./LogIn/LogInPage";
 export { default as MainPage } from "./Main/MainPage";
