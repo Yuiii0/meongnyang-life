@@ -1,7 +1,8 @@
-import { auth } from "@/api/auth/auth.api";
+import { emailLogin } from "@/api/auth/auth.api";
 import { authErrorMessages } from "@/api/auth/authErrorMessages";
+import { useUserStore } from "@/stores/user/useUserStore";
+
 import { FirebaseError } from "firebase/app";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +15,7 @@ interface LogInForm {
 function LogInForm() {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
+  const { setUser, user } = useUserStore();
   const {
     register,
     handleSubmit,
@@ -27,15 +29,12 @@ function LogInForm() {
       const email = data.email;
       const password = data.password;
 
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      navigate("/main");
-     
+      const user = await emailLogin(email, password);
+      if (user) {
+        setUser(user);
+        navigate("/main");
+      }
     } catch (error) {
-
       if (error instanceof FirebaseError) {
         alert(authErrorMessages[error.code] || "로그인에 실패하였습니다.");
       } else {

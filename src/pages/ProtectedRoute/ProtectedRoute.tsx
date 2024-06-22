@@ -1,14 +1,10 @@
-import { auth } from "@/api/auth/auth.api";
+import { useUserStore } from "@/stores/user/useUserStore";
 import { Navigate } from "react-router-dom";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  //로그인 상태 체크
-  const user = auth.currentUser;
-
+  const { user } = useUserStore();
   if (user === null) {
-    return <Navigate to="/" />;
-  } else {
-    return <Navigate to="/main" />;
+    return <Navigate to="/" replace />;
   }
 
   return children;
