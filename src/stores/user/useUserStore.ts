@@ -1,12 +1,11 @@
-import { UserInfo } from "@/types/User/User.type";
+import { User } from "firebase/auth";
 
 import { create } from "zustand";
 
 type UserState = {
-  user: UserInfo | null;
-  setUser: (user: UserInfo) => void;
+  user: User | null;
+  setUser: (user: User) => void;
   clearUser: () => void;
-  
 };
 
 export const useUserStore = create<UserState>((set) => ({
