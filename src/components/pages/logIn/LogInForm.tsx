@@ -1,5 +1,6 @@
 import { auth } from "@/api/auth/auth.api";
 import { authErrorMessages } from "@/api/auth/authErrorMessages";
+import Button from "@/components/ui/Button";
 import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
@@ -33,9 +34,7 @@ function LogInForm() {
         password
       );
       navigate("/main");
-     
     } catch (error) {
-
       if (error instanceof FirebaseError) {
         alert(authErrorMessages[error.code] || "로그인에 실패하였습니다.");
       } else {
@@ -102,7 +101,11 @@ function LogInForm() {
           <p className="text-sm text-red-500">{errors.password.message}</p>
         )}
       </div>
-      <button type="submit">로그인</button>
+      <div className="px-10">
+        <Button>로그인</Button>
+      </div>
+
+      <button type="submit"></button>
     </form>
   );
 }
