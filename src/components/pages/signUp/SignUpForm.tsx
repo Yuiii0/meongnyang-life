@@ -37,7 +37,7 @@ function SignUpForm() {
       const user = await emailSignUp(email, password, name);
       if (user) {
         setUser(user);
-        navigate("/main");
+        navigate(`/profiles/update/${user.uid}`);
       }
     }
   };
