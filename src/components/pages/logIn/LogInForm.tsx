@@ -1,5 +1,6 @@
 import { emailLogin } from "@/api/auth/auth.api";
 import { authErrorMessages } from "@/api/auth/authErrorMessages";
+import Button from "@/components/ui/Button/Button";
 import { useUserStore } from "@/stores/user/useUserStore";
 
 import { FirebaseError } from "firebase/app";
