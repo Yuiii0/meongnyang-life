@@ -17,6 +17,7 @@ import {
 } from "./pages";
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
 import ProtectedRoute from "./pages/ProtectedRoute/ProtectedRoute";
+import UserProfileEditPage from "./pages/User/UserProfileEditPage";
 import "./styles/index.css";
 
 const router = createBrowserRouter([
@@ -33,7 +34,9 @@ const router = createBrowserRouter([
         path: "/main",
         element: <MainPage />,
       },
+
       { path: "/profiles/:userId", element: <UserPage /> },
+      { path: "/profiles/update/:userId", element: <UserProfileEditPage /> },
       { path: "/search", element: <SearchPage /> },
       { path: "/posts/:postId", element: <PostDetailPage /> },
       { path: "/posts/create", element: <PostCreatePage /> },
