@@ -29,7 +29,7 @@ function UserProfileEditPage() {
         </>
       )}
       {step == 3 && (
-        <div className="fixed flex flex-col items-center justify-center gap-y-8 bg-red-50">
+        <div className="fixed flex flex-col items-center justify-center gap-y-8 ">
           <Success linkText="멍냥생활 이용하기" text="멍냥생활 회원이 되신것을">
             환영합니다
           </Success>
