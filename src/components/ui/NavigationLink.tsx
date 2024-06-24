@@ -7,7 +7,7 @@ interface CustomLinkProps {
 
 function NavigationLink({ to, children }: PropsWithChildren<CustomLinkProps>) {
   return (
-    <div className="flex gap-x-1.5 items-center">
+    <div className="flex gap-x-1.5 items-center fixed bottom-10 right-10">
       <Link to={to} className="text-sm font-semibold">
         {children}
       </Link>
