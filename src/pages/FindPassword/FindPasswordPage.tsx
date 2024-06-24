@@ -1,6 +1,9 @@
 import { auth } from "@/api/auth/auth.api";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import Heading from "@/components/ui/Heading";
+import Page from "@/components/ui/Page";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { Mail } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -23,56 +26,64 @@ function FindPasswordPage() {
       await sendPasswordResetEmail(auth, email);
       alert("메일을 확인해주세요");
     } catch (error) {
-      alert("");
+      alert("에러가 발생했습니다. 다시 시도해주세요.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
-      <Heading>비밀번호 재설정</Heading>
-      <form
-        onSubmit={handleSubmit(onValid)}
-        className="p-4 bg-white rounded-lg"
-      >
-        <div className="relative bg-inherit">
-          <input
-            type="text"
-            id="email"
-            {...register("email", {
-              required: "이메일을 입력해주세요",
-              pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: "유효한 이메일 주소를 입력해주세요",
-              },
-            })}
-            className={`h-10 px-2 text-gray-200 placeholder-transparent bg-transparent rounded-lg peer w-72 ring-2 ring-gray-500 focus:ring-sky-600 focus:outline-none ${
-              errors.email ? "border-rose-600" : ""
-            }`}
-            placeholder="이메일을 입력해주세요"
-          />
-          <label
-            htmlFor="email"
-            className="absolute left-0 px-1 mx-1 text-sm text-gray-500 transition-all cursor-text -top-3 bg-inherit peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm"
-          >
-            이메일
-          </label>
-          {errors.email && (
-            <span className="text-sm text-rose-600">
-              {errors.email.message}
-            </span>
-          )}
-        </div>
-        <p>비밀번호 재설정을 위해 이메일을 입력해주세요.</p>
-        <button
-          type="submit"
-          className="h-10 px-4 mt-4 text-white rounded-lg bg-sky-600 hover:bg-sky-700"
-          disabled={isLoading}
-        >
-          {isLoading ? "로딩 중..." : "비밀번호 재설정"}
-        </button>
-      </form>
+    <div className="flex items-center justify-center min-h-screen">
+      <Page>
+        <Heading>비밀번호 재설정</Heading>
+        <form onSubmit={handleSubmit(onValid)} className="h-3/4">
+          <div className="px-4 pt-5 pb-4 bg-white">
+            <div className="sm:flex sm:items-start">
+              <div className="flex items-center justify-center flex-shrink-0 w-20 h-20 mx-auto bg-orange-100 rounded-full sm:mx-0 sm:h-10 sm:w-10">
+                <Mail color="#F7B750" size={36} />
+              </div>
+              <div className="w-full mt-6 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                <h3
+                  className="text-lg font-medium leading-6 text-gray-900"
+                  id="modal-headline"
+                >
+                  이메일 주소를 입력해주세요
+                </h3>
+                <div className="mt-2">
+                  <p className="pt-2 text-[13px] text-gray-500">
+                    비밀번호 재설정을 위한 URL을 메일로 보내드립니다.
+                  </p>
+                  <input
+                    type="email"
+                    className="w-full p-2 mt-6 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-orange-200"
+                    placeholder="이메일을 입력해주세요"
+                    {...register("email", {
+                      required: "이메일을 입력해주세요",
+                      pattern: {
+                        value:
+                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                        message: "유효한 이메일 주소를 입력해주세요",
+                      },
+                    })}
+                  />
+                  <ErrorMessage>{errors?.email?.message}</ErrorMessage>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <button
+              type="submit"
+              className={`inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm hover:opacity-90 active:text-brand-100 bg-brand-100 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm ${
+                isLoading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={isLoading}
+            >
+              {isLoading ? "로딩 중..." : "이메일 전송"}
+            </button>
+          </div>
+        </form>
+      </Page>
     </div>
   );
 }
