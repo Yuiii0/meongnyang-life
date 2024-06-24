@@ -1,6 +1,7 @@
 import { emailLogin } from "@/api/auth/auth.api";
 import { authErrorMessages } from "@/api/auth/authErrorMessages";
 import Button from "@/components/ui/Button/Button";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import { useUserStore } from "@/stores/user/useUserStore";
 
 import { FirebaseError } from "firebase/app";
@@ -77,11 +78,7 @@ function LogInForm() {
               이메일
             </label>
           </div>
-          {errors.email && (
-            <p className="px-1 pt-2 text-sm text-warning text-start">
-              {errors.email.message}
-            </p>
-          )}
+          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
         </div>
         <div className="mb-4 bg-white rounded-lg">
           <div className="relative bg-inherit">
@@ -119,9 +116,7 @@ function LogInForm() {
             </label>
           </div>
           {errors.password && (
-            <p className="px-1 pt-2 text-sm text-warning text-start">
-              {errors.password.message}
-            </p>
+            <ErrorMessage>{errors.password.message}</ErrorMessage>
           )}
         </div>
         <Button>로그인</Button>
