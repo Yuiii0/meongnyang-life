@@ -3,6 +3,7 @@ import { authErrorMessages } from "@/api/auth/authErrorMessages";
 import Button from "@/components/ui/Button/Button";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import AuthInput from "@/components/ui/Input/AuthInput";
+import NavigationLink from "@/components/ui/NavigationLink";
 import { useUserStore } from "@/stores/user/useUserStore";
 
 import { FirebaseError } from "firebase/app";
@@ -92,8 +93,14 @@ function LogInForm() {
             </p>
           )}
         </div>
-        <Button>로그인</Button>
       </div>
+      <div className="flex justify-end mt-8 mb-4 ml-auto text-gray-600">
+        <NavigationLink to="/find/pw" isBottom={false}>
+          비밀번호 재설정
+        </NavigationLink>
+      </div>
+
+      <Button>로그인</Button>
     </form>
   );
 }
