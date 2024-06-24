@@ -2,8 +2,8 @@ import { ChevronLeft } from "lucide-react";
 
 function PrevButton({ ...props }) {
   return (
-    <button>
-      <ChevronLeft size={16} {...props} />
+    <button className="flex items-center justify-start">
+      <ChevronLeft size={20} {...props} />
     </button>
   );
 }
