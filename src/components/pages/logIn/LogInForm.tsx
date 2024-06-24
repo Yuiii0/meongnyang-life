@@ -2,6 +2,7 @@ import { emailLogin } from "@/api/auth/auth.api";
 import { authErrorMessages } from "@/api/auth/authErrorMessages";
 import Button from "@/components/ui/Button/Button";
 import ErrorMessage from "@/components/ui/ErrorMessage";
+import AuthInput from "@/components/ui/Input/AuthInput";
 import { useUserStore } from "@/stores/user/useUserStore";
 
 import { FirebaseError } from "firebase/app";
@@ -16,7 +17,7 @@ interface LogInForm {
 function LogInForm() {
   const navigate = useNavigate();
   // const [isLoading, setLoading] = useState(false);
-  const { setUser, user } = useUserStore();
+  const { setUser } = useUserStore();
   const {
     register,
     handleSubmit,
@@ -48,75 +49,47 @@ function LogInForm() {
   return (
     <form onSubmit={handleSubmit(onValid)}>
       <div className="flex flex-col gap-y-10">
-        <div className="bg-white rounded-lg ">
-          <div className="relative bg-inherit">
-            <input
-              type="text"
-              id="email"
-              className={`w-full px-4 text-gray-700 placeholder-transparent bg-transparent rounded-lg h-11 peer ring-1 ring-gray-300 focus:ring-gray-700 focus:outline-none ${
-                errors.email
-                  ? "focus:border-red-500 focus:ring-red-500"
-                  : "focus:border-black focus:ring-gray-700"
-              }`}
-              placeholder="이메일을 입력해주세요"
-              {...register("email", {
-                required: "이메일을 입력해주세요",
-                pattern: {
-                  value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
-                  message: "올바른 이메일 형식으로 입력해주세요",
-                },
-              })}
-            />
-            <label
-              htmlFor="email"
-              className={`absolute left-0 px-1 mx-1 text-sm transition-all cursor-text -top-3 bg-inherit peer-placeholder-shown:text-base peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sm ${
-                errors.email
-                  ? "text-warning peer-placeholder-shown:text-warning"
-                  : "text-gray-800 peer-placeholder-shown:text-gray-700"
-              }`}
-            >
-              이메일
-            </label>
-          </div>
-          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+        <div>
+          <AuthInput
+            label="이메일"
+            error={!!errors.email?.message}
+            type="email"
+            placeholder="이메일을 입력해주세요"
+            {...register("email", {
+              required: "이메일을 입력해주세요",
+              pattern: {
+                value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
+                message: "올바른 이메일 형식으로 입력해주세요",
+              },
+            })}
+          />
+          <ErrorMessage>{errors?.email?.message || " "}</ErrorMessage>
         </div>
-        <div className="mb-4 bg-white rounded-lg">
-          <div className="relative bg-inherit">
-            <input
-              type="password"
-              id="password"
-              className={`w-full px-2 text-gray-700 placeholder-transparent bg-transparent rounded-lg h-11 peer ring-1 ring-gray-300 focus:ring-gray-700 focus:outline-none ${
-                errors.password
-                  ? "focus:border-red-500 focus:ring-red-500"
-                  : "focus:border-black focus:ring-gray-700"
-              }`}
-              placeholder="비밀번호를 입력해주세요"
-              {...register("password", {
-                required: "비밀번호를 입력해주세요",
-                minLength: {
-                  value: 8,
-                  message: "8글자 이상 입력해주세요",
-                },
-                pattern: {
-                  value:
-                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-                  message: "영문자, 숫자, 특수문자를 포함하여 입력해주세요",
-                },
-              })}
-            />
-            <label
-              htmlFor="password"
-              className={`absolute left-0 px-1 mx-1 text-sm transition-all cursor-text -top-3 bg-inherit peer-placeholder-shown:text-base peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sm ${
-                errors.password
-                  ? "text-warning peer-placeholder-shown:text-warning"
-                  : "text-gray-800 peer-placeholder-shown:text-gray-700"
-              }`}
-            >
-              비밀번호
-            </label>
-          </div>
-          {errors.password && (
-            <ErrorMessage>{errors.password.message}</ErrorMessage>
+        <div>
+          <AuthInput
+            label="비밀번호"
+            error={!!errors.password}
+            type="password"
+            placeholder="비밀번호를 입력해주세요"
+            {...register("password", {
+              required: "비밀번호를 입력해주세요",
+              minLength: {
+                value: 8,
+                message: "8글자 이상 입력해주세요",
+              },
+              pattern: {
+                value:
+                  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                message: "영문자, 숫자, 특수문자를 포함하여 입력해주세요",
+              },
+            })}
+          />
+          {errors?.password ? (
+            <ErrorMessage>{errors?.password?.message || " "}</ErrorMessage>
+          ) : (
+            <p className="px-1 pt-2 text-sm text-gray-600 text-start">
+              대소문자, 특수문자 포함 8글자 이상 입력해주세요
+            </p>
           )}
         </div>
         <Button>로그인</Button>
