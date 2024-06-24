@@ -1,13 +1,10 @@
-function ErrorMessage({ children }: { children: React.ReactNode }) {
+import React from "react";
+
+const ErrorMessage = ({ children }: { children: React.ReactNode }) => {
+  if (!children) return null;
   return (
-    <div
-      className={`text-sm px-1 pt-2 text-start ${
-        children ? "text-warning opacity-100" : "opacity-0"
-      } h-2 `}
-    >
-      {children || ""}
-    </div>
+    <p className="px-1 pt-2 text-sm text-start text-warning">{children}</p>
   );
-}
+};
 
 export default ErrorMessage;
