@@ -102,10 +102,7 @@ function LogInForm() {
           <p className="text-sm text-red-500">{errors.password.message}</p>
         )}
       </div>
-      <div className="px-10">
-        <Button>로그인</Button>
-      </div>
-
+      <Button>로그인</Button>
       <button type="submit"></button>
     </form>
   );
