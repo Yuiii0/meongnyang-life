@@ -24,7 +24,6 @@ function Success({
         <div className="text-lg text-gray-400">{text}</div>
         <div className="text-[42px] font-semibold">{children}</div>
       </div>
-
       <NavigationLink to="/main">{linkText}</NavigationLink>
     </div>
   );
