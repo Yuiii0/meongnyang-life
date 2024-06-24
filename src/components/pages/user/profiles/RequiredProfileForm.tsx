@@ -68,7 +68,7 @@ function RequiredProfileForm({
     }
   };
 
-  // 다음단계로 이동
+  // 다음단계로 이동하기 전 validation 검사
   const handleNextButtonClick = (e: React.FormEvent) => {
     e.preventDefault();
     let localHasError = false;
@@ -128,7 +128,7 @@ function RequiredProfileForm({
             value={nickName}
             onChange={handleChangeNickName}
             error={!!nickNameErrorMessage}
-            ref={nickNameRef} // 닉네임 입력 필드를 ref로 설정
+            ref={nickNameRef}
           />
           <div className="flex items-center">
             <ErrorMessage>{nickNameErrorMessage}</ErrorMessage>
@@ -144,7 +144,7 @@ function RequiredProfileForm({
             value={introduction}
             onChange={handleChangeIntro}
             error={!!introErrorMessage}
-            ref={introRef} // 자기소개 입력 필드를 ref로 설정
+            ref={introRef}
           />
           <div className="flex items-center -translate-y-1">
             <ErrorMessage>{introErrorMessage}</ErrorMessage>
