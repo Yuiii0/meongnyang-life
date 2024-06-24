@@ -21,6 +21,7 @@ module.exports = {
         brand: {
           100: "#F7B750",
         },
+        warning: "#BD081C",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
