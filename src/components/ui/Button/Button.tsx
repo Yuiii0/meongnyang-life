@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   color?: "primary" | "gray";
 }
 
@@ -11,7 +11,7 @@ function Button({
 }: PropsWithChildren<ButtonProps>) {
   return (
     <button
-      className="w-full px-4 py-2 font-semibold text-white rounded-lg bg-brand-100"
+      className="w-full px-4 py-3 font-semibold text-white rounded-lg active:bg-white bg-brand-100 hover:opacity-90 active:border-brand-100 active:border active:text-brand-100"
       data-color={color}
       {...props}
     >

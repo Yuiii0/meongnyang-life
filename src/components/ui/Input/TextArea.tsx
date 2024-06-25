@@ -19,7 +19,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         )}
         <textarea
           id={id}
-          className={`mt-2 border w-full text-sm px-2 py-2 h-24 border-gray-300 outline-none resize-none transition rounded-md ${
+          className={`mt-2 border w-full text-sm px-2 py-2 h-28 border-gray-300 outline-none resize-none transition rounded-md ${
             error ? "focus:border-red-500" : "focus:border-black"
           }`}
           {...props}
