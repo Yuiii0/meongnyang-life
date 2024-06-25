@@ -20,12 +20,7 @@ function GoogleLogInButton() {
       onClick={handleClickGoogleLogIn}
       className="flex justify-center w-full px-4 py-3 mt-8 font-semibold text-gray-700 transition-all duration-75 bg-gray-100 rounded-lg text-gray gap-x-4 hover:bg-gray-200 active:border active:text-gray-700 active:border-gray-500 active:bg-white"
     >
-      <img
-        src="/public/icons/google.png"
-        alt="google_logo"
-        width={20}
-        height={20}
-      />
+      <img src="icons/google.png" alt="google_logo" width={20} height={20} />
       구글로 로그인
     </button>
   );

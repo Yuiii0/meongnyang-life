@@ -21,7 +21,7 @@ function SelectedGender({
           onClick={() => handleChangeGender("male")}
         >
           <img
-            src="/public/icons/male.png"
+            src="/icons/male.png"
             alt="남아"
             className="object-contain w-8 h-8 min-w-8 min-h-8"
           />
@@ -35,7 +35,7 @@ function SelectedGender({
           onClick={() => handleChangeGender("female")}
         >
           <img
-            src="/public/icons/female.png"
+            src="/icons/female.png"
             alt="여아"
             className="object-contain w-8 h-8 min-w-8 min-h-8"
           />

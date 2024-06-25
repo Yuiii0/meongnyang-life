@@ -15,7 +15,7 @@ function RequiredProfileForm({
 }: RequiredProfileFormProps) {
   const { user } = useUserStore();
   const photoURL = user?.photoURL;
-  const DEFAULT_PROFILE_IMG = "/public/images/profile_dog.png";
+  const DEFAULT_PROFILE_IMG = "/images/profile_dog.png";
   const [nickName, setNickName] = useState("");
   const [nickNameErrorMessage, setNickNameErrorMessage] = useState("");
   const [introduction, setIntroduction] = useState("");
