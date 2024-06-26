@@ -78,15 +78,17 @@ function RequiredProfileForm({
     <form className="flex flex-col gap-y-8" onSubmit={handleNextButtonClick}>
       <label
         htmlFor="profileImg"
-        className="relative flex items-center justify-center w-24 h-24 mx-auto cursor-pointer"
+        className="relative flex items-center justify-center w-24 h-24 mx-auto overflow-hidden cursor-pointer"
       >
-        <img
-          src={profileImg || DEFAULT_PROFILE_IMG_DOG}
-          alt="profile-img"
-          className="w-full h-full text-center"
-        />
-        <div className="absolute bottom-0 right-0 flex items-center justify-center w-5 h-5 bg-gray-200 rounded-full">
-          <Pencil size={12} />
+        <div className="relative w-20 h-20">
+          <img
+            src={profileImg || DEFAULT_PROFILE_IMG_DOG}
+            alt="profile-img"
+            className="object-cover w-full h-full rounded-full"
+          />
+          <div className="absolute bottom-0 right-0 flex items-center justify-center w-5 h-5 overflow-hidden bg-gray-200 rounded-full">
+            <Pencil size={12} />
+          </div>
         </div>
       </label>
       <input
