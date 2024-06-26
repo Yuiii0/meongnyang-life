@@ -18,8 +18,9 @@ import {
   UserProfileUpdatePage,
 } from "./pages";
 import NotFoundPage from "./pages/NotFound/NotFoundPage";
-import ProtectedRoute from "./pages/ProtectedRoute/ProtectedRoute";
 
+import ProtectedRoute from "./pages/ProtectedRoute/ProtectedRoute";
+import { initializeAuth } from "./stores/auth/useAuthStore";
 import "./styles/index.css";
 
 const router = createBrowserRouter([
@@ -52,6 +53,8 @@ const router = createBrowserRouter([
   { path: "/signup", element: <SignUpPage /> },
   { path: "/find/pw", element: <FindPasswordPage /> },
 ]);
+
+initializeAuth();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <>
