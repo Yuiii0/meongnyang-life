@@ -4,7 +4,8 @@ import NextButton from "@/components/ui/Button/NextButton";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import Input from "@/components/ui/Input/Input";
 import TextArea from "@/components/ui/Input/TextArea";
-import { DEFAULT_PROFILE_IMG_DOG } from "@/data/constants/constants";
+import { DEFAULT_PROFILE_IMG_DOG } from "@/shared/const/UserprofileImgPath";
+
 import { updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Pencil } from "lucide-react";

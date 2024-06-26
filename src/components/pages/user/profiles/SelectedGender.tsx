@@ -1,3 +1,8 @@
+import {
+  FEMALE_ICON_IMG,
+  MALE_ICON_IMG,
+} from "@/shared/const/UserprofileImgPath";
+
 interface SelectedGenderProps {
   gender: string;
   disabled?: boolean;
@@ -21,7 +26,7 @@ function SelectedGender({
           onClick={() => handleChangeGender("male")}
         >
           <img
-            src="/icons/male.png"
+            src={MALE_ICON_IMG}
             alt="남아"
             className="object-contain w-8 h-8 min-w-8 min-h-8"
           />
@@ -35,7 +40,7 @@ function SelectedGender({
           onClick={() => handleChangeGender("female")}
         >
           <img
-            src="/icons/female.png"
+            src={FEMALE_ICON_IMG}
             alt="여아"
             className="object-contain w-8 h-8 min-w-8 min-h-8"
           />
