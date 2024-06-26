@@ -1,5 +1,5 @@
 import { UserProfile } from "@/types/User/User.type";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "..";
 
 export const createUserProfile = async (
@@ -9,7 +9,13 @@ export const createUserProfile = async (
   return await setDoc(doc(db, "users", userId), userData);
 };
 
-export const updateUserProfile = async () => {};
+export const updateUserProfile = async (
+  userId: string,
+  updatedUserData: UserProfile
+) => {
+  const docRef = doc(db, "users", userId);
+  await updateDoc(docRef, updatedUserData);
+};
 
 export const getUserProfile = async (userId: string) => {
   const docRef = doc(db, "users", userId);

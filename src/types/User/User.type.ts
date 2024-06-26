@@ -8,5 +8,6 @@ export type UserProfile = {
   petType?: string;
   breed?: string;
   gender?: string;
-  createdAt: number;
+  createdAt?: number;
+  updatedAt?: number;
 };
