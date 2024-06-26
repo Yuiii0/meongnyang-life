@@ -1,4 +1,4 @@
-import UserProfileCard from "@/components/pages/user/UserProfileCard";
+import UserProfileCard from "@/components/pages/user/profiles/UserProfileCard";
 import Page from "@/components/ui/Page";
 import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
 import { useParams } from "react-router-dom";
