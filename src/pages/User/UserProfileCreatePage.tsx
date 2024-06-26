@@ -1,16 +1,17 @@
 import { auth } from "@/api/auth/auth.api";
-import { db } from "@/api/database/db.api";
 import OptionalProfileForm from "@/components/pages/user/profiles/OptionalProfileForm";
 import RequiredProfileForm from "@/components/pages/user/profiles/RequiredProfileForm";
 import NextButton from "@/components/ui/Button/NextButton";
 import PrevButton from "@/components/ui/Button/PrevButton";
 import Page from "@/components/ui/Page";
 import Success from "@/components/ui/Success";
-import { addDoc, collection } from "firebase/firestore";
+import { useCreateUserProfile } from "@/hooks/User/useCreateUserProfile";
+
 import { ChangeEvent, useState } from "react";
 
 function UserProfileCreatePage() {
   const user = auth.currentUser;
+  const { mutateAsync: createUserData } = useCreateUserProfile(user?.uid || "");
 
   const [step, setStep] = useState(1);
   const [nickName, setNickName] = useState("");
@@ -77,7 +78,7 @@ function UserProfileCreatePage() {
       return;
     }
     try {
-      await addDoc(collection(db, "users"), {
+      createUserData({
         userId: user.uid,
         userName: user.displayName || "Anonymous",
         profileImg,
@@ -89,7 +90,7 @@ function UserProfileCreatePage() {
         gender,
         createdAt: Date.now(),
       });
-      handleClickNextStep();
+      handleClickNextStep(); // 다음 단계로 이동하는 함수 호출
     } catch (error) {
       alert("오류가 발생했습니다. 다시 시도해주세요");
     }
