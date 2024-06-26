@@ -1,24 +1,27 @@
-import { useState } from "react";
-
 import { SelectedBreed } from "./SelectedBreed";
 import SelectedGender from "./SelectedGender";
 
-function OptionalProfileForm() {
-  const [petType, setPetType] = useState("");
-  const [breed, setBreed] = useState("");
-  const [gender, setGender] = useState("");
-  const [isNoPet, setIsNoPet] = useState(false);
+interface OptionalProfileFormProps {
+  petType: string;
+  breed: string;
+  gender: string;
+  isNoPet: boolean;
+  setIsNoPet: (isNoPet: boolean) => void;
+  handleChangePetType: (selectedPet: "dog" | "cat" | "") => void;
+  handleChangeBreed: (breed: string) => void;
+  handleChangeGender: (gender: string) => void;
+}
 
-  const handleChangePetType = (selectedPet: "dog" | "cat" | "") => {
-    setPetType(selectedPet);
-  };
-  const handleChangeBreed = (breed: string) => {
-    setBreed(breed);
-  };
-  const handleChangeGender = (gender: string) => {
-    setGender(gender);
-  };
-
+function OptionalProfileForm({
+  petType,
+  breed,
+  gender,
+  isNoPet,
+  setIsNoPet,
+  handleChangePetType,
+  handleChangeBreed,
+  handleChangeGender,
+}: OptionalProfileFormProps) {
   return (
     <div className="flex flex-col mb-2 gap-y-6">
       <h4 className="px-1 py-2 text-sm font-semibold">반려동물 종류</h4>
@@ -36,7 +39,7 @@ function OptionalProfileForm() {
             }}
           >
             <img
-              src="/public/images/dog_smiling.png"
+              src="/images/dog_smiling.png"
               alt="강아지"
               className="object-contain mx-auto"
             />
@@ -54,7 +57,7 @@ function OptionalProfileForm() {
             }}
           >
             <img
-              src="/public/images/cat_smiling.png"
+              src="/images/cat_smiling.png"
               alt="고양이"
               className="object-cover h-18 w-18"
             />
@@ -72,7 +75,7 @@ function OptionalProfileForm() {
                 handleChangePetType("");
                 handleChangeBreed("");
                 handleChangeGender("");
-                setIsNoPet((prev) => !prev);
+                setIsNoPet(true);
               }}
             />
             <span className="pl-2 text-sm text-gray-400">

@@ -2,7 +2,7 @@ import { emailSignUp } from "@/api/auth/auth.api";
 import Button from "@/components/ui/Button/Button";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import AuthInput from "@/components/ui/Input/AuthInput";
-import { useUserStore } from "@/stores/user/useUserStore";
+import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +15,7 @@ interface SignUpForm {
 
 function SignUpForm() {
   const navigate = useNavigate();
-  const { setUser } = useUserStore();
+  const { setUser } = useAuthStore();
   const {
     register,
     handleSubmit,
@@ -36,7 +36,7 @@ function SignUpForm() {
         const user = await emailSignUp(email, password, name);
         if (user) {
           setUser(user);
-          navigate(`/profiles/update/${user.uid}`);
+          navigate(`/profiles/create/${user.uid}`);
         }
       } catch (error) {
         alert("회원가입에 실패하였습니다");

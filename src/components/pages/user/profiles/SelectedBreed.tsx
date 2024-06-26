@@ -12,9 +12,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { catBreedData } from "@/data/breeds/catbreed.data";
-import { dogBreedData } from "@/data/breeds/dogbreed.data";
 import { cn } from "@/lib/utils";
+import { catBreedData } from "@/shared/breeds/catbreed.data";
+import { dogBreedData } from "@/shared/breeds/dogbreed.data";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -43,6 +43,12 @@ export function SelectedBreed({
   useEffect(() => {
     handleChangeBreed("");
   }, [petType]);
+
+  useEffect(() => {
+    if (breed) {
+      handleSelectBreed(breed);
+    }
+  }, []);
 
   return (
     <div>

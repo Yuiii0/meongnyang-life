@@ -7,3 +7,5 @@ export { PostCreatePage, PostDetailPage, PostUpdatePage } from "./Post";
 export { default as SearchPage } from "./Search/SearchPage";
 export { default as SignUpPage } from "./SignUp/SignUpPage";
 export { default as UserPage } from "./User/UserPage";
+export { default as UserProfileCreatePage } from "./User/UserProfileCreatePage";
+export { default as UserProfileUpdatePage } from "./User/UserProfileUpdatePage";

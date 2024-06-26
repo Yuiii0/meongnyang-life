@@ -1,12 +1,12 @@
 import { auth, logOut, withdrawalUser } from "@/api/auth/auth.api";
-import { useUserStore } from "@/stores/user/useUserStore";
+import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { user, setUser, clearUser } = useUserStore();
+  const { user, setUser } = useAuthStore();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -14,12 +14,11 @@ function Navbar() {
         setUser(user);
       }
     });
-  }, [setUser, clearUser]);
+  }, [setUser]);
 
   const handleClickLogOut = async () => {
     try {
       await logOut();
-      clearUser();
       navigate("/");
     } catch (error) {
       alert("오류가 발생했습니다. 다시 시도해주세요");
@@ -37,9 +36,12 @@ function Navbar() {
       <Link to="/main" className="text-3xl font-bold">
         🐾 멍냥생활
       </Link>
-      {user && <button onClick={handleClickLogOut}>로그아웃</button>}
       {user && (
-        <button onClick={() => handleClickDeleteAccount}>회원 탈퇴</button>
+        <div>
+          <Link to={`/profiles/${user?.uid}`}>내 프로필</Link>
+          <button onClick={handleClickLogOut}>로그아웃</button>
+          <button onClick={() => handleClickDeleteAccount}>회원 탈퇴</button>
+        </div>
       )}
     </div>
   );
