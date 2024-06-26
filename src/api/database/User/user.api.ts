@@ -1,4 +1,4 @@
-import { UserProfile } from "firebase/auth";
+import { UserProfile } from "@/types/User/User.type";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "..";
 
@@ -15,7 +15,7 @@ export const getUserProfile = async (userId: string) => {
   const docRef = doc(db, "users", userId);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
-    const userProfileData = docSnap.data();
+    const userProfileData = docSnap.data() as UserProfile;
     return userProfileData;
   }
 };

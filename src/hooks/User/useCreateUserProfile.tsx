@@ -1,6 +1,6 @@
 import { createUserProfile } from "@/api/database/User/user.api";
+import { UserProfile } from "@/types/User/User.type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { UserProfile } from "firebase/auth";
 
 export function useCreateUserProfile(userId: string) {
   const queryClient = useQueryClient();
