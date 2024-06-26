@@ -17,8 +17,6 @@ function UserPage() {
     return <div>유저 정보가 없습니다.</div>;
   }
 
-  console.log(userProfile);
-
   return (
     <Page>
       <UserProfileCard userProfile={userProfile} />
