@@ -75,7 +75,7 @@ function OptionalProfileForm({
                 handleChangePetType("");
                 handleChangeBreed("");
                 handleChangeGender("");
-                setIsNoPet((prev) => !prev);
+                setIsNoPet(true);
               }}
             />
             <span className="pl-2 text-sm text-gray-400">

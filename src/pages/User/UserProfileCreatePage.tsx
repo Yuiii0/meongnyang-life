@@ -18,7 +18,7 @@ function UserProfileCreatePage() {
   const [nickNameErrorMessage, setNickNameErrorMessage] = useState("");
   const [introduction, setIntroduction] = useState("");
   const [introErrorMessage, setIntroErrorMessage] = useState("");
-  const [hasError, setHasError] = useState(true);
+
   const [profileImg, setProfileImg] = useState(user?.photoURL);
 
   const [petType, setPetType] = useState("");
@@ -41,11 +41,9 @@ function UserProfileCreatePage() {
 
     if (text.length > 16) {
       setNickNameErrorMessage("16글자 이내로 작성해주세요");
-      setHasError(true);
     } else {
       setNickName(text);
       setNickNameErrorMessage("");
-      setHasError(false);
     }
   };
 
@@ -54,11 +52,9 @@ function UserProfileCreatePage() {
 
     if (text.length > 150) {
       setIntroErrorMessage("150글자 이내로 작성해주세요");
-      setHasError(true);
     } else {
       setIntroduction(text);
       setIntroErrorMessage("");
-      setHasError(false);
     }
   };
 
@@ -116,8 +112,6 @@ function UserProfileCreatePage() {
         localHasError = true;
       }
     }
-
-    setHasError(localHasError);
 
     if (!localHasError && !nickNameErrorMessage && !introErrorMessage) {
       handleClickNextStep();
