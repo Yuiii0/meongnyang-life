@@ -4,7 +4,7 @@ import Button from "@/components/ui/Button/Button";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import AuthInput from "@/components/ui/Input/AuthInput";
 import NavigationLink from "@/components/ui/NavigationLink";
-import { useUserStore } from "@/stores/user/useUserStore";
+import { useAuthStore } from "@/stores/auth/useAuthStore";
 
 import { FirebaseError } from "firebase/app";
 import { useForm } from "react-hook-form";
@@ -18,7 +18,7 @@ interface LogInForm {
 function LogInForm() {
   const navigate = useNavigate();
   // const [isLoading, setLoading] = useState(false);
-  const { setUser } = useUserStore();
+  const { setUser } = useAuthStore();
   const {
     register,
     handleSubmit,

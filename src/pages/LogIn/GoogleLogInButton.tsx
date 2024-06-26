@@ -1,10 +1,9 @@
 import { googleLogin } from "@/api/auth/auth.api";
-
-import { useUserStore } from "@/stores/user/useUserStore";
+import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useNavigate } from "react-router-dom";
 
 function GoogleLogInButton() {
-  const { setUser } = useUserStore();
+  const { setUser } = useAuthStore();
 
   const navigate = useNavigate();
   const handleClickGoogleLogIn = async () => {
