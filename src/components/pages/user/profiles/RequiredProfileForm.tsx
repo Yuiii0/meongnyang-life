@@ -4,6 +4,7 @@ import NextButton from "@/components/ui/Button/NextButton";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import Input from "@/components/ui/Input/Input";
 import TextArea from "@/components/ui/Input/TextArea";
+import { DEFAULT_PROFILE_IMG_DOG } from "@/data/constants/constants";
 import { updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Pencil } from "lucide-react";
@@ -36,7 +37,6 @@ function RequiredProfileForm({
   const introRef = useRef<HTMLTextAreaElement>(null);
 
   const user = auth.currentUser;
-  const DEFAULT_PROFILE_IMG = "/images/profile_dog.png";
 
   useEffect(() => {
     if (nickNameErrorMessage && nickNameRef.current) {
@@ -81,7 +81,7 @@ function RequiredProfileForm({
         className="relative flex items-center justify-center w-24 h-24 mx-auto cursor-pointer"
       >
         <img
-          src={profileImg || DEFAULT_PROFILE_IMG}
+          src={profileImg || DEFAULT_PROFILE_IMG_DOG}
           alt="profile-img"
           className="w-full h-full text-center"
         />
