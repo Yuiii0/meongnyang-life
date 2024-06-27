@@ -1,6 +1,8 @@
 import { useAuthStore } from "@/stores/auth/useAuthStore";
-import { useState } from "react";
 
+import { useCreateFollow } from "@/lib/follow/hooks/useCreateFollow";
+import { useDeleteFollow } from "@/lib/follow/hooks/useDeleteFollow";
+import { useGetFollowStatus } from "@/lib/follow/hooks/useGetFollowStatus";
 import FollowButton from "./FollowingButton";
 import UnFollowButton from "./UnFollowButton";
 
@@ -10,11 +12,19 @@ interface FollowButtonProps {
 
 function FollowToggleButton({ userId }: FollowButtonProps) {
   const { user } = useAuthStore();
-  const myUserId = user?.uid;
 
-  const [isFollowing, setIsFollow] = useState<boolean>(false);
+  const myUserId = user?.uid || "";
+  const { data: isFollowing } = useGetFollowStatus(myUserId, userId);
+  const { mutate: addFollowing } = useCreateFollow();
+  const { mutate: removeFollowing } = useDeleteFollow();
 
-  const handleToggleFollowButton = async () => {};
+  const handleToggleFollowButton = async () => {
+    if (isFollowing) {
+      removeFollowing({ myUserId, userId });
+    } else {
+      addFollowing({ myUserId, userId });
+    }
+  };
 
   return (
     <div>
