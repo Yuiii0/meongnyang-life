@@ -1,5 +1,5 @@
 import { updateUserProfile } from "@/api/database/User/user.api";
-import { UserProfile } from "@/types/User/User.type";
+import { UserProfile } from "@/lib/user/type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useUpdateUserProfile(userId: string) {

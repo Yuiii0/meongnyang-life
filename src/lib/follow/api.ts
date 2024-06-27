@@ -1,41 +1,14 @@
-import { UserProfile } from "@/lib/user/type";
+import { db } from "@/api/database";
 import {
   collection,
   deleteDoc,
   doc,
-  getDoc,
   getDocs,
   query,
   serverTimestamp,
   setDoc,
-  updateDoc,
   where,
 } from "firebase/firestore";
-import { db } from "..";
-
-export const createUserProfile = async (
-  userData: UserProfile,
-  userId: string
-) => {
-  return await setDoc(doc(db, "users", userId), userData);
-};
-
-export const updateUserProfile = async (
-  userId: string,
-  updatedUserData: UserProfile
-) => {
-  const docRef = doc(db, "users", userId);
-  await updateDoc(docRef, updatedUserData);
-};
-
-export const getUserProfile = async (userId: string) => {
-  const docRef = doc(db, "users", userId);
-  const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-    const userProfileData = docSnap.data() as UserProfile;
-    return userProfileData;
-  }
-};
 
 // 팔로우 상태를 확인하는 함수
 export const getFollowStatus = async (myUserId: string, userId: string) => {
@@ -59,12 +32,9 @@ export const removeFollowing = async (myUserId: string, userId: string) => {
   await deleteDoc(followDocRef);
 };
 
-export const userAPI = {
-  createUserProfile,
-  updateUserProfile,
-  getUserProfile,
+const followAPI = {
   getFollowStatus,
   addFollowing,
   removeFollowing,
 };
-export default userAPI;
+export default followAPI;
