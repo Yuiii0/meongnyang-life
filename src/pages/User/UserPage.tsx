@@ -1,4 +1,5 @@
 import UserProfileCard from "@/components/pages/user/profiles/UserProfileCard";
+import Modal from "@/components/ui/Modal";
 import Page from "@/components/ui/Page";
 import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
 import { useParams } from "react-router-dom";
@@ -20,6 +21,7 @@ function UserPage() {
   return (
     <Page>
       <UserProfileCard userProfile={userProfile} />
+      <Modal />
     </Page>
   );
 }

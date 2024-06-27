@@ -9,9 +9,11 @@ import { useGetFollowerList } from "@/lib/follow/hooks/useGetFollowerList";
 import { useGetFollowingList } from "@/lib/follow/hooks/useGetFollowingList";
 import { UserProfile } from "@/lib/user/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
+import { useModalStore } from "@/stores/modal/useModalStore";
 import { UserRoundCog } from "lucide-react";
 import { Link } from "react-router-dom";
 import FollowToggleButton from "../follow/FollowButton/FollowToggleButton";
+import FollowModal from "../follow/FollowModal";
 
 interface UserProfileCardProps {
   userProfile: UserProfile;
@@ -19,6 +21,12 @@ interface UserProfileCardProps {
 
 function UserProfileCard({ userProfile }: UserProfileCardProps) {
   const { user } = useAuthStore();
+  const { openModal } = useModalStore();
+
+  const handleOpenModal = () => {
+    openModal(<FollowModal />);
+  };
+
   // 유저 프로필 정보
   const { userId, nickName, introduction, gender, profileImg, breed, petType } =
     userProfile;
@@ -67,9 +75,12 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
                 className="w-4 h-4"
               />
             </div>
-            <div className="flex pt-1 text-[15px] font-medium text-gray-700 gap-x-6">
-              <div>팔로워 {followers?.length}</div>
-              <div>팔로잉 {followings?.length}</div>
+            <div
+              className="flex pt-1 text-[15px] font-medium text-gray-700 gap-x-6"
+              onClick={handleOpenModal}
+            >
+              <div onClick={handleOpenModal}>팔로워 {followers?.length}</div>
+              <div onClick={handleOpenModal}>팔로잉 {followings?.length}</div>
             </div>
           </div>
         </div>

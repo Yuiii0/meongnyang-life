@@ -3,8 +3,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 const count = 10;
 function FollowModal() {
   // const [isFollowing, setIsFollowing] = useState(true);
+
   return (
-    <div className="w-screen ">
+    <div className="w-full">
       <Tabs
         defaultValue="following"
         className="w-screen text-center text-gray-500"
