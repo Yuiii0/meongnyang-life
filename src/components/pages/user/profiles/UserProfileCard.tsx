@@ -5,6 +5,8 @@ import {
   MALE_ICON_IMG,
 } from "@/shared/const/UserprofileImgPath";
 
+import { useGetFollowerList } from "@/lib/follow/hooks/useGetFollowerList";
+import { useGetFollowingList } from "@/lib/follow/hooks/useGetFollowingList";
 import { UserProfile } from "@/lib/user/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { UserRoundCog } from "lucide-react";
@@ -17,11 +19,17 @@ interface UserProfileCardProps {
 
 function UserProfileCard({ userProfile }: UserProfileCardProps) {
   const { user } = useAuthStore();
+  // 유저 프로필 정보
   const { userId, nickName, introduction, gender, profileImg, breed, petType } =
     userProfile;
   const isMyProfile = user?.uid === userId;
   const defaultProfileImg =
     petType === "dog" ? DEFAULT_PROFILE_IMG_DOG : DEFAULT_PROFILE_IMG_CAT;
+
+  // 유저 팔로우 정보
+  const { data: followers } = useGetFollowerList(userId || "");
+  const { data: followings } = useGetFollowingList(userId || "");
+  console.log(followers, followings);
 
   return (
     <div>
@@ -61,8 +69,8 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
               />
             </div>
             <div className="flex pt-1 text-[15px] font-medium text-gray-700 gap-x-6">
-              <div>팔로워 {1.2}</div>
-              <div>팔로잉 {100}</div>
+              <div>팔로워 {followers?.length}</div>
+              <div>팔로잉 {followings?.length}</div>
             </div>
           </div>
         </div>
