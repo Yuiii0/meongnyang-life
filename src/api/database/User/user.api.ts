@@ -1,4 +1,4 @@
-import { UserProfile } from "@/types/User/User.type";
+import { UserProfile } from "@/lib/user/type";
 import {
   collection,
   deleteDoc,

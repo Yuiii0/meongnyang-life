@@ -4,9 +4,9 @@ import {
   FEMALE_ICON_IMG,
   MALE_ICON_IMG,
 } from "@/shared/const/UserprofileImgPath";
+
+import { UserProfile } from "@/lib/user/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
-import { UserProfile } from "@/types/User/User.type";
-import { UserRoundCog } from "lucide-react";
 import { Link } from "react-router-dom";
 import FollowToggleButton from "../follow/FollowButton/FollowToggleButton";
 
