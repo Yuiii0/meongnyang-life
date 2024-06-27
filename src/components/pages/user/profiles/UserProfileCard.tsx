@@ -29,7 +29,6 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
   // 유저 팔로우 정보
   const { data: followers } = useGetFollowerList(userId || "");
   const { data: followings } = useGetFollowingList(userId || "");
-  console.log(followers, followings);
 
   return (
     <div>
