@@ -38,6 +38,8 @@ export const createPost = async (userId: string, postDto: postDto) => {
     likeCount: postDto.likeCount,
     commentCount: postDto.commentCount,
   });
+  await updateDoc(docRef, { id: docRef.id });
+
   // 업로드할 이미지 url 생성
   if (postDto.images && postDto.images.length > 0) {
     const imageUrls = await uploadImagesAndGetUrls(
