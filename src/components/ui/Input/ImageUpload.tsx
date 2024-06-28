@@ -10,7 +10,6 @@ function ImageUpload({
 }: ImageUploadProps) {
   const handleChangeImages = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    console.log(files);
     if (files.length > maxImages) {
       alert(`최대 ${maxImages}장까지 업로드 가능합니다`);
       return;

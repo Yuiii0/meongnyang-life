@@ -9,7 +9,6 @@ interface ImageCarouselProps {
 }
 
 function ImageCarousel({ images }: ImageCarouselProps) {
-  console.log("images", images);
   return (
     <Carousel
       opts={{
