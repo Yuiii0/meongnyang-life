@@ -39,6 +39,7 @@ function Navbar() {
       {user && (
         <div>
           <Link to={`/profiles/${user?.uid}`}>내 프로필</Link>
+          <Link to={"/posts/create"}>Post 작성</Link>
           <button onClick={handleClickLogOut}>로그아웃</button>
           <button onClick={() => handleClickDeleteAccount}>회원 탈퇴</button>
         </div>
