@@ -7,7 +7,7 @@ import { X } from "lucide-react";
 
 interface ImageCarouselProps {
   images: string[];
-  onRemoveImage: (index: number) => void;
+  onRemoveImage: (imgURL: string) => void;
 }
 
 function ImageCarousel({ images, onRemoveImage }: ImageCarouselProps) {
@@ -28,7 +28,8 @@ function ImageCarousel({ images, onRemoveImage }: ImageCarouselProps) {
                 className="object-cover w-full h-full"
               />
               <button
-                onClick={() => onRemoveImage(index)}
+                type="button"
+                onClick={() => onRemoveImage(image)}
                 className="absolute top-0 right-0 text-gray-400 bg-gray-200 "
               >
                 <X strokeWidth={1} />

@@ -42,8 +42,8 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
   };
 
   // 첨부 이미지 삭제 함수
-  const handleRemoveImage = (index: number) => {
-    const newSelectedFiles = selectedFiles.filter((_, idx) => idx !== index);
+  const handleRemoveImage = (imgURL: string) => {
+    const newSelectedFiles = selectedFiles.filter((image) => image !== imgURL);
     setSelectedFiles(newSelectedFiles);
   };
 
@@ -63,7 +63,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         error={!!errors.title}
         {...register("title", {
           required: "타이틀을 입력해주세요",
-          minLength: { value: 4, message: "4글자 이상으로 작성해주세요" },
+          minLength: { value: 3, message: "3글자 이상으로 작성해주세요" },
           maxLength: { value: 40, message: "40글자 이하로 작성해주세요" },
         })}
       />
