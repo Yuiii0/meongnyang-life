@@ -1,6 +1,7 @@
 import { db } from "@/api/database";
 import { storage } from "@/api/store/store.api";
 import {
+  Timestamp,
   addDoc,
   collection,
   deleteDoc,
@@ -10,17 +11,16 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { postData, postDto } from "./type";
+import { postDto } from "./type";
 
 // 이미지 Url을 생성 및 받아오는 함수
-const uploadImagesAndGetUrls = async (
+export const uploadImagesAndGetUrls = async (
   userId: string,
-  postId: string,
   images: File[]
 ): Promise<string[]> => {
   const imageUrls = await Promise.all(
     images.map(async (image, index) => {
-      const imageRef = ref(storage, `posts/${userId}/${postId}/${index + 1}`);
+      const imageRef = ref(storage, `posts/${userId}/${index + 1}`);
       const result = await uploadBytes(imageRef, image);
       return await getDownloadURL(result.ref);
     })
@@ -28,10 +28,11 @@ const uploadImagesAndGetUrls = async (
   return imageUrls;
 };
 
-export const createPost = async (userId: string, postDto: postDto) => {
+export const createPost = async (postDto: postDto) => {
   const docRef = await addDoc(collection(db, "posts"), {
     userId: postDto.userId,
     title: postDto.title,
+    images: postDto.images,
     content: postDto.content,
     createdAt: postDto.createdAt,
     updatedAt: postDto.updatedAt || serverTimestamp(),
@@ -40,25 +41,14 @@ export const createPost = async (userId: string, postDto: postDto) => {
   });
   await updateDoc(docRef, { id: docRef.id });
 
-  // 업로드할 이미지 url 생성
-  if (postDto.images && postDto.images.length > 0) {
-    const imageUrls = await uploadImagesAndGetUrls(
-      userId,
-      docRef.id,
-      postDto.images
-    );
-
-    await updateDoc(docRef, {
-      images: imageUrls,
-    });
-  }
+  return docRef.id;
 };
 
 export const getPost = async (postId: string) => {
   const docRef = doc(db, "posts", postId);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
-    const postData = docSnap.data() as postData;
+    const postData = docSnap.data();
     return postData;
   } else {
     throw new Error("포스트를 찾을 수 없습니다.");
@@ -67,23 +57,10 @@ export const getPost = async (postId: string) => {
 
 export const updatePost = async (postId: string, postDto: postDto) => {
   const docRef = doc(db, "posts", postId);
-  if (postDto.images && postDto.images.length > 0) {
-    const imageUrls = await uploadImagesAndGetUrls(
-      postDto.userId,
-      docRef.id,
-      postDto.images
-    );
-    await updateDoc(docRef, {
-      ...postDto,
-      images: imageUrls,
-      updatedAt: serverTimestamp(),
-    });
-  } else {
-    await updateDoc(docRef, {
-      ...postDto,
-      updatedAt: serverTimestamp(),
-    });
-  }
+  await updateDoc(docRef, {
+    ...postDto,
+    updatedAt: Timestamp.now(),
+  });
 };
 
 export const deletePost = async (postId: string) => {
