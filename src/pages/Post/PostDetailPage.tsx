@@ -13,7 +13,7 @@ const PostDetailPage = () => {
   const isMyPost = user?.uid == post?.userId;
 
   if (!post || !postId) {
-    return <div>존재하지 않는 포스트 입니다.</div>;
+    return <div>suspense...</div>;
   }
   const handleDeletePost = () => {
     try {
