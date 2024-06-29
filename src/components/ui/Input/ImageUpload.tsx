@@ -13,9 +13,7 @@ function ImageUpload({
 }: ImageUploadProps) {
   const { user } = useAuthStore();
   const handleChangeImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []); //File[]로 만들고
-    //파일 중복 여부 체크
-
+    const files = Array.from(e.target.files || []);
     const imageUrls = await uploadImagesAndGetUrls(user?.uid || "", files);
     onchangeImages(imageUrls);
   };

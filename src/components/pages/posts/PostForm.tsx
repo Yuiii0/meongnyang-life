@@ -11,9 +11,9 @@ interface PostFormProps {
   initialData?: PostFormData;
   onSubmit: (data: PostFormData) => void;
 }
+
 function PostForm({ onSubmit, initialData }: PostFormProps) {
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
-
   const MAX_IMAGE = 5;
 
   const {
@@ -30,7 +30,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
     }
   }, [initialData]);
 
-  //이미지 업로드 함수
+  // 이미지 업로드 함수
   const handleChangeImageUpload = (imageUrls: string[]) => {
     const newSelectedFiles = [...selectedFiles, ...imageUrls];
 
@@ -41,14 +41,14 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
     setSelectedFiles(newSelectedFiles);
   };
 
-  //첨부 이미지 삭제 함수
+  // 첨부 이미지 삭제 함수
   const handleRemoveImage = (index: number) => {
     const newSelectedFiles = selectedFiles.filter((_, idx) => idx !== index);
     setSelectedFiles(newSelectedFiles);
   };
 
   const onValid = (data: PostFormData) => {
-    //Pros로 받은 핸들러 함수 실행(post Create/Update 함수)
+    // Pros로 받은 핸들러 함수 실행(post Create/Update 함수)
     onSubmit({
       ...data,
       images: [...selectedFiles],
@@ -64,10 +64,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         {...register("title", {
           required: "타이틀을 입력해주세요",
           minLength: { value: 4, message: "4글자 이상으로 작성해주세요" },
-          maxLength: {
-            value: 40,
-            message: "40글자 이하로 작성해주세요",
-          },
+          maxLength: { value: 40, message: "40글자 이하로 작성해주세요" },
         })}
       />
       <p>{errors.title?.message}</p>
