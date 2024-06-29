@@ -7,6 +7,8 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  getDocs,
+  query,
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
@@ -55,6 +57,18 @@ export const getPost = async (postId: string) => {
   }
 };
 
+export const getPostAllPosts = async () => {
+  const collectionRef = collection(db, "posts");
+  const q = query(collectionRef);
+  const querySnapshot = await getDocs(q);
+  const posts = querySnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  return posts;
+};
+
 export const updatePost = async (postId: string, postDto: postDto) => {
   const docRef = doc(db, "posts", postId);
   await updateDoc(docRef, {
@@ -67,12 +81,3 @@ export const deletePost = async (postId: string) => {
   const docRef = doc(db, "posts", postId);
   await deleteDoc(docRef);
 };
-
-const postAPI = {
-  createPost,
-  getPost,
-  updatePost,
-  deletePost,
-};
-
-export default postAPI;
