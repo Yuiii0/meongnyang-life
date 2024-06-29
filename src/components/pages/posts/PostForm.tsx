@@ -2,37 +2,59 @@ import Button from "@/components/ui/Button/Button";
 import ImageUpload from "@/components/ui/Input/ImageUpload";
 import Input from "@/components/ui/Input/Input";
 import TextArea from "@/components/ui/Input/TextArea";
-import { useState } from "react";
+import { PostFormData } from "@/lib/post/type";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import ImageCarousel from "./ImageCarousel";
 
-interface PostFormData {
-  title: string;
-  content: string;
-  image: FormData;
+interface PostFormProps {
+  initialData?: PostFormData;
+  onSubmit: (data: PostFormData) => void;
 }
+function PostForm({ onSubmit, initialData }: PostFormProps) {
+  const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
 
-function PostForm() {
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const MAX_IMAGE = 5;
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PostFormData>();
+  } = useForm<PostFormData>({
+    defaultValues: initialData,
+  });
 
-  const handleChangeImageUpload = (files: File[]) => {
-    setSelectedFiles(files);
-    const previewFiles = files.map((file) => URL.createObjectURL(file));
-    setPreviewImages(previewFiles);
+  useEffect(() => {
+    if (initialData && initialData.images) {
+      setSelectedFiles(initialData.images);
+    }
+  }, [initialData]);
+
+  //이미지 업로드 함수
+  const handleChangeImageUpload = (imageUrls: string[]) => {
+    const newSelectedFiles = [...selectedFiles, ...imageUrls];
+
+    if (newSelectedFiles.length > MAX_IMAGE) {
+      alert("최대 5장까지 업로드 가능합니다");
+      return;
+    }
+    setSelectedFiles(newSelectedFiles);
+  };
+
+  //첨부 이미지 삭제 함수
+  const handleRemoveImage = (index: number) => {
+    const newSelectedFiles = selectedFiles.filter((_, idx) => idx !== index);
+    setSelectedFiles(newSelectedFiles);
   };
 
   const onValid = (data: PostFormData) => {
-    const { title, content, image } = data;
-    // title,content,image 담아서 보내기
-    // 생성된 페이지로 navigate
+    //Pros로 받은 핸들러 함수 실행(post Create/Update 함수)
+    onSubmit({
+      ...data,
+      images: [...selectedFiles],
+    });
   };
+
   return (
     <form onSubmit={handleSubmit(onValid)}>
       <Input
@@ -66,7 +88,7 @@ function PostForm() {
       />
       <p>{errors.content?.message}</p>
       <ImageUpload maxImages={5} onchangeImages={handleChangeImageUpload} />
-      <ImageCarousel images={previewImages} />
+      <ImageCarousel images={selectedFiles} onRemoveImage={handleRemoveImage} />
       <Button>작성 완료</Button>
     </form>
   );

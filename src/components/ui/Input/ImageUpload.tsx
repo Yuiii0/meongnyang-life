@@ -1,6 +1,9 @@
+import { uploadImagesAndGetUrls } from "@/lib/post/api";
+import { useAuthStore } from "@/stores/auth/useAuthStore";
+
 interface ImageUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   maxImages?: number;
-  onchangeImages: (files: File[]) => void;
+  onchangeImages: (files: string[]) => void;
 }
 
 function ImageUpload({
@@ -8,13 +11,13 @@ function ImageUpload({
   onchangeImages,
   ...props
 }: ImageUploadProps) {
-  const handleChangeImages = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    if (files.length > maxImages) {
-      alert(`최대 ${maxImages}장까지 업로드 가능합니다`);
-      return;
-    }
-    onchangeImages(files);
+  const { user } = useAuthStore();
+  const handleChangeImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []); //File[]로 만들고
+    //파일 중복 여부 체크
+
+    const imageUrls = await uploadImagesAndGetUrls(user?.uid || "", files);
+    onchangeImages(imageUrls);
   };
 
   return (
