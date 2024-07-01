@@ -15,6 +15,7 @@ import {
   serverTimestamp,
   startAfter,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { postDto } from "./type";
@@ -93,4 +94,14 @@ export const getPostByPostId = async (postId: string) => {
   } else {
     throw new Error("포스트를 찾을 수 없습니다.");
   }
+};
+
+export const getPostsByUserId = async (userId: string) => {
+  const q = query(collection(db, "posts"), where("userId", "==", userId));
+  const querySnapshot = await getDocs(q);
+  const posts: postDto[] = [];
+  querySnapshot.forEach((doc) => {
+    posts.push(doc.data() as postDto);
+  });
+  return posts;
 };

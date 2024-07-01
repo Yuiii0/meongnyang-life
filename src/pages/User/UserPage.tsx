@@ -1,6 +1,8 @@
+import SimplePostCardsList from "@/components/pages/posts/SimplePostCardsList";
 import UserProfileCard from "@/components/pages/user/profiles/UserProfileCard";
 import Page from "@/components/ui/Page";
 import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
+import { useGetPostsByUserId } from "@/lib/post/hooks/useGetPostsByUserId";
 import { useParams } from "react-router-dom";
 
 function UserPage() {
@@ -11,6 +13,7 @@ function UserPage() {
     isLoading,
     isError,
   } = useGetUserProfile(userId || "");
+  const { data: posts } = useGetPostsByUserId(userId || "");
 
   if (isLoading) return <div>Loading...</div>;
   if (isError || !userProfile) {
@@ -20,6 +23,7 @@ function UserPage() {
   return (
     <Page>
       <UserProfileCard userProfile={userProfile} />
+      <SimplePostCardsList posts={posts || []} />
     </Page>
   );
 }
