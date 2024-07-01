@@ -4,18 +4,23 @@ import { useAuthStore } from "@/stores/auth/useAuthStore";
 interface ImageUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   maxImages?: number;
   onchangeImages: (files: string[]) => void;
+  onIsImgUploading: (status: boolean) => void;
 }
 
 function ImageUpload({
   maxImages = 1,
   onchangeImages,
+  onIsImgUploading,
   ...props
 }: ImageUploadProps) {
   const { user } = useAuthStore();
+
   const handleChangeImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    onIsImgUploading(true);
     const files = Array.from(e.target.files || []);
     const imageUrls = await uploadImagesAndGetUrls(user?.uid || "", files);
     onchangeImages(imageUrls);
+    onIsImgUploading(false);
   };
 
   return (
@@ -30,7 +35,6 @@ function ImageUpload({
         {...props}
       />
       <label htmlFor="fileImg">업로드</label>
-      <div></div>
     </div>
   );
 }

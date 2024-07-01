@@ -14,6 +14,7 @@ interface PostFormProps {
 
 function PostForm({ onSubmit, initialData }: PostFormProps) {
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
+  const [isImgUploading, setIsImgUploading] = useState(false);
   const MAX_IMAGE = 5;
 
   const {
@@ -47,12 +48,20 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
     setSelectedFiles(newSelectedFiles);
   };
 
+  //form 제출 (create/update)
   const onValid = (data: PostFormData) => {
-    // Pros로 받은 핸들러 함수 실행(post Create/Update 함수)
-    onSubmit({
-      ...data,
-      images: [...selectedFiles],
-    });
+    if (isImgUploading) {
+      alert("이미지가 업로드 중입니다. 잠시만 기다려주세요.");
+      return;
+    }
+    try {
+      onSubmit({
+        ...data,
+        images: [...selectedFiles],
+      });
+    } catch (error) {
+      alert("에러가 발생하였습니다. 다시 시도해주세요");
+    }
   };
 
   return (
@@ -84,9 +93,14 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         })}
       />
       <p>{errors.content?.message}</p>
-      <ImageUpload maxImages={5} onchangeImages={handleChangeImageUpload} />
+      <ImageUpload
+        maxImages={5}
+        onchangeImages={handleChangeImageUpload}
+        onIsImgUploading={setIsImgUploading}
+      />
       <ImageCarousel images={selectedFiles} onRemoveImage={handleRemoveImage} />
       <Button>작성 완료</Button>
+      {isImgUploading && <p>이미지 업로드 중입니다...</p>}
     </form>
   );
 }
