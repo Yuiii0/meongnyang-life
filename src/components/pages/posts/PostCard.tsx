@@ -16,11 +16,12 @@ interface PostCardProps {
 const PostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
   const { user } = useAuthStore();
   const isMyPost = user?.uid === post.userId;
-  console.log(post.createdAt);
+
   const timeStamp = new Timestamp(
     post.createdAt.seconds,
     post.createdAt.nanoseconds
   );
+
   return (
     <div>
       <div className="flex items-center justify-between pt-4 px-7">
@@ -33,17 +34,17 @@ const PostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
           <FollowToggleButton userId={post.userId} />
         )}
       </div>
-      <div className="flex flex-col pt-6 pb-8 mx-8 border-b gap-y-4 ">
+      <div className="flex flex-col pt-6 pb-8 mx-8 border-b gap-y-4">
         <h2 className="overflow-hidden text-lg font-semibold">
           {post.title.slice(0, 18)}
         </h2>
-        <div className="text-gray-700 bg-red-50">
-          {post.images && (
-            <>
+        {post.images && post.images.length > 0 && (
+          <div className="flex items-center justify-center aspect-square">
+            <div className="w-full h-full overflow-hidden aspect-square ">
               <ImageCarousel images={post.images} visibleItems={1} />
-            </>
-          )}
-        </div>
+            </div>
+          </div>
+        )}
         <div className="text-gray-600 whitespace-pre-wrap">
           {truncateString(post.content, 50)}
         </div>
