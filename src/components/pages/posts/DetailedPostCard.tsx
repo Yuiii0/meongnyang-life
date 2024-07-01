@@ -13,7 +13,7 @@ interface PostCardProps {
   post: postDto;
 }
 
-const PostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
+const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
   const { user } = useAuthStore();
   const isMyPost = user?.uid === post.userId;
 
@@ -53,4 +53,4 @@ const PostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
   );
 });
 
-export default PostCard;
+export default DetailedPostCard;

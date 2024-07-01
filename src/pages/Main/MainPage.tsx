@@ -1,4 +1,4 @@
-import PostCard from "@/components/pages/posts/PostCard";
+import DetailedPostCard from "@/components/pages/posts/DetailedPostCard";
 import { useGetAllPosts } from "@/lib/post/hooks/useGetAllPosts";
 import { postDto } from "@/lib/post/type";
 import { useEffect } from "react";
@@ -32,7 +32,7 @@ function MainPage() {
               {page.map((post) => {
                 return (
                   <Link to={`/posts/${post.id}`} key={post.id}>
-                    <PostCard post={post as postDto} />
+                    <DetailedPostCard post={post as postDto} />
                   </Link>
                 );
               })}
