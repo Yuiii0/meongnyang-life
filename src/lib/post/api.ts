@@ -1,6 +1,7 @@
 import { db } from "@/api/database";
 import { storage } from "@/api/store/store.api";
 import {
+  DocumentData,
   Timestamp,
   addDoc,
   collection,
@@ -8,9 +9,13 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
+  orderBy,
   query,
   serverTimestamp,
+  startAfter,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import {
   deleteObject,
@@ -65,29 +70,6 @@ export const createPost = async (postDto: postDto) => {
   return docRef.id;
 };
 
-export const getPost = async (postId: string) => {
-  const docRef = doc(db, "posts", postId);
-  const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-    const postData = docSnap.data();
-    return postData;
-  } else {
-    throw new Error("포스트를 찾을 수 없습니다.");
-  }
-};
-
-export const getPostAllPosts = async () => {
-  const collectionRef = collection(db, "posts");
-  const q = query(collectionRef);
-  const querySnapshot = await getDocs(q);
-  const posts = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
-
-  return posts;
-};
-
 export const updatePost = async (postId: string, postDto: postDto) => {
   const docRef = doc(db, "posts", postId);
   await updateDoc(docRef, {
@@ -99,4 +81,46 @@ export const updatePost = async (postId: string, postDto: postDto) => {
 export const deletePost = async (postId: string) => {
   const docRef = doc(db, "posts", postId);
   await deleteDoc(docRef);
+};
+
+export const getAllPosts = async (
+  pageParam: number | null
+): Promise<DocumentData[]> => {
+  const posts: DocumentData[] = [];
+  const PAGE_SIZE = 3;
+  let postsQuery = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+
+  if (pageParam) {
+    postsQuery = query(postsQuery, startAfter(pageParam), limit(PAGE_SIZE));
+  } else {
+    postsQuery = query(postsQuery, limit(PAGE_SIZE));
+  }
+
+  const querySnapshot = await getDocs(postsQuery);
+  querySnapshot.forEach((doc) => {
+    posts.push(doc.data());
+  });
+
+  return posts;
+};
+
+export const getPostByPostId = async (postId: string) => {
+  const docRef = doc(db, "posts", postId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const postData = docSnap.data();
+    return postData;
+  } else {
+    throw new Error("포스트를 찾을 수 없습니다.");
+  }
+};
+
+export const getPostsByUserId = async (userId: string) => {
+  const q = query(collection(db, "posts"), where("userId", "==", userId));
+  const querySnapshot = await getDocs(q);
+  const posts: postDto[] = [];
+  querySnapshot.forEach((doc) => {
+    posts.push(doc.data() as postDto);
+  });
+  return posts;
 };

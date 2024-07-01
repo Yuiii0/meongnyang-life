@@ -16,7 +16,6 @@ export const useUpdatePost = () => {
     onMutate: async ({ postId, postDto }): Promise<MutationContext> => {
       await queryClient.cancelQueries({
         queryKey: [POST, postId],
-        exact: true,
       });
       const previousPost = queryClient.getQueryData<postDto>([POST, postId]);
       if (!postDto || !previousPost) {
@@ -36,7 +35,6 @@ export const useUpdatePost = () => {
     onSettled: (_data, _error, { postId }) => {
       queryClient.invalidateQueries({
         queryKey: [POST, postId],
-        exact: true,
       });
     },
   });
