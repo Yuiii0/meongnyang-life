@@ -1,11 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
-import { getPostAllPosts } from "../api";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getAllPosts } from "../api";
 import { POST } from "../key";
 
 export const useGetAllPosts = () => {
-  return useQuery({
+  const PAGE_SIZE = 3;
+  return useInfiniteQuery({
     queryKey: [POST],
-    queryFn: getPostAllPosts,
-    staleTime: 1000 * 30,
+    queryFn: ({ pageParam = null }) => getAllPosts(pageParam),
+    initialPageParam: null,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.length < PAGE_SIZE) {
+        return null;
+      } else {
+        return lastPage[lastPage.length - 1].createdAt;
+      }
+    },
   });
 };
