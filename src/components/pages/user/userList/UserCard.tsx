@@ -1,5 +1,6 @@
 import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
+import { Link } from "react-router-dom";
 
 interface UserCardProps {
   userId: string;
@@ -7,9 +8,9 @@ interface UserCardProps {
 }
 function UserCard({ userId, isDate }: UserCardProps) {
   const { data: userProfile } = useGetUserProfile(userId || "");
-  console.log("Date", isDate);
+
   return (
-    <div>
+    <Link to={`/profiles/${userId}`}>
       <div className="flex items-center py-3">
         <div className="h-14 w-14">
           <img src={userProfile?.profileImg || DEFAULT_PROFILE_IMG_CAT} />
@@ -22,7 +23,7 @@ function UserCard({ userId, isDate }: UserCardProps) {
         </div>
         <div className="ml-auto"></div>
       </div>
-    </div>
+    </Link>
   );
 }
 
