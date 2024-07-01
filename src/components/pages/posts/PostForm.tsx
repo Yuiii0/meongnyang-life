@@ -2,6 +2,7 @@ import Button from "@/components/ui/Button/Button";
 import ImageUpload from "@/components/ui/Input/ImageUpload";
 import Input from "@/components/ui/Input/Input";
 import TextArea from "@/components/ui/Input/TextArea";
+import { removeImageFromStorage } from "@/lib/post/api";
 import { PostFormData } from "@/lib/post/type";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -44,6 +45,10 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
 
   // 첨부 이미지 삭제 함수
   const handleRemoveImage = (imgURL: string) => {
+    //storage에서 이미지 삭제
+    removeImageFromStorage(imgURL);
+
+    //post 이미지 삭제
     const newSelectedFiles = selectedFiles.filter((image) => image !== imgURL);
     setSelectedFiles(newSelectedFiles);
   };

@@ -12,7 +12,12 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 import { postDto } from "./type";
 
 // 이미지 Url을 생성 및 받아오는 함수
@@ -21,13 +26,26 @@ export const uploadImagesAndGetUrls = async (
   images: File[]
 ): Promise<string[]> => {
   const imageUrls = await Promise.all(
-    images.map(async (image, index) => {
-      const imageRef = ref(storage, `posts/${userId}/${index + 1}`);
+    images.map(async (image) => {
+      const currentTime = Date.now();
+      const imageRef = ref(
+        storage,
+        `posts/${userId}/${currentTime}_${image.name}`
+      );
       const result = await uploadBytes(imageRef, image);
       return await getDownloadURL(result.ref);
     })
   );
   return imageUrls;
+};
+
+// storage에서 이미지를 삭제하는 함수
+export const removeImageFromStorage = async (url: string) => {
+  const baseUrl = "https://firebasestorage.googleapis.com/v0/b/";
+  const path = url.split(`${baseUrl}`)[1].split("?")[0].split("/o/")[1];
+  const storagePath = decodeURIComponent(path);
+  const imageRef = ref(storage, storagePath);
+  await deleteObject(imageRef);
 };
 
 export const createPost = async (postDto: postDto) => {
