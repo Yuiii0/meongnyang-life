@@ -25,7 +25,6 @@ function MainPage() {
 
   return (
     <div>
-      <h1>Main Page</h1>
       {posts?.pages.map((page, index) => (
         <div key={index}>
           {page ? (
