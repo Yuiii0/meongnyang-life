@@ -30,10 +30,10 @@ function MainPage() {
         <div key={index}>
           {page ? (
             <div>
-              {page.map((post, index: number) => {
+              {page.map((post) => {
                 return (
-                  <Link to={`/posts/${post.id}`}>
-                    <PostCard key={index} post={post as postDto} />
+                  <Link to={`/posts/${post.id}`} key={post.id}>
+                    <PostCard post={post as postDto} />
                   </Link>
                 );
               })}
