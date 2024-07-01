@@ -20,7 +20,7 @@ import {
 } from "firebase/storage";
 import { postDto } from "./type";
 
-// 이미지 Url을 생성 및 받아오는 함수
+// 이미지 url 생성 및 받아오는 함수
 export const uploadImagesAndGetUrls = async (
   userId: string,
   images: File[]
@@ -41,11 +41,12 @@ export const uploadImagesAndGetUrls = async (
 
 // storage에서 이미지를 삭제하는 함수
 export const removeImageFromStorage = async (url: string) => {
-  const baseUrl = "https://firebasestorage.googleapis.com/v0/b/";
-  const path = url.split(`${baseUrl}`)[1].split("?")[0].split("/o/")[1];
-  const storagePath = decodeURIComponent(path);
-  const imageRef = ref(storage, storagePath);
-  await deleteObject(imageRef);
+  const imageRef = ref(storage, url);
+  try {
+    await deleteObject(imageRef);
+  } catch (error) {
+    console.log("storage 삭제 실패", error);
+  }
 };
 
 export const createPost = async (postDto: postDto) => {

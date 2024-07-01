@@ -1,3 +1,4 @@
+import { removeImageFromStorage } from "@/lib/post/api";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
@@ -15,11 +16,19 @@ const PostDetailPage = () => {
   if (!post || !postId) {
     return <div>suspense...</div>;
   }
-  const handleDeletePost = () => {
+  const handleDeletePost = async () => {
     try {
+      // storage 이미지 삭제
+      if (post.images && post.images.length > 0) {
+        await Promise.all(
+          post.images.map((imageUrl: string) =>
+            removeImageFromStorage(imageUrl)
+          )
+        );
+      }
       deletePost({ postId });
       alert("성공적으로 삭제되었습니다");
-      navigate(-1);
+      navigate("/main");
     } catch (error) {
       alert("포스트 삭제 실패하였습니다. 다시 시도해주세요");
     }
