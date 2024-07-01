@@ -2,6 +2,7 @@ import Button from "@/components/ui/Button/Button";
 import ImageUpload from "@/components/ui/Input/ImageUpload";
 import Input from "@/components/ui/Input/Input";
 import TextArea from "@/components/ui/Input/TextArea";
+import { removeImageFromStorage } from "@/lib/post/api";
 import { PostFormData } from "@/lib/post/type";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -14,6 +15,7 @@ interface PostFormProps {
 
 function PostForm({ onSubmit, initialData }: PostFormProps) {
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
+  const [isImgUploading, setIsImgUploading] = useState(false);
   const MAX_IMAGE = 5;
 
   const {
@@ -43,16 +45,28 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
 
   // 첨부 이미지 삭제 함수
   const handleRemoveImage = (imgURL: string) => {
+    //storage에서 이미지 삭제
+    removeImageFromStorage(imgURL);
+
+    //post 이미지 삭제
     const newSelectedFiles = selectedFiles.filter((image) => image !== imgURL);
     setSelectedFiles(newSelectedFiles);
   };
 
+  //form 제출 (create/update)
   const onValid = (data: PostFormData) => {
-    // Pros로 받은 핸들러 함수 실행(post Create/Update 함수)
-    onSubmit({
-      ...data,
-      images: [...selectedFiles],
-    });
+    if (isImgUploading) {
+      alert("이미지가 업로드 중입니다. 잠시만 기다려주세요.");
+      return;
+    }
+    try {
+      onSubmit({
+        ...data,
+        images: [...selectedFiles],
+      });
+    } catch (error) {
+      alert("에러가 발생하였습니다. 다시 시도해주세요");
+    }
   };
 
   return (
@@ -84,9 +98,14 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         })}
       />
       <p>{errors.content?.message}</p>
-      <ImageUpload maxImages={5} onchangeImages={handleChangeImageUpload} />
+      <ImageUpload
+        maxImages={5}
+        onchangeImages={handleChangeImageUpload}
+        onIsImgUploading={setIsImgUploading}
+      />
       <ImageCarousel images={selectedFiles} onRemoveImage={handleRemoveImage} />
       <Button>작성 완료</Button>
+      {isImgUploading && <p>이미지 업로드 중입니다...</p>}
     </form>
   );
 }
