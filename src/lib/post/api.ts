@@ -1,6 +1,7 @@
 import { db } from "@/api/database";
 import { storage } from "@/api/store/store.api";
 import {
+  DocumentData,
   Timestamp,
   addDoc,
   collection,
@@ -8,8 +9,11 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
+  orderBy,
   query,
   serverTimestamp,
+  startAfter,
   updateDoc,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -57,14 +61,23 @@ export const getPost = async (postId: string) => {
   }
 };
 
-export const getPostAllPosts = async () => {
-  const collectionRef = collection(db, "posts");
-  const q = query(collectionRef);
-  const querySnapshot = await getDocs(q);
-  const posts = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+export const getAllPosts = async (
+  pageParam: number | null
+): Promise<DocumentData[]> => {
+  const posts: DocumentData[] = [];
+  const PAGE_SIZE = 3;
+  let postsQuery = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+
+  if (pageParam) {
+    postsQuery = query(postsQuery, startAfter(pageParam), limit(PAGE_SIZE));
+  } else {
+    postsQuery = query(postsQuery, limit(PAGE_SIZE));
+  }
+
+  const querySnapshot = await getDocs(postsQuery);
+  querySnapshot.forEach((doc) => {
+    posts.push(doc.data());
+  });
 
   return posts;
 };
