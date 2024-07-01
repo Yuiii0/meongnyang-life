@@ -50,15 +50,17 @@ export const createPost = async (postDto: postDto) => {
   return docRef.id;
 };
 
-export const getPost = async (postId: string) => {
+export const updatePost = async (postId: string, postDto: postDto) => {
   const docRef = doc(db, "posts", postId);
-  const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-    const postData = docSnap.data();
-    return postData;
-  } else {
-    throw new Error("포스트를 찾을 수 없습니다.");
-  }
+  await updateDoc(docRef, {
+    ...postDto,
+    updatedAt: Timestamp.now(),
+  });
+};
+
+export const deletePost = async (postId: string) => {
+  const docRef = doc(db, "posts", postId);
+  await deleteDoc(docRef);
 };
 
 export const getAllPosts = async (
@@ -82,15 +84,13 @@ export const getAllPosts = async (
   return posts;
 };
 
-export const updatePost = async (postId: string, postDto: postDto) => {
+export const getPostByPostId = async (postId: string) => {
   const docRef = doc(db, "posts", postId);
-  await updateDoc(docRef, {
-    ...postDto,
-    updatedAt: Timestamp.now(),
-  });
-};
-
-export const deletePost = async (postId: string) => {
-  const docRef = doc(db, "posts", postId);
-  await deleteDoc(docRef);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const postData = docSnap.data();
+    return postData;
+  } else {
+    throw new Error("포스트를 찾을 수 없습니다.");
+  }
 };
