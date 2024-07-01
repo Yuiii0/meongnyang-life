@@ -10,7 +10,6 @@ export const useDeletePost = () => {
     onMutate: async ({ postId }) => {
       await queryClient.cancelQueries({
         queryKey: [POST, postId],
-        exact: true,
       });
 
       const previousPost = queryClient.getQueryData([POST, postId]);
