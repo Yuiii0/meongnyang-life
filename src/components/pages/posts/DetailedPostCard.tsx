@@ -35,7 +35,7 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
         )}
       </div>
       <div className="flex flex-col pt-6 pb-8 mx-8 border-b gap-y-4">
-        <h2 className="overflow-hidden text-lg font-semibold">
+        <h2 className="overflow-hidden text-lg font-semibold text-gray-700">
           {post.title.slice(0, 18)}
         </h2>
         {post.images && post.images.length > 0 && (
