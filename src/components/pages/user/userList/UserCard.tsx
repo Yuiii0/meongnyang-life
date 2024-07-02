@@ -1,6 +1,6 @@
 import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface UserCardProps {
   userId: string;
@@ -8,9 +8,10 @@ interface UserCardProps {
 }
 function UserCard({ userId, isDate }: UserCardProps) {
   const { data: userProfile } = useGetUserProfile(userId || "");
+  const navigate = useNavigate();
 
   return (
-    <Link to={`/profiles/${userId}`}>
+    <div onClick={() => navigate(`/profiles/${userId}`)}>
       <div className="flex items-center py-3">
         <div className="h-14 w-14">
           <img src={userProfile?.profileImg || DEFAULT_PROFILE_IMG_CAT} />
@@ -23,7 +24,7 @@ function UserCard({ userId, isDate }: UserCardProps) {
         </div>
         <div className="ml-auto"></div>
       </div>
-    </Link>
+    </div>
   );
 }
 
