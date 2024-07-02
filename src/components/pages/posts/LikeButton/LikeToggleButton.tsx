@@ -3,6 +3,7 @@ import { useDeletePostLikeReaction } from "@/lib/post/hooks/useDeletePostLikeRea
 import { useGetPostLikeCount } from "@/lib/post/hooks/useGetLikeCount";
 import { useGetPostLikeStatus } from "@/lib/post/hooks/useGetPostLikeStatus";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
+import { debounce } from "lodash";
 import LikeButton from "./LikeButton";
 import UnLikeButton from "./UnLikeButton";
 
@@ -29,14 +30,13 @@ function LikeToggleButton({ postId }: LikeToggleButtonProps) {
     userId || ""
   );
 
-  const handleToggleLikeButton = () => {
+  const handleToggleLikeButton = debounce(() => {
     if (isLike) {
       removeLikeReaction();
     } else {
       createLikeReaction();
     }
-  };
-
+  }, 300);
   if (isLoading) {
     return <div>Loading...</div>;
   }
