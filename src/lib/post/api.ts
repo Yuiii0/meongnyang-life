@@ -172,3 +172,21 @@ export const getPostLikeCount = async (postId: string) => {
     throw new Error("포스트를 찾을 수 없습니다.");
   }
 };
+
+export const getLikedPostsByUserId = async (userId: string) => {
+  const likedPostsQuery = query(collection(db, `like_posts/${userId}/posts`));
+  const likedPostsSnapshot = await getDocs(likedPostsQuery);
+  const likedPostIds: string[] = [];
+
+  likedPostsSnapshot.forEach((doc) => {
+    likedPostIds.push(doc.id);
+  });
+
+  const posts: postDto[] = [];
+  for (const postId of likedPostIds) {
+    const post = await getPostByPostId(postId);
+    posts.push(post as postDto);
+  }
+
+  return posts;
+};
