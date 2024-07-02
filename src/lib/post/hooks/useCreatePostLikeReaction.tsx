@@ -1,32 +1,21 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createPostLikeReaction } from "../api";
-import { POST } from "../key";
+import { createPostLikeReaction, getPostLikeCount } from "../api";
+import { POST_LIKE_COUNT, POST_LIKE_STATUS } from "../key";
 
-export const useCreatePostLikeReaction = () => {
+export const useCreatePostLikeReaction = (postId: string, userId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ postId, userId }: { postId: string; userId: string }) =>
-      createPostLikeReaction(postId, userId),
-    onMutate: async ({ postId }) => {
-      await queryClient.cancelQueries({
-        queryKey: [POST, postId],
-        exact: true,
-      });
-      const previousStatus = queryClient.getQueryData([POST, postId]);
-      queryClient.setQueryData([POST, postId], true);
-      return { previousStatus };
+    mutationFn: async () => {
+      await createPostLikeReaction(postId, userId);
+      return await getPostLikeCount(postId);
     },
-    onError: (_err, { postId }, context) => {
-      if (context) {
-        queryClient.setQueryData([POST, postId], context.previousStatus);
-      }
-    },
-    onSettled: (_data, _error, { postId }) => {
+    onSuccess: (likeCount) => {
       queryClient.invalidateQueries({
-        queryKey: [POST, postId],
-        exact: true,
+        queryKey: [POST_LIKE_STATUS, postId, userId],
       });
+      queryClient.setQueryData([POST_LIKE_COUNT, postId], likeCount); // 최신 likeCount 설정
     },
+    mutationKey: [POST_LIKE_STATUS, postId, userId], // mutationKey 설정
   });
 };
