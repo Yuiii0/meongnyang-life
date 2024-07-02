@@ -1,7 +1,8 @@
+import LikeToggleButton from "@/components/pages/posts/LikeButton/LikeToggleButton";
 import FollowToggleButton from "@/components/pages/user/follow/FollowButton/FollowToggleButton";
 import UserCard from "@/components/pages/user/userList/UserCard";
 import Page from "@/components/ui/Page";
-import { removeImageFromStorage } from '@/lib/post/api';
+import { removeImageFromStorage } from "@/lib/post/api";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
@@ -81,7 +82,7 @@ const PostDetailPage = () => {
           {post.content}
         </div>
         <div className="flex py-2 border-b gap-x-4">
-          <p>Likes: {post.likeCount}</p>
+          <LikeToggleButton postId={postId} />
           <p>Comments: {post.commentCount}</p>
         </div>
       </div>
