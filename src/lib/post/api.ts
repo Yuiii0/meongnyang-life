@@ -13,6 +13,7 @@ import {
   orderBy,
   query,
   serverTimestamp,
+  setDoc,
   startAfter,
   updateDoc,
   where,
@@ -123,4 +124,38 @@ export const getPostsByUserId = async (userId: string) => {
     posts.push(doc.data() as postDto);
   });
   return posts;
+};
+
+//Post Like
+export const getPostLikeStatus = async (postId: string, userId: string) => {
+  const LikePostDocRef = doc(db, `like_posts/${userId}/posts/${postId}`);
+  const docSnap = await getDoc(LikePostDocRef);
+  return docSnap.exists();
+};
+export const createPostLikeReaction = async (
+  postId: string,
+  userId: string
+) => {
+  const LikePostRef = doc(db, `like_posts/${userId}/posts/${postId}`);
+  try {
+    await setDoc(LikePostRef, {
+      userId,
+      postId,
+      createdAt: serverTimestamp(),
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const removePostLikeReaction = async (
+  postId: string,
+  userId: string
+) => {
+  try {
+    const LikePostRef = doc(db, `like_posts/${userId}/posts/${postId}`);
+    await deleteDoc(LikePostRef);
+    console.log("Like removed successfully.");
+  } catch (error) {
+    console.error("Error removing like: ", error);
+  }
 };
