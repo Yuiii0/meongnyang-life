@@ -1,30 +1,45 @@
 import { useCreatePostLikeReaction } from "@/lib/post/hooks/useCreatePostLikeReaction";
 import { useDeletePostLikeReaction } from "@/lib/post/hooks/useDeletePostLikeReaction";
+import { useGetPostLikeCount } from "@/lib/post/hooks/useGetLikeCount";
 import { useGetPostLikeStatus } from "@/lib/post/hooks/useGetPostLikeStatus";
+import { useAuthStore } from "@/stores/auth/useAuthStore";
 import LikeButton from "./LikeButton";
 import UnLikeButton from "./UnLikeButton";
 
 interface LikeToggleButtonProps {
   postId: string;
-  userId: string;
 }
 
-function LikeToggleButton({ postId, userId }: LikeToggleButtonProps) {
-  const { data: isLike } = useGetPostLikeStatus(postId, userId);
-  const { mutate: createLikeReaction } = useCreatePostLikeReaction();
-  const { mutate: removeLikeReaction } = useDeletePostLikeReaction();
+function LikeToggleButton({ postId }: LikeToggleButtonProps) {
+  const { user } = useAuthStore();
+  const userId = user?.uid;
+
+  const { data: isLike, isLoading } = useGetPostLikeStatus(
+    postId,
+    userId || ""
+  );
+  const { data: likeCount } = useGetPostLikeCount(postId);
+
+  const { mutate: createLikeReaction } = useCreatePostLikeReaction(
+    postId,
+    userId || ""
+  );
+  const { mutate: removeLikeReaction } = useDeletePostLikeReaction(
+    postId,
+    userId || ""
+  );
 
   const handleToggleLikeButton = () => {
-    try {
-      if (isLike) {
-        removeLikeReaction({ postId, userId });
-      } else {
-        createLikeReaction({ postId, userId });
-      }
-    } catch (error) {
-      alert("오류가 발생하였습니다. 다시 시도해주세요");
+    if (isLike) {
+      removeLikeReaction();
+    } else {
+      createLikeReaction();
     }
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -33,6 +48,7 @@ function LikeToggleButton({ postId, userId }: LikeToggleButtonProps) {
       ) : (
         <LikeButton onToggleButton={handleToggleLikeButton} />
       )}
+      <p>{likeCount}</p>
     </div>
   );
 }
