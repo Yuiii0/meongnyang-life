@@ -5,8 +5,8 @@ interface UnLikeButtonProps {
 
 function UnLikeButton({ onToggleButton }: UnLikeButtonProps) {
   return (
-    <button onClick={onToggleButton}>
-      <Heart color="red" style={{ fill: "red" }} />
+    <button onClick={onToggleButton} className="text-red-400">
+      <Heart className="fill-current" />
     </button>
   );
 }

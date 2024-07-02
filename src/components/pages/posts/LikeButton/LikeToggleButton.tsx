@@ -3,6 +3,7 @@ import { useDeletePostLikeReaction } from "@/lib/post/hooks/useDeletePostLikeRea
 import { useGetPostLikeCount } from "@/lib/post/hooks/useGetLikeCount";
 import { useGetPostLikeStatus } from "@/lib/post/hooks/useGetPostLikeStatus";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
+import { formatLikes } from "@/utils/formatLikes";
 import { debounce } from "lodash";
 import LikeButton from "./LikeButton";
 import UnLikeButton from "./UnLikeButton";
@@ -42,13 +43,13 @@ function LikeToggleButton({ postId }: LikeToggleButtonProps) {
   }
 
   return (
-    <div>
+    <div className="flex items-center text-gray-600 gap-x-2">
       {isLike ? (
         <UnLikeButton onToggleButton={handleToggleLikeButton} />
       ) : (
         <LikeButton onToggleButton={handleToggleLikeButton} />
       )}
-      <p>{likeCount}</p>
+      <span>{formatLikes(likeCount || 0)}</span>
     </div>
   );
 }
