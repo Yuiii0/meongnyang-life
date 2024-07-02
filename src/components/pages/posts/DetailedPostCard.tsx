@@ -54,7 +54,7 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
         </div>
       </Link>
       <div className="pb-2 mx-8 border-b">
-        <LikeToggleButton postId={post.id || ""} userId={post.userId} />
+        <LikeToggleButton postId={post.id || ""} />
       </div>
     </div>
   );
