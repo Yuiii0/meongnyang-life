@@ -3,7 +3,6 @@ import { useGetAllPosts } from "@/lib/post/hooks/useGetAllPosts";
 import { postDto } from "@/lib/post/type";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { Link } from "react-router-dom";
 
 function MainPage() {
   const {
@@ -31,9 +30,7 @@ function MainPage() {
             <div>
               {page.map((post) => {
                 return (
-                  <Link to={`/posts/${post.id}`} key={post.id}>
-                    <DetailedPostCard post={post as postDto} />
-                  </Link>
+                  <DetailedPostCard post={post as postDto} key={post.id} />
                 );
               })}
             </div>
