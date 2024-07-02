@@ -9,10 +9,12 @@ import {
   doc,
   getDoc,
   getDocs,
+  increment,
   limit,
   orderBy,
   query,
   serverTimestamp,
+  setDoc,
   startAfter,
   updateDoc,
   where,
@@ -55,7 +57,7 @@ export const removeImageFromStorage = async (url: string) => {
 };
 
 export const createPost = async (postDto: postDto) => {
-  const docRef = await addDoc(collection(db, "posts"), {
+  const postRef = await addDoc(collection(db, "posts"), {
     userId: postDto.userId,
     title: postDto.title,
     images: postDto.images,
@@ -65,22 +67,22 @@ export const createPost = async (postDto: postDto) => {
     likeCount: postDto.likeCount,
     commentCount: postDto.commentCount,
   });
-  await updateDoc(docRef, { id: docRef.id });
+  await updateDoc(postRef, { id: postRef.id });
 
-  return docRef.id;
+  return postRef.id;
 };
 
 export const updatePost = async (postId: string, postDto: postDto) => {
-  const docRef = doc(db, "posts", postId);
-  await updateDoc(docRef, {
+  const postRef = doc(db, "posts", postId);
+  await updateDoc(postRef, {
     ...postDto,
     updatedAt: Timestamp.now(),
   });
 };
 
 export const deletePost = async (postId: string) => {
-  const docRef = doc(db, "posts", postId);
-  await deleteDoc(docRef);
+  const postRef = doc(db, "posts", postId);
+  await deleteDoc(postRef);
 };
 
 export const getAllPosts = async (
@@ -105,8 +107,8 @@ export const getAllPosts = async (
 };
 
 export const getPostByPostId = async (postId: string) => {
-  const docRef = doc(db, "posts", postId);
-  const docSnap = await getDoc(docRef);
+  const postRef = doc(db, "posts", postId);
+  const docSnap = await getDoc(postRef);
   if (docSnap.exists()) {
     const postData = docSnap.data();
     return postData;
@@ -122,5 +124,69 @@ export const getPostsByUserId = async (userId: string) => {
   querySnapshot.forEach((doc) => {
     posts.push(doc.data() as postDto);
   });
+  return posts;
+};
+
+//Post Like
+export const getPostLikeStatus = async (postId: string, userId: string) => {
+  const likePostDocRef = doc(db, `like_posts/${userId}/posts/${postId}`);
+  const docSnap = await getDoc(likePostDocRef);
+
+  return docSnap.exists();
+};
+
+export const createPostLikeReaction = async (
+  postId: string,
+  userId: string
+) => {
+  const likePostRef = doc(db, `like_posts/${userId}/posts/${postId}`);
+  await setDoc(likePostRef, {
+    userId,
+    postId,
+    createdAt: serverTimestamp(),
+  });
+  const postRef = doc(db, "posts", postId);
+  await updateDoc(postRef, {
+    likeCount: increment(1),
+  });
+};
+export const removePostLikeReaction = async (
+  postId: string,
+  userId: string
+) => {
+  const LikePostRef = doc(db, `like_posts/${userId}/posts/${postId}`);
+  await deleteDoc(LikePostRef);
+
+  const postRef = doc(db, "posts", postId);
+  await updateDoc(postRef, {
+    likeCount: increment(-1),
+  });
+};
+export const getPostLikeCount = async (postId: string) => {
+  const postRef = doc(db, "posts", postId);
+  const docSnap = await getDoc(postRef);
+  if (docSnap.exists()) {
+    const postData = docSnap.data() as postDto;
+    return postData.likeCount;
+  } else {
+    throw new Error("포스트를 찾을 수 없습니다.");
+  }
+};
+
+export const getLikedPostsByUserId = async (userId: string) => {
+  const likedPostsQuery = query(collection(db, `like_posts/${userId}/posts`));
+  const likedPostsSnapshot = await getDocs(likedPostsQuery);
+  const likedPostIds: string[] = [];
+
+  likedPostsSnapshot.forEach((doc) => {
+    likedPostIds.push(doc.id);
+  });
+
+  const posts: postDto[] = [];
+  for (const postId of likedPostIds) {
+    const post = await getPostByPostId(postId);
+    posts.push(post as postDto);
+  }
+
   return posts;
 };

@@ -15,5 +15,6 @@ export const useGetAllPosts = () => {
         return lastPage[lastPage.length - 1].createdAt;
       }
     },
+    staleTime: 1000 * 60 * 1,
   });
 };

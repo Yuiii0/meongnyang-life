@@ -42,6 +42,7 @@ function Navbar() {
           <Link to={"/posts/create"}>Post 작성</Link>
           <button onClick={handleClickLogOut}>로그아웃</button>
           <button onClick={() => handleClickDeleteAccount}>회원 탈퇴</button>
+          <Link to={`/likes/${user?.uid}`}>좋아요 페이지</Link>
         </div>
       )}
     </div>
