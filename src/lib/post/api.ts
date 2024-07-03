@@ -1,5 +1,6 @@
 import { db } from "@/api/database";
 import { storage } from "@/api/store/store.api";
+import imageCompression from "browser-image-compression";
 import {
   DocumentData,
   Timestamp,
@@ -34,13 +35,25 @@ export const uploadImagesAndGetUrls = async (
 ): Promise<string[]> => {
   const imageUrls = await Promise.all(
     images.map(async (image) => {
-      const currentTime = Date.now();
-      const imageRef = ref(
-        storage,
-        `posts/${userId}/${currentTime}_${image.name}`
-      );
-      const result = await uploadBytes(imageRef, image);
-      return await getDownloadURL(result.ref);
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+        fileType: "image/jpeg",
+      };
+      try {
+        const compressedImage = await imageCompression(image, options);
+        const currentTime = Date.now();
+        const imageRef = ref(
+          storage,
+          `posts/${userId}/${currentTime}_${image.name}`
+        );
+        const result = await uploadBytes(imageRef, compressedImage);
+        return await getDownloadURL(result.ref);
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
     })
   );
   return imageUrls;
