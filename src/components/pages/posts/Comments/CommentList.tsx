@@ -1,5 +1,17 @@
+import CommentItem from "./CommentItem";
+
+const comments = [1, 2, 3];
+
 function CommentList() {
-  return <div>CommentList</div>;
+  return (
+    <ul className="pt-1">
+      {comments.map((comment, idx) => (
+        <li key={idx}>
+          <CommentItem />
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 export default CommentList;
