@@ -1,3 +1,4 @@
+import { PATHS } from "@/pages/route";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,7 +11,7 @@ export const useAuth = () => {
   useEffect(() => {
     if (!loading) {
       if (!user) {
-        navigate("/");
+        navigate(PATHS.logIn);
       }
       if (user?.uid !== userId) {
         navigate(-1);
