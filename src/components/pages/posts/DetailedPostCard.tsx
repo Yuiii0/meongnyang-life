@@ -1,9 +1,10 @@
 import { postDto } from "@/lib/post/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
+import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { truncateString } from "@/utils/truncateString";
 import { Timestamp } from "firebase/firestore";
-import { FilePenLine } from "lucide-react";
+import { FilePenLine, MessageSquare } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
 import FollowToggleButton from "../user/follow/FollowButton/FollowToggleButton";
@@ -26,7 +27,7 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
 
   return (
     <div>
-      <div className="flex items-center justify-between pt-4 px-7">
+      <div className="flex items-center justify-between pt-2 px-7">
         <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
         {isMyPost ? (
           <div className="text-brand-100">
@@ -56,8 +57,12 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
           {truncateString(post.content, 50)}
         </div>
       </Link>
-      <div className="pb-2 mx-8 border-b">
+      <div className="flex items-center pb-5 mx-8 border-b gap-x-4">
         <LikeToggleButton postId={post.id || ""} />
+        <div className="flex items-center text-gray-600 gap-x-2">
+          <MessageSquare strokeWidth={1.5} />
+          <span>{formatCount(post.commentCount || 0)}</span>
+        </div>
       </div>
     </div>
   );
