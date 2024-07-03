@@ -1,4 +1,4 @@
-export const formatLikes = (likes: number) => {
+export const formatCount = (likes: number) => {
   if (likes >= 1000000) {
     return (likes / 1000000).toFixed(1) + "M";
   } else if (likes >= 1000) {
