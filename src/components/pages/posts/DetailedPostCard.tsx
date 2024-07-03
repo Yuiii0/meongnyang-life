@@ -26,31 +26,34 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
 
   return (
     <div>
-      <Link to={`/posts/${post.id}`} key={post.id}>
-        <div className="flex items-center justify-between pt-4 px-7">
-          <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
-          {isMyPost ? (
-            <div className="text-brand-100">
-              <FilePenLine />
-            </div>
-          ) : (
-            <FollowToggleButton userId={post.userId} />
-          )}
-        </div>
-        <div className="flex flex-col pt-6 pb-8 mx-8 gap-y-4">
-          <h2 className="overflow-hidden text-lg font-semibold text-gray-700">
-            {post.title.slice(0, 18)}
-          </h2>
-          {post.images && post.images.length > 0 && (
-            <div className="flex items-center justify-center aspect-square">
-              <div className="w-full h-full overflow-hidden aspect-square ">
-                <ImageCarousel images={post.images} visibleItems={1} />
-              </div>
-            </div>
-          )}
-          <div className="text-gray-600 whitespace-pre-wrap">
-            {truncateString(post.content, 50)}
+      <div className="flex items-center justify-between pt-4 px-7">
+        <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
+        {isMyPost ? (
+          <div className="text-brand-100">
+            <FilePenLine />
           </div>
+        ) : (
+          <FollowToggleButton userId={post.userId} />
+        )}
+      </div>
+
+      <Link
+        to={`/posts/${post.id}`}
+        key={post.id}
+        className="flex flex-col pt-6 pb-8 mx-8 gap-y-4"
+      >
+        <h2 className="overflow-hidden text-lg font-semibold text-gray-700">
+          {post.title.slice(0, 18)}
+        </h2>
+        {post.images && post.images.length > 0 && (
+          <div className="flex items-center justify-center aspect-square">
+            <div className="w-full h-full overflow-hidden aspect-square ">
+              <ImageCarousel images={post.images} visibleItems={1} />
+            </div>
+          </div>
+        )}
+        <div className="text-gray-600 whitespace-pre-wrap">
+          {truncateString(post.content, 50)}
         </div>
       </Link>
       <div className="pb-2 mx-8 border-b">
