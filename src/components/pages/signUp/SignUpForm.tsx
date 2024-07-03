@@ -36,7 +36,7 @@ function SignUpForm() {
         const user = await emailSignUp(email, password, name);
         if (user) {
           setUser(user);
-          navigate(`/profiles/create/${user.uid}`);
+          navigate(`/profiles/create`);
         }
       } catch (error) {
         alert("회원가입에 실패하였습니다");
