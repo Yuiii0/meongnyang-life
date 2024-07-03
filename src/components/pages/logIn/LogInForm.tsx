@@ -4,6 +4,7 @@ import Button from "@/components/ui/Button/Button";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import AuthInput from "@/components/ui/Input/AuthInput";
 import NavigationLink from "@/components/ui/NavigationLink";
+import { PATHS } from "@/pages/route";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 
 import { FirebaseError } from "firebase/app";
@@ -34,7 +35,7 @@ function LogInForm() {
       const user = await emailLogin(email, password);
       if (user) {
         setUser(user);
-        navigate("/main");
+        navigate(PATHS.main);
       }
     } catch (error) {
       if (error instanceof FirebaseError) {

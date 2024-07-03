@@ -10,6 +10,7 @@ import { formatTimestamp } from "@/utils/formatTimestamp";
 import { Timestamp } from "firebase/firestore";
 import { FilePenLine, Trash2 } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { PATHS } from "../route";
 
 const PostDetailPage = () => {
   const { postId } = useParams();
@@ -40,7 +41,7 @@ const PostDetailPage = () => {
       }
       deletePost({ postId });
       alert("성공적으로 삭제되었습니다");
-      navigate("/main");
+      navigate(PATHS.main);
     } catch (error) {
       alert("포스트 삭제 실패하였습니다. 다시 시도해주세요");
     }

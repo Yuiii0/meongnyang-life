@@ -1,4 +1,5 @@
 import { auth, logOut, withdrawalUser } from "@/api/auth/auth.api";
+import { PATHS } from "@/pages/route";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
@@ -19,7 +20,7 @@ function Navbar() {
   const handleClickLogOut = async () => {
     try {
       await logOut();
-      navigate("/");
+      navigate(PATHS.logIn);
     } catch (error) {
       alert("오류가 발생했습니다. 다시 시도해주세요");
     }
@@ -27,7 +28,7 @@ function Navbar() {
   const handleClickDeleteAccount = async (user: User) => {
     if (user) {
       await withdrawalUser(user);
-      navigate("/");
+      navigate(PATHS.logIn);
     }
   };
 
