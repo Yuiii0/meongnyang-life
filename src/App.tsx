@@ -27,116 +27,26 @@ const router = createBrowserRouter([
     element: (
       <>
         <Navbar />
-        <Suspense fallback={<Fallback />}>
-          <Outlet />
-        </Suspense>
+        <Outlet />
       </>
     ),
-    errorElement: (
-      <Suspense fallback={<Fallback />}>
-        <NotFoundPage />
-      </Suspense>
-    ),
+    errorElement: <NotFoundPage />,
     children: [
-      {
-        path: PATHS.main,
-        element: (
-          <Suspense fallback={<Fallback />}>
-            <MainPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.profiles.detail,
-        element: (
-          <Suspense fallback={<Fallback />}>
-            <UserPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.profiles.create,
-        element: (
-          <Suspense fallback={<Fallback />}>
-            <UserProfileCreatePage />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.profiles.update,
-        element: (
-          <Suspense fallback={<Fallback />}>
-            <UserProfileUpdatePage />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.search,
-        element: (
-          <Suspense fallback={<Fallback />}>
-            <SearchPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.posts.detail,
-        element: (
-          <Suspense fallback={<Fallback />}>
-            <PostDetailPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.posts.create,
-        element: (
-          <Suspense fallback={<Fallback />}>
-            <PostCreatePage />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.posts.update,
-        element: (
-          <Suspense fallback={<Fallback />}>
-            <PostUpdatePage />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.likes,
-        element: (
-          <Suspense fallback={<Fallback />}>
-            <LikePage />
-          </Suspense>
-        ),
-      },
-      {
-        path: PATHS.bookmarks,
-        element: (
-          <Suspense fallback={<Fallback />}>
-            <BookmarkPage />
-          </Suspense>
-        ),
-      },
+      { path: PATHS.main, element: <MainPage /> },
+      { path: PATHS.profiles.detail, element: <UserPage /> },
+      { path: PATHS.profiles.create, element: <UserProfileCreatePage /> },
+      { path: PATHS.profiles.update, element: <UserProfileUpdatePage /> },
+      { path: PATHS.search, element: <SearchPage /> },
+      { path: PATHS.posts.detail, element: <PostDetailPage /> },
+      { path: PATHS.posts.create, element: <PostCreatePage /> },
+      { path: PATHS.posts.update, element: <PostUpdatePage /> },
+      { path: PATHS.likes, element: <LikePage /> },
+      { path: PATHS.bookmarks, element: <BookmarkPage /> },
     ],
   },
   { index: true, path: PATHS.logIn, element: <LogInPage /> },
-  {
-    path: PATHS.signUp,
-    element: (
-      <Suspense fallback={<Fallback />}>
-        <SignUpPage />
-      </Suspense>
-    ),
-  },
-  {
-    path: PATHS.findPassword,
-    element: (
-      <Suspense fallback={<Fallback />}>
-        <FindPasswordPage />
-      </Suspense>
-    ),
-  },
+  { path: PATHS.signUp, element: <SignUpPage /> },
+  { path: PATHS.findPassword, element: <FindPasswordPage /> },
 ]);
 
 const queryClient = new QueryClient();
@@ -144,7 +54,9 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <Suspense fallback={<Fallback />}>
+        <RouterProvider router={router} />
+      </Suspense>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
