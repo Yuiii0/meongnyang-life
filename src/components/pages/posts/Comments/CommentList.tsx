@@ -1,15 +1,23 @@
+import { CommentDto } from "@/lib/post/type";
 import CommentItem from "./CommentItem";
+interface CommentListProps {
+  comments: CommentDto[];
+  isMyPost: boolean;
+}
 
-const comments = [1, 2, 3];
-
-function CommentList() {
+function CommentList({ comments, isMyPost }: CommentListProps) {
+  console.log("CommentList", comments);
   return (
     <ul>
-      {comments.map((comment, idx) => (
-        <li key={idx}>
-          <CommentItem />
-        </li>
-      ))}
+      {comments && comments.length > 0 ? (
+        comments.map((comment) => (
+          <li key={comment.id}>
+            <CommentItem comment={comment} isMyPost={isMyPost} />
+          </li>
+        ))
+      ) : (
+        <li>No comments available</li>
+      )}
     </ul>
   );
 }
