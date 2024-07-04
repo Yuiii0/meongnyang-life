@@ -1,5 +1,4 @@
 import CommentForm from "@/components/pages/posts/Comments/CommentForm";
-import CommentList from "@/components/pages/posts/Comments/CommentList";
 import LikeToggleButton from "@/components/pages/posts/LikeButton/LikeToggleButton";
 import FollowToggleButton from "@/components/pages/user/follow/FollowButton/FollowToggleButton";
 import UserCard from "@/components/pages/user/userList/UserCard";
@@ -97,7 +96,6 @@ const PostDetailPage = () => {
       </section>
       <section>
         <CommentForm />
-        <CommentList />
       </section>
     </Page>
   );
