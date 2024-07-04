@@ -12,7 +12,6 @@ import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { UserRoundCog } from "lucide-react";
 import { Link } from "react-router-dom";
 import FollowToggleButton from "../follow/FollowButton/FollowToggleButton";
-import FollowModal from "../follow/FollowModal";
 
 interface UserProfileCardProps {
   userProfile: UserProfile;
@@ -80,7 +79,7 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
       <div className="text-sm text-gray-600 whitespace-pre-wrap">
         {introduction}
       </div>
-      <FollowModal followers={followers || []} followings={followings || []} />
+      {/* <FollowModal followers={followers || []} followings={followings || []} /> */}
     </div>
   );
 }

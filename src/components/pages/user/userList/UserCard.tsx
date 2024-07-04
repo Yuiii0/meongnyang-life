@@ -18,7 +18,7 @@ function UserCard({ userId, isDate }: UserCardProps) {
         </div>
         <div className="pl-4">
           <div className="font-semibold">{userProfile?.nickName}</div>
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-gray-500 text-start">
             {isDate ? isDate : userProfile?.breed}
           </div>
         </div>
