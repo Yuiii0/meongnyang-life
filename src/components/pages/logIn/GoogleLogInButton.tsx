@@ -1,4 +1,5 @@
 import { googleLogin } from "@/api/auth/auth.api";
+import { PATHS } from "@/pages/route";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +11,7 @@ function GoogleLogInButton() {
     const user = await googleLogin();
     if (user) {
       setUser(user);
-      navigate("/main");
+      navigate(PATHS.main);
     }
   };
 
