@@ -4,7 +4,7 @@ const comments = [1, 2, 3];
 
 function CommentList() {
   return (
-    <ul className="pt-1">
+    <ul>
       {comments.map((comment, idx) => (
         <li key={idx}>
           <CommentItem />
