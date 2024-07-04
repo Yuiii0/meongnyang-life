@@ -1,12 +1,20 @@
+import useCreateComment from "@/lib/post/hooks/comments/useCreateComment";
 import EmojiPicker from "emoji-picker-react";
 import { Smile } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
-function CommentForm() {
+interface CommentFormProps {
+  postId: string;
+  userId: string;
+}
+
+function CommentForm({ postId, userId }: CommentFormProps) {
   const [showPicker, setShowPicker] = useState(false);
   const pickerRef = useRef<HTMLDivElement>(null);
   const commentInputRef = useRef<HTMLInputElement>(null);
   const MAX_COMMENT_LENGTH = 200;
+
+  const { mutate: createComment } = useCreateComment(postId, userId);
 
   const handleEmojiClick = (event: any) => {
     if (commentInputRef.current) {
@@ -15,7 +23,7 @@ function CommentForm() {
     }
   };
 
-  const handleSubmitComment = (e: React.FormEvent) => {
+  const handleSubmitComment = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (commentInputRef.current) {
@@ -32,7 +40,13 @@ function CommentForm() {
       }
 
       // form 제출 로직 추가
-      commentInputRef.current.value = "";
+
+      try {
+        createComment(inputValue);
+        commentInputRef.current.value = "";
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -63,7 +77,7 @@ function CommentForm() {
             ref={commentInputRef}
             type="text"
             placeholder="댓글을 남겨보세요"
-            className="w-full px-4 py-2 text-sm text-gray-600 transition-all bg-gray-100 border border-gray-100 rounded-lg outline-none focus:border-gray-700 focus:bg-white"
+            className="w-full px-4 py-2 pr-10 text-sm text-gray-600 transition-all bg-gray-100 border border-gray-100 rounded-lg outline-none focus:border-gray-700 focus:bg-white"
           />
           <Smile
             size={20}
