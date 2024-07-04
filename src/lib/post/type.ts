@@ -17,3 +17,12 @@ export type PostFormData = {
   content: string;
   images: string[];
 };
+
+export type CommentDto = {
+  id?: string;
+  postId: string;
+  userId: string;
+  content: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+};
