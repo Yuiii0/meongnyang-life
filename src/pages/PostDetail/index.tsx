@@ -1,17 +1,21 @@
 import CommentForm from "@/components/pages/posts/Comments/CommentForm";
-import CommentList from "@/components/pages/posts/Comments/CommentList";
+import CommentItem from "@/components/pages/posts/Comments/CommentItem";
 import LikeToggleButton from "@/components/pages/posts/LikeButton/LikeToggleButton";
 import FollowToggleButton from "@/components/pages/user/follow/FollowButton/FollowToggleButton";
 import UserCard from "@/components/pages/user/userList/UserCard";
 import Page from "@/components/ui/Page";
 import { removeImageFromStorage } from "@/lib/post/api";
+import { useGetCommentsByPostId } from "@/lib/post/hooks/comments/useGetCommentsByPostId";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
+import { CommentDto } from "@/lib/post/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { Timestamp } from "firebase/firestore";
 import { FilePenLine, MessageSquare, Trash2 } from "lucide-react";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../route";
 
@@ -22,6 +26,23 @@ const PostDetailPage = () => {
   const { data: post } = useGetPostByPostId(postId || "");
   const { mutate: deletePost } = useDeletePost();
 
+  const {
+    data: comments,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetCommentsByPostId(postId || "");
+
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+  });
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
+
   const isMyPost = user?.uid == post?.userId;
 
   const timeStamp = new Timestamp(
@@ -30,7 +51,7 @@ const PostDetailPage = () => {
   );
 
   if (!post || !postId) {
-    return <div>suspense...</div>;
+    return <div>포스트 가져오는중...</div>;
   }
   const handleDeletePost = async () => {
     try {
@@ -96,8 +117,27 @@ const PostDetailPage = () => {
         </div>
       </section>
       <section>
-        <CommentForm />
-        <CommentList />
+        <CommentForm postId={postId} userId={user?.uid || ""} />
+        {/* {comments && (
+          <>
+            <CommentList comments={comments} isMyPost={isMyPost} />
+            <div ref={ref}>{isFetchingNextPage && <p>댓글 로딩중</p>}</div>
+          </>
+        )} */}
+
+        <ul>
+          {comments.pages.map((page) =>
+            page?.map((comment: CommentDto) => {
+              // 마지막 댓글에 ref를 추가합니다.
+              return (
+                <li key={comment.id}>
+                  <CommentItem comment={comment} isMyPost={isMyPost} />
+                </li>
+              );
+            })
+          )}
+          <div ref={ref}>{isFetchingNextPage && "Loading more..."}</div>
+        </ul>
       </section>
     </Page>
   );
