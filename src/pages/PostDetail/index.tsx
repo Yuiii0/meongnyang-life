@@ -77,7 +77,7 @@ const PostDetailPage = () => {
   );
 
   if (!post || !postId) {
-    return <LoadingSpinner text="포스트ㅡㅡ를 가져오는 중 입니다" />;
+    return <LoadingSpinner text="포스트를 가져오는 중 입니다" />;
   }
   const handleDeletePost = async () => {
     try {
