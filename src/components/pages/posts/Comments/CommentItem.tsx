@@ -1,6 +1,7 @@
 import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
-import useDeleteComment from "@/lib/post/hooks/comments/useDeleteComment";
-import { CommentDto } from "@/lib/post/type";
+import useDeleteComment from "@/lib/comment/hooks/useDeleteComment";
+import { CommentDto } from "@/lib/comment/type";
+
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatTimestamp } from "@/utils/formatTimestamp";

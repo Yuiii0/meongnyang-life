@@ -1,4 +1,4 @@
-import { CommentDto } from "@/lib/post/type";
+import { CommentDto } from "@/lib/comment/type";
 import CommentItem from "./CommentItem";
 interface CommentListProps {
   comments: CommentDto[];

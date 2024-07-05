@@ -1,8 +1,9 @@
+import { POST } from "@/lib/post/key";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
-import { createComment } from "../../api";
-import { COMMENT, POST } from "../../key";
-import { CommentDto } from "../../type";
+import { createComment } from "../api";
+import { COMMENT } from "../key";
+import { CommentDto } from "../type";
 
 export default function useCreateComment(postId: string, userId: string) {
   const queryClient = useQueryClient();

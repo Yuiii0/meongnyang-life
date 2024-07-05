@@ -6,10 +6,12 @@ import UserCard from "@/components/pages/user/userList/UserCard";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
 import { removeImageFromStorage } from "@/lib/post/api";
-import { useGetCommentsByPostId } from "@/lib/post/hooks/comments/useGetCommentsByPostId";
+
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
-import { CommentDto } from "@/lib/post/type";
+
+import { useGetCommentsByPostId } from "@/lib/comment/hooks/useGetCommentsByPostId";
+import { CommentDto } from "@/lib/comment/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";

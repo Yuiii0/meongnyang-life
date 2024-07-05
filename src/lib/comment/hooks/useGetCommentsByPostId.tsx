@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getCommentsByPostId } from "../../api";
-import { COMMENT } from "../../key";
+import { getCommentsByPostId } from "../api";
+import { COMMENT } from "../key";
 
 export const useGetCommentsByPostId = (postId: string) => {
   const PAGE_SIZE = 5;

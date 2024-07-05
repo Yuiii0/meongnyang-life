@@ -1,4 +1,4 @@
-import useCreateComment from "@/lib/post/hooks/comments/useCreateComment";
+import useCreateComment from '@/lib/comment/hooks/useCreateComment';
 import EmojiPicker from "emoji-picker-react";
 import { Smile } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
