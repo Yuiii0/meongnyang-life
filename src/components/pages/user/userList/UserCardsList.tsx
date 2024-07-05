@@ -1,14 +1,20 @@
-// const arr = [1, 2, 3, 4, 5, 5, 5, 5, 5, 5];
+import UserCard from "./UserCard";
 
-function UserCardsList() {
+interface UserCardsListProps {
+  userIdList: string[];
+}
+
+function UserCardsList({ userIdList }: UserCardsListProps) {
   return (
-    <ul>
-      {/* {arr.map((a) => (
-        <li>
-          <UserCard />
-        </li>
-      ))} */}
-    </ul>
+    <div>
+      <ul>
+        {userIdList.map((userId) => (
+          <li key={userId}>
+            <UserCard userId={userId} />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
