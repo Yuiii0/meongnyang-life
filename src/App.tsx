@@ -3,7 +3,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Suspense, lazy } from "react";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Fallback from "./components/ui/Fallback";
-import Navbar from "./components/ui/Navbar";
+import Header from "./components/ui/Header";
 import LogInPage from "./pages/LogIn";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { PATHS } from "./pages/route";
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <ProtectedRoute>
-        <Navbar />
+        <Header />
         <Outlet />
       </ProtectedRoute>
     ),
