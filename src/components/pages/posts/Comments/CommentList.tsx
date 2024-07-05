@@ -6,7 +6,6 @@ interface CommentListProps {
 }
 
 function CommentList({ comments, isMyPost }: CommentListProps) {
-  console.log("CommentList", comments);
   return (
     <ul>
       {comments && comments.length > 0 ? (
