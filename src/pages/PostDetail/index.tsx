@@ -1,5 +1,5 @@
 import CommentForm from "@/components/pages/posts/Comments/CommentForm";
-import CommentItem from "@/components/pages/posts/Comments/CommentItem";
+import CommentList from "@/components/pages/posts/Comments/CommentList";
 import LikeToggleButton from "@/components/pages/posts/LikeButton/LikeToggleButton";
 import FollowToggleButton from "@/components/pages/user/follow/FollowButton/FollowToggleButton";
 import UserCard from "@/components/pages/user/userList/UserCard";
@@ -26,12 +26,9 @@ const PostDetailPage = () => {
   const { data: post } = useGetPostByPostId(postId || "");
   const { mutate: deletePost } = useDeletePost();
 
-  const {
-    data: comments,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useGetCommentsByPostId(postId || "");
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useGetCommentsByPostId(postId || "");
+  const comments = data?.pages.flatMap((page) => page) || [];
 
   const { ref, inView } = useInView({
     threshold: 0.5,
@@ -118,14 +115,17 @@ const PostDetailPage = () => {
       </section>
       <section>
         <CommentForm postId={postId} userId={user?.uid || ""} />
-        {/* {comments && (
+        {comments && (
           <>
-            <CommentList comments={comments} isMyPost={isMyPost} />
+            <CommentList
+              comments={comments as CommentDto[]}
+              isMyPost={isMyPost}
+            />
             <div ref={ref}>{isFetchingNextPage && <p>댓글 로딩중</p>}</div>
           </>
-        )} */}
+        )}
 
-        <ul>
+        {/* <ul>
           {comments.pages.map((page) =>
             page?.map((comment: CommentDto) => {
               // 마지막 댓글에 ref를 추가합니다.
@@ -137,7 +137,7 @@ const PostDetailPage = () => {
             })
           )}
           <div ref={ref}>{isFetchingNextPage && "Loading more..."}</div>
-        </ul>
+        </ul> */}
       </section>
     </Page>
   );
