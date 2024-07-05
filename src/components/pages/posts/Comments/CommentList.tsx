@@ -3,15 +3,20 @@ import CommentItem from "./CommentItem";
 interface CommentListProps {
   comments: CommentDto[];
   isMyPost: boolean;
+  onEditComment: (comment: CommentDto) => void;
 }
 
-function CommentList({ comments, isMyPost }: CommentListProps) {
+function CommentList({ comments, isMyPost, onEditComment }: CommentListProps) {
   return (
     <ul>
       {comments && comments.length > 0 ? (
         comments.map((comment) => (
           <li key={comment.id}>
-            <CommentItem comment={comment} isMyPost={isMyPost} />
+            <CommentItem
+              comment={comment}
+              isMyPost={isMyPost}
+              onEditComment={onEditComment}
+            />
           </li>
         ))
       ) : (

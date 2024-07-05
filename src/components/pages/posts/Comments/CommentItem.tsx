@@ -12,10 +12,11 @@ import React from "react";
 interface CommentItemProps {
   comment: CommentDto;
   isMyPost: boolean;
+  onEditComment: (comment: CommentDto) => void;
 }
 
 const CommentItem: React.FC<CommentItemProps> = React.memo(
-  ({ comment, isMyPost }) => {
+  ({ comment, isMyPost, onEditComment }) => {
     const { user } = useAuthStore();
     const { data: userInfo } = useGetUserProfile(comment.userId);
     const isMyComment = comment.userId === user?.uid;
@@ -30,6 +31,10 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
       } catch (error) {
         alert("오류가 발생하였습니다. 다시 시도해주세요");
       }
+    };
+
+    const handleEditComment = () => {
+      onEditComment(comment);
     };
 
     const timeStamp = new Timestamp(
@@ -57,7 +62,9 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
                 {formatTimestamp(timeStamp)}
               </p>
               <div className="flex items-start ml-auto mr-4 text-xs text-gray-500 gap-x-2">
-                {isMyComment && <button>수정</button>}
+                {isMyComment && (
+                  <button onClick={handleEditComment}>수정</button>
+                )}
                 {(isMyComment || isMyPost) && (
                   <button onClick={handleDeleteComment}>삭제</button>
                 )}

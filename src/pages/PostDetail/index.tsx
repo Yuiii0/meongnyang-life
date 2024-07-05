@@ -17,7 +17,7 @@ import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { Timestamp } from "firebase/firestore";
 import { FilePenLine, MessageSquare, Trash2 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../route";
@@ -28,6 +28,10 @@ const PostDetailPage = () => {
   const { user } = useAuthStore();
   const { data: post } = useGetPostByPostId(postId || "");
   const { mutate: deletePost } = useDeletePost();
+
+  const commentFormRef = useRef<HTMLInputElement>(null);
+  const [isEdit, setIsEdit] = useState(false);
+  const [commentId, setCommentId] = useState<string | null>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetCommentsByPostId(postId || "");
@@ -44,14 +48,13 @@ const PostDetailPage = () => {
   }, [inView, hasNextPage, fetchNextPage]);
 
   const isMyPost = user?.uid == post?.userId;
-
   const timeStamp = new Timestamp(
     post?.createdAt.seconds,
     post?.createdAt.nanoseconds
   );
 
   if (!post || !postId) {
-    return <div>포스트 가져오는중...</div>;
+    return <LoadingSpinner text="포스트를 가져오는 중 입니다" />;
   }
   const handleDeletePost = async () => {
     try {
@@ -69,6 +72,26 @@ const PostDetailPage = () => {
     } catch (error) {
       alert("포스트 삭제 실패하였습니다. 다시 시도해주세요");
     }
+  };
+
+  const handleEditComment = (comment: CommentDto) => {
+    if (commentFormRef.current) {
+      commentFormRef.current.value = comment.content;
+    }
+    setCommentId(comment.id || "");
+    setIsEdit(true);
+    if (commentFormRef.current) {
+      commentFormRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      commentFormRef.current.focus();
+    }
+  };
+
+  const handleSubmitComment = () => {
+    setCommentId(null);
+    setIsEdit(false);
   };
 
   return (
@@ -117,12 +140,20 @@ const PostDetailPage = () => {
         </div>
       </section>
       <section>
-        <CommentForm postId={postId} userId={user?.uid || ""} />
+        <CommentForm
+          postId={postId}
+          userId={user?.uid || ""}
+          inputRef={commentFormRef}
+          isEdit={isEdit}
+          commentId={commentId || ""}
+          onSubmitComment={handleSubmitComment}
+        />
         {comments && (
           <>
             <CommentList
               comments={comments as CommentDto[]}
               isMyPost={isMyPost}
+              onEditComment={handleEditComment}
             />
             <div ref={ref}>
               {isFetchingNextPage && (
