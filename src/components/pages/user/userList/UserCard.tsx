@@ -1,6 +1,6 @@
-import { useModalStore } from "@/hooks/Modal/useModal";
 import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
+import { useModalStore } from '@/stores/modal/useModalStore';
 import { useNavigate } from "react-router-dom";
 
 interface UserCardProps {

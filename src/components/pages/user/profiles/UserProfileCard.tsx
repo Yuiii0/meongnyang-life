@@ -1,4 +1,3 @@
-import { useModalStore } from "@/hooks/Modal/useModal";
 import { useGetFollowerList } from "@/lib/follow/hooks/useGetFollowerList";
 import { useGetFollowingList } from "@/lib/follow/hooks/useGetFollowingList";
 import { UserProfile } from "@/lib/user/type";
