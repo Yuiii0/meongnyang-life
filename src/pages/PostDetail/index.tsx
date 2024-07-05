@@ -3,6 +3,7 @@ import CommentList from "@/components/pages/posts/Comments/CommentList";
 import LikeToggleButton from "@/components/pages/posts/LikeButton/LikeToggleButton";
 import FollowToggleButton from "@/components/pages/user/follow/FollowButton/FollowToggleButton";
 import UserCard from "@/components/pages/user/userList/UserCard";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
 import { removeImageFromStorage } from "@/lib/post/api";
 import { useGetCommentsByPostId } from "@/lib/post/hooks/comments/useGetCommentsByPostId";
@@ -121,23 +122,13 @@ const PostDetailPage = () => {
               comments={comments as CommentDto[]}
               isMyPost={isMyPost}
             />
-            <div ref={ref}>{isFetchingNextPage && <p>댓글 로딩중</p>}</div>
+            <div ref={ref}>
+              {isFetchingNextPage && (
+                <LoadingSpinner text="댓글을 가져오는 중입니다 🐾" />
+              )}
+            </div>
           </>
         )}
-
-        {/* <ul>
-          {comments.pages.map((page) =>
-            page?.map((comment: CommentDto) => {
-              // 마지막 댓글에 ref를 추가합니다.
-              return (
-                <li key={comment.id}>
-                  <CommentItem comment={comment} isMyPost={isMyPost} />
-                </li>
-              );
-            })
-          )}
-          <div ref={ref}>{isFetchingNextPage && "Loading more..."}</div>
-        </ul> */}
       </section>
     </Page>
   );
