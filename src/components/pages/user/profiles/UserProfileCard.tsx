@@ -53,8 +53,8 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
         </div>
         <div className="flex-grow ml-6">
           <div className="flex flex-col gap-y-1">
-            <div className="flex justify-between">
-              <div className="text-lg text-gray-900 ptfont-semibold ">
+            <div className="flex items-center justify-between">
+              <div className="text-lg font-semibold text-gray-800 ">
                 {nickName}
               </div>
               <div className="">
