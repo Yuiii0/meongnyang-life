@@ -17,12 +17,8 @@ function LikeToggleButton({ postId }: LikeToggleButtonProps) {
   const { user } = useAuthStore();
   const userId = user?.uid;
 
-  const { data: isLike, isLoading } = useGetPostLikeStatus(
-    postId,
-    userId || ""
-  );
+  const { data: isLike } = useGetPostLikeStatus(postId, userId || "");
   const { data: likeCount } = useGetPostLikeCount(postId);
-
   const { mutate: createLikeReaction } = useCreatePostLikeReaction(
     postId,
     userId || ""
@@ -39,9 +35,6 @@ function LikeToggleButton({ postId }: LikeToggleButtonProps) {
       createLikeReaction();
     }
   }, 300);
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="flex items-center text-gray-600 gap-x-2">
