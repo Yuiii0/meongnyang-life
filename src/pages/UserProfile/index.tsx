@@ -1,7 +1,9 @@
+import SimplePostCardsList from "@/components/pages/posts/SimplePostCardsList";
 import UserProfileCard from "@/components/pages/user/profiles/UserProfileCard";
-import Modal from "@/components/ui/Modal";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
 import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
+import { useGetPostsByUserId } from "@/lib/post/hooks/useGetPostsByUserId";
 import { useParams } from "react-router-dom";
 
 function UserPage() {
@@ -12,8 +14,9 @@ function UserPage() {
     isLoading,
     isError,
   } = useGetUserProfile(userId || "");
+  const { data: posts } = useGetPostsByUserId(userId || "");
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner />;
   if (isError || !userProfile) {
     return <div>유저 정보가 없습니다.</div>;
   }
@@ -21,7 +24,7 @@ function UserPage() {
   return (
     <Page>
       <UserProfileCard userProfile={userProfile} />
-      <Modal />
+      <SimplePostCardsList posts={posts || []} />
     </Page>
   );
 }

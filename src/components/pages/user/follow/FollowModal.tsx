@@ -1,11 +1,36 @@
+import { useModalStore } from "@/hooks/Modal/useModal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
+import { ChevronLeft } from "lucide-react";
+import { useEffect, useState } from "react";
+import Modal from "react-modal";
+import UserCardsList from "../userList/UserCardsList";
 
-const count = 10;
-function FollowModal() {
-  // const [isFollowing, setIsFollowing] = useState(true);
+interface FollowModalProps {
+  followings: string[];
+  followers: string[];
+  nickname: string;
+  initialTab: string;
+}
+
+function FollowModal({
+  followings,
+  followers,
+  nickname,
+  initialTab,
+}: FollowModalProps) {
+  const [activeTab, setActiveTab] = useState(initialTab);
+  const { isOpen, closeModal } = useModalStore();
+
+  const handleChangeTab = (value: string) => {
+    setActiveTab(value);
+  };
+
+  useEffect(() => {
+    setActiveTab(initialTab);
+  }, [initialTab]);
 
   return (
-    <div className="w-full">
+    <div className="w-screen ">
       <Tabs
         defaultValue="following"
         className="w-screen text-center text-gray-500"

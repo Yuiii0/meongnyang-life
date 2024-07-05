@@ -1,7 +1,7 @@
 import LogInForm from "@/components/pages/logIn/LogInForm";
 import NavigationLink from "@/components/ui/NavigationLink";
 import Page from "@/components/ui/Page";
-import GoogleLogInButton from "./GoogleLogInButton";
+import GoogleLogInButton from "../../components/pages/logIn/GoogleLogInButton";
 
 function LogInPage() {
   return (
