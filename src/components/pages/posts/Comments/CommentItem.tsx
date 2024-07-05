@@ -57,7 +57,7 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
               </p>
               <div className="flex items-start ml-auto mr-4 text-xs text-gray-500 gap-x-2">
                 {isMyComment && <button>수정</button>}
-                {isMyPost && (
+                {(isMyComment || isMyPost) && (
                   <button onClick={handleDeleteComment}>삭제</button>
                 )}
               </div>
