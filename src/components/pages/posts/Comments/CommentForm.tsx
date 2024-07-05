@@ -39,8 +39,6 @@ function CommentForm({ postId, userId }: CommentFormProps) {
         return;
       }
 
-      // form 제출 로직 추가
-
       try {
         createComment(inputValue);
         commentInputRef.current.value = "";
