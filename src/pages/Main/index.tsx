@@ -1,4 +1,5 @@
 import DetailedPostCard from "@/components/pages/posts/DetailedPostCard";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { useGetAllPosts } from "@/lib/post/hooks/useGetAllPosts";
 import { postDto } from "@/lib/post/type";
 import { useEffect } from "react";
@@ -40,7 +41,9 @@ function MainPage() {
         </div>
       ))}
       <div ref={ref} style={{ margin: "20px 0", textAlign: "center" }}>
-        {isFetchingNextPage ? "Loading more..." : "마지막 포스트입니다."}
+        {isFetchingNextPage && (
+          <LoadingSpinner text="포스트를 가져오는 중입니다🐾" />
+        )}
       </div>
     </div>
   );

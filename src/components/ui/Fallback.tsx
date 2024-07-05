@@ -1,5 +1,7 @@
+import LoadingSpinner from "./LoadingSpinner";
+
 function Fallback() {
-  return <div>Fallback...</div>;
+  return <LoadingSpinner />;
 }
 
 export default Fallback;
