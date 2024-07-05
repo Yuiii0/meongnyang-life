@@ -1,3 +1,4 @@
+import { useModalStore } from "@/hooks/Modal/useModal";
 import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useNavigate } from "react-router-dom";
@@ -10,10 +11,12 @@ interface UserCardProps {
 function UserCard({ userId, isDate }: UserCardProps) {
   const { data: userProfile } = useGetUserProfile(userId || "");
   const navigate = useNavigate();
+  const { closeModal } = useModalStore();
 
   const handleClickUserCard = (e: React.MouseEvent) => {
     e.stopPropagation();
     navigate(`/profiles/${userId}`);
+    closeModal();
   };
 
   return (

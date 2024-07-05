@@ -1,3 +1,4 @@
+import { useModalStore } from "@/hooks/Modal/useModal";
 import { useGetFollowerList } from "@/lib/follow/hooks/useGetFollowerList";
 import { useGetFollowingList } from "@/lib/follow/hooks/useGetFollowingList";
 import { UserProfile } from "@/lib/user/type";
@@ -31,14 +32,12 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("follower");
+  const { openModal } = useModalStore();
 
   const handleOpenModal = (tab: string) => {
+    openModal();
     setActiveTab(tab);
     setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
   };
 
   return (
@@ -106,8 +105,6 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
           followers={followers || []}
           nickname={nickName}
           initialTab={activeTab}
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
         />
       )}
     </div>

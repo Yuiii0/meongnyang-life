@@ -1,3 +1,4 @@
+import { useModalStore } from "@/hooks/Modal/useModal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -9,8 +10,6 @@ interface FollowModalProps {
   followers: string[];
   nickname: string;
   initialTab: string;
-  isOpen: boolean;
-  onClose: () => void;
 }
 
 function FollowModal({
@@ -18,10 +17,9 @@ function FollowModal({
   followers,
   nickname,
   initialTab,
-  isOpen,
-  onClose,
 }: FollowModalProps) {
   const [activeTab, setActiveTab] = useState(initialTab);
+  const { isOpen, closeModal } = useModalStore();
 
   const handleChangeTab = (value: string) => {
     setActiveTab(value);
@@ -34,14 +32,14 @@ function FollowModal({
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={onClose}
+      onRequestClose={closeModal}
       className="fixed inset-0 z-50 flex items-center justify-center bg-white"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
       ariaHideApp={false}
     >
       <div className="relative w-full h-full p-4">
         <div className="flex items-center justify-between">
-          <button onClick={onClose}>
+          <button onClick={closeModal}>
             <ChevronLeft />
           </button>
           <h5 className="flex-grow py-5 text-lg font-semibold text-center">
