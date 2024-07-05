@@ -3,12 +3,18 @@ import { updateComment } from "../api";
 import { COMMENT } from "../key";
 import { CommentDto } from "../type";
 
-export default function useUpdateComment(postId: string, commentId: string) {
+export default function useUpdateComment(postId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (content: string) => updateComment(postId, commentId, content),
-    onMutate: async (content) => {
+    mutationFn: ({
+      commentId,
+      content,
+    }: {
+      commentId: string;
+      content: string;
+    }) => updateComment(postId, commentId, content),
+    onMutate: async ({ commentId, content }) => {
       await queryClient.cancelQueries({ queryKey: [COMMENT, postId] });
       const previousComments = queryClient.getQueryData([COMMENT, postId]);
 
