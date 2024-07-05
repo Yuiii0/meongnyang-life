@@ -1,5 +1,4 @@
 import CommentForm from "@/components/pages/posts/Comments/CommentForm";
-import CommentList from "@/components/pages/posts/Comments/CommentList";
 import LikeToggleButton from "@/components/pages/posts/LikeButton/LikeToggleButton";
 import FollowToggleButton from "@/components/pages/user/follow/FollowButton/FollowToggleButton";
 import UserCard from "@/components/pages/user/userList/UserCard";
@@ -10,6 +9,7 @@ import { removeImageFromStorage } from "@/lib/post/api";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 
+import CommentList from "@/components/pages/posts/Comments/CommentList";
 import { useGetCommentsByPostId } from "@/lib/comment/hooks/useGetCommentsByPostId";
 import { CommentDto } from "@/lib/comment/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
@@ -17,7 +17,7 @@ import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { Timestamp } from "firebase/firestore";
 import { FilePenLine, MessageSquare, Trash2 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../route";
@@ -35,10 +35,13 @@ const PostDetailPage = () => {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetCommentsByPostId(postId || "");
-  const comments = data?.pages.flatMap((page) => page) || [];
+  const comments = useMemo(
+    () => data?.pages.flatMap((page) => page) || [],
+    [data]
+  );
 
   const { ref, inView } = useInView({
-    threshold: 0.5,
+    threshold: 0.8,
   });
 
   useEffect(() => {
@@ -47,6 +50,26 @@ const PostDetailPage = () => {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
+  const handleEditComment = useCallback((comment: CommentDto) => {
+    if (commentFormRef.current) {
+      commentFormRef.current.value = comment.content;
+    }
+    setCommentId(comment.id || "");
+    setIsEdit(true);
+    if (commentFormRef.current) {
+      commentFormRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      commentFormRef.current.focus();
+    }
+  }, []);
+
+  const handleSubmitComment = useCallback(() => {
+    setCommentId(null);
+    setIsEdit(false);
+  }, []);
+
   const isMyPost = user?.uid == post?.userId;
   const timeStamp = new Timestamp(
     post?.createdAt.seconds,
@@ -54,7 +77,7 @@ const PostDetailPage = () => {
   );
 
   if (!post || !postId) {
-    return <LoadingSpinner text="포스트를 가져오는 중 입니다" />;
+    return <LoadingSpinner text="포스트ㅡㅡ를 가져오는 중 입니다" />;
   }
   const handleDeletePost = async () => {
     try {
@@ -72,26 +95,6 @@ const PostDetailPage = () => {
     } catch (error) {
       alert("포스트 삭제 실패하였습니다. 다시 시도해주세요");
     }
-  };
-
-  const handleEditComment = (comment: CommentDto) => {
-    if (commentFormRef.current) {
-      commentFormRef.current.value = comment.content;
-    }
-    setCommentId(comment.id || "");
-    setIsEdit(true);
-    if (commentFormRef.current) {
-      commentFormRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-      commentFormRef.current.focus();
-    }
-  };
-
-  const handleSubmitComment = () => {
-    setCommentId(null);
-    setIsEdit(false);
   };
 
   return (
@@ -162,6 +165,22 @@ const PostDetailPage = () => {
             </div>
           </>
         )}
+        {/* <ul>
+          {comments.pages.map((page) =>
+            page?.map((comment: CommentDto) => {
+              return (
+                <li key={comment.id}>
+                  <CommentItem
+                    comment={comment}
+                    isMyPost={isMyPost}
+                    onEditComment={handleEditComment}
+                  />
+                </li>
+              );
+            })
+          )}
+          <div ref={ref}>{isFetchingNextPage && "Loading more..."}</div>
+        </ul> */}
       </section>
     </Page>
   );
