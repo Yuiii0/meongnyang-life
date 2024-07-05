@@ -6,7 +6,8 @@ export const useGetCommentsByPostId = (postId: string) => {
   const PAGE_SIZE = 5;
   return useInfiniteQuery({
     queryKey: [COMMENT, postId],
-    queryFn: ({ pageParam = null }) => getCommentsByPostId(postId, pageParam),
+    queryFn: ({ pageParam = null }) =>
+      getCommentsByPostId(postId, pageParam as number | null),
     initialPageParam: null,
     getNextPageParam: (lastPage) => {
       if (lastPage.length < PAGE_SIZE) {

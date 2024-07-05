@@ -207,9 +207,9 @@ export const getLikedPostsByUserId = async (userId: string) => {
 export const getCommentsByPostId = async (
   postId: string,
   pageParam: number | null
-) => {
+): Promise<DocumentData[]> => {
   const PAGE_SIZE = 5;
-  const comments: CommentDto[] = [];
+  const comments: DocumentData[] = [];
   let commentsQuery = query(
     collection(db, "posts", postId, "comments"),
     orderBy("createdAt", "desc")
