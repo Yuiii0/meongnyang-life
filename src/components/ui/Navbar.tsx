@@ -1,21 +1,16 @@
-import { auth, logOut, withdrawalUser } from "@/api/auth/auth.api";
+import { logOut, withdrawalUser } from "@/api/auth/auth.api";
 import { PATHS } from "@/pages/route";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
-import { User, onAuthStateChanged } from "firebase/auth";
-import { useEffect } from "react";
+import { useModalStore } from "@/stores/modal/useModalStore";
+import { User } from "firebase/auth";
+import { ChevronLeft } from "lucide-react";
+import Modal from "react-modal";
 import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const { user } = useAuthStore();
   const navigate = useNavigate();
-  const { user, setUser } = useAuthStore();
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-      }
-    });
-  }, [setUser]);
+  const { isOpen, closeModal } = useModalStore();
 
   const handleClickLogOut = async () => {
     try {
@@ -33,20 +28,51 @@ function Navbar() {
   };
 
   return (
-    <div>
-      <Link to="/main" className="text-3xl font-bold">
-        🐾 멍냥생활
-      </Link>
-      {user && (
-        <div>
-          <Link to={`/profiles/${user?.uid}`}>내 프로필</Link>
-          <Link to={"/posts/create"}>Post 작성</Link>
-          <button onClick={handleClickLogOut}>로그아웃</button>
-          <button onClick={() => handleClickDeleteAccount}>회원 탈퇴</button>
-          <Link to={`/likes/${user?.uid}`}>좋아요 페이지</Link>
-        </div>
-      )}
-    </div>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={closeModal}
+      className="fixed inset-0 z-50 flex justify-center bg-white"
+      overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+      ariaHideApp={false}
+    >
+      <nav>
+        <button onClick={closeModal}>
+          <ChevronLeft />
+        </button>
+        <ul>
+          <li>
+            <Link to={`/profiles/${user?.uid}`} onClick={closeModal}>
+              내 프로필
+            </Link>
+          </li>
+          <li>
+            <Link to={PATHS.posts.create} onClick={closeModal}>
+              Post 작성
+            </Link>
+          </li>
+          <li>
+            <Link to={`/likes/${user?.uid}`} onClick={closeModal}>
+              좋아요 페이지
+            </Link>
+          </li>
+          <li>
+            <Link to={`/bookmarks/${user?.uid}`} onClick={closeModal}>
+              저장한 게시글
+            </Link>
+          </li>
+          <div>
+            <li>
+              <button onClick={handleClickLogOut}>로그아웃</button>
+            </li>
+            <li>
+              <button onClick={() => handleClickDeleteAccount}>
+                회원 탈퇴
+              </button>
+            </li>
+          </div>
+        </ul>
+      </nav>
+    </Modal>
   );
 }
 
