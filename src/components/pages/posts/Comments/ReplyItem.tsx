@@ -5,6 +5,7 @@ import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { Timestamp } from "firebase/firestore";
+import { CornerDownRight } from "lucide-react";
 import CommentLikeButton from "./LikeButton/CommentLikeButton";
 
 interface ReplyItemProps {
@@ -44,19 +45,22 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
   );
 
   return (
-    <div className="flex py-4 bg-red-50">
+    <div className="flex w-full py-4 pl-2 ">
+      <CornerDownRight size={14} className="mt-2 mr-3" />
       <div className="flex flex-1 gap-x-3">
         <div>
           <img
             src={userInfo?.profileImg || DEFAULT_PROFILE_IMG_CAT}
             alt="profile-img"
-            width={50}
-            height={50}
+            width={38}
+            height={38}
           />
         </div>
         <div className="w-full">
           <div className="flex items-center gap-x-2">
-            <p className="font-semibold text-gray-900">{userInfo?.nickName}</p>
+            <p className="text-sm font-semibold text-gray-900">
+              {userInfo?.nickName}
+            </p>
             <p className="text-xs text-gray-400">
               {formatTimestamp(timeStamp)}
             </p>
@@ -68,12 +72,12 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
               )}
             </div>
           </div>
-          <p className="w-full pr-1 text-sm text-gray-600 whitespace-pre-wrap">
+          <p className="w-full py-0.5 pr-1 text-sm text-gray-600 whitespace-pre-wrap">
             {reply.content}
           </p>
         </div>
       </div>
-      <div className="self-start pt-1 text-gray-600">
+      <div className="self-start pt-0.5 text-gray-600">
         <CommentLikeButton />
       </div>
     </div>

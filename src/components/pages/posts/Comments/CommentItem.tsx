@@ -52,54 +52,58 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
     );
 
     return (
-      <div className="flex py-4">
-        <div className="flex flex-1 gap-x-3">
-          <div>
-            <img
-              src={userInfo?.profileImg || DEFAULT_PROFILE_IMG_CAT}
-              alt="profile-img"
-              width={40}
-              height={40}
-            />
-          </div>
-          <div className="w-full">
-            <div className="flex items-center gap-x-2">
-              <p className="font-semibold text-[15px] text-gray-900">
-                {userInfo?.nickName}
-              </p>
-              <p className="text-xs text-gray-500">
-                {formatTimestamp(timeStamp)}
-              </p>
-              {isEdited && <p className="pl-2 text-xs">수정됨</p>}
-              <div className="flex items-start ml-auto mr-4 text-xs text-gray-500 gap-x-2">
-                {isMyComment && (
-                  <button onClick={handleEditComment}>수정</button>
-                )}
-                {(isMyComment || isMyPost) && (
-                  <button onClick={handleDeleteComment}>삭제</button>
-                )}
-              </div>
+      <div>
+        <div className="flex py-4">
+          <div className="flex flex-1 gap-x-3">
+            <div>
+              <img
+                src={userInfo?.profileImg || DEFAULT_PROFILE_IMG_CAT}
+                alt="profile-img"
+                width={40}
+                height={40}
+              />
             </div>
-            <p className="w-full pr-1 text-sm text-gray-600 whitespace-pre-wrap">
-              {comment.content}
-            </p>
-            <button
-              className="flex pt-1 text-xs font-semibold text-gray-400 gap-x-1"
-              onClick={handleReplyToComment}
-            >
-              답글 달기
-            </button>
-            <ReplyList
-              postId={comment.postId}
-              commentId={comment.id || ""}
-              onEditReply={onEditReply}
-              isMyPost={isMyPost}
-            />
+            <div className="w-full">
+              <div className="flex items-center gap-x-2">
+                <p className="font-semibold text-[15px] text-gray-900">
+                  {userInfo?.nickName}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {formatTimestamp(timeStamp)}
+                </p>
+                {isEdited && (
+                  <p className="pl-2 text-xs text-gray-700">수정됨</p>
+                )}
+                <div className="flex items-start ml-auto mr-4 text-xs text-gray-500 gap-x-2">
+                  {isMyComment && (
+                    <button onClick={handleEditComment}>수정</button>
+                  )}
+                  {(isMyComment || isMyPost) && (
+                    <button onClick={handleDeleteComment}>삭제</button>
+                  )}
+                </div>
+              </div>
+              <p className="w-full py-0.5 pr-1 text-sm text-gray-600 whitespace-pre-wrap">
+                {comment.content}
+              </p>
+              <button
+                className="flex pt-1 text-xs font-semibold text-gray-400 gap-x-1"
+                onClick={handleReplyToComment}
+              >
+                답글 달기
+              </button>
+            </div>
+          </div>
+          <div className="self-start pt-0.5 text-gray-600">
+            <CommentLikeButton />
           </div>
         </div>
-        <div className="self-start pt-0.5 text-gray-600">
-          <CommentLikeButton />
-        </div>
+        <ReplyList
+          postId={comment.postId}
+          commentId={comment.id || ""}
+          onEditReply={onEditReply}
+          isMyPost={isMyPost}
+        />
       </div>
     );
   }
