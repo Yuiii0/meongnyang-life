@@ -1,6 +1,6 @@
 import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
 import useDeleteComment from "@/lib/comment/hooks/useDeleteComment";
-import { CommentDto } from "@/lib/comment/type";
+import { CommentDto, ReplyDto } from "@/lib/comment/type";
 
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
@@ -8,15 +8,18 @@ import { formatTimestamp } from "@/utils/formatTimestamp";
 import { Timestamp } from "firebase/firestore";
 import { Heart } from "lucide-react";
 import React from "react";
+import ReplyList from "./ReplyList";
 
 interface CommentItemProps {
   comment: CommentDto;
   isMyPost: boolean;
   onEditComment: (comment: CommentDto) => void;
+  onEditReply: (reply: ReplyDto, commentId: string) => void;
+  onSubmitReply: (commentId: string) => void;
 }
 
 const CommentItem: React.FC<CommentItemProps> = React.memo(
-  ({ comment, isMyPost, onEditComment }) => {
+  ({ comment, isMyPost, onEditComment, onEditReply, onSubmitReply }) => {
     const { user } = useAuthStore();
     const { data: userInfo } = useGetUserProfile(comment.userId);
     const isMyComment = comment.userId === user?.uid;
@@ -25,6 +28,7 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
       comment.postId,
       comment.id || ""
     );
+
     const handleDeleteComment = () => {
       try {
         deleteComment();
@@ -35,6 +39,10 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
 
     const handleEditComment = () => {
       onEditComment(comment);
+    };
+
+    const handleReplyToComment = () => {
+      onSubmitReply(comment.id || "");
     };
 
     const timeStamp = new Timestamp(
@@ -73,6 +81,18 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
             <p className="w-full pr-1 text-sm text-gray-600 whitespace-pre-wrap">
               {comment.content}
             </p>
+            <div
+              className="text-sm font-semibold"
+              onClick={handleReplyToComment}
+            >
+              답글 달기
+            </div>
+            <ReplyList
+              postId={comment.postId}
+              commentId={comment.id || ""}
+              onEditReply={onEditReply}
+              isMyPost={isMyPost}
+            />
           </div>
         </div>
         <button className="self-start pt-1 text-gray-600">
