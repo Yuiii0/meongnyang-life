@@ -5,7 +5,7 @@ import ReplyItem from "./ReplyItem";
 interface ReplyListProps {
   postId: string;
   commentId: string;
-  onEditReply: (reply: ReplyDto, commentId: string) => void;
+  onEditReply: (reply: ReplyDto) => void;
   isMyPost: boolean;
 }
 function ReplyList({
@@ -23,7 +23,6 @@ function ReplyList({
         <li key={reply.id}>
           <ReplyItem
             reply={reply}
-            commentId={commentId}
             onEditReply={onEditReply}
             isMyPost={isMyPost}
           />

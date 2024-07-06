@@ -14,7 +14,7 @@ interface CommentItemProps {
   comment: CommentDto;
   isMyPost: boolean;
   onEditComment: (comment: CommentDto) => void;
-  onEditReply: (reply: ReplyDto, commentId: string) => void;
+  onEditReply: (reply: ReplyDto) => void;
   onSubmitReply: (commentId: string) => void;
 }
 

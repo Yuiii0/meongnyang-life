@@ -9,17 +9,11 @@ import { Heart } from "lucide-react";
 
 interface ReplyItemProps {
   reply: ReplyDto;
-  commentId: string;
-  onEditReply: (reply: ReplyDto, commentId: string) => void;
+  onEditReply: (reply: ReplyDto) => void;
   isMyPost: boolean;
 }
 
-function ReplyItem({
-  reply,
-  commentId,
-  onEditReply,
-  isMyPost,
-}: ReplyItemProps) {
+function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
   const { user } = useAuthStore();
   const { data: userInfo } = useGetUserProfile(reply.userId);
 
@@ -30,6 +24,10 @@ function ReplyItem({
     reply.commentId,
     reply.id || ""
   );
+
+  const handleEditReply = () => {
+    onEditReply(reply);
+  };
 
   const handleDeleteReply = () => {
     try {
@@ -62,7 +60,7 @@ function ReplyItem({
               {formatTimestamp(timeStamp)}
             </p>
             <div className="flex items-start ml-auto mr-4 text-xs text-gray-500 gap-x-2">
-              {isMyReply && <button>수정</button>}
+              {isMyReply && <button onClick={handleEditReply}>수정</button>}
               {(isMyReply || isMyPost) && (
                 <button onClick={handleDeleteReply}>삭제</button>
               )}
