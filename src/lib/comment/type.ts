@@ -9,4 +9,6 @@ export type CommentDto = {
   updatedAt: Timestamp;
 };
 
-export type ReplyDto = CommentDto;
+export type ReplyDto = CommentDto & {
+  commentId: string;
+};

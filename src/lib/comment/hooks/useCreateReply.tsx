@@ -25,6 +25,7 @@ export const useCreateReply = (postId: string, userId: string) => {
         postId,
         commentId,
       ]);
+
       const newReply = {
         id: uuidv4(),
         postId,
@@ -32,12 +33,12 @@ export const useCreateReply = (postId: string, userId: string) => {
         commentId,
         content,
         createdAt: new Date(),
+        updatedAt: new Date(),
       };
 
       queryClient.setQueryData(
         [COMMENT, postId, commentId],
-        (oldReplies: ReplyDto[]) => {
-          if (!oldReplies) return [newReply];
+        (oldReplies: ReplyDto[] = []) => {
           return [newReply, ...oldReplies];
         }
       );
@@ -52,7 +53,7 @@ export const useCreateReply = (postId: string, userId: string) => {
         );
       }
     },
-    onSettled: () => {
+    onSettled: (_data, _error, { commentId }) => {
       queryClient.invalidateQueries({ queryKey: [COMMENT, postId, commentId] });
       queryClient.invalidateQueries({ queryKey: [POST, postId] });
     },
