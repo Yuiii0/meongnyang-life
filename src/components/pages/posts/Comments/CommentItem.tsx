@@ -58,16 +58,16 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
             <img
               src={userInfo?.profileImg || DEFAULT_PROFILE_IMG_CAT}
               alt="profile-img"
-              width={50}
-              height={50}
+              width={40}
+              height={40}
             />
           </div>
           <div className="w-full">
             <div className="flex items-center gap-x-2">
-              <p className="font-semibold text-gray-900">
+              <p className="font-semibold text-[15px] text-gray-900">
                 {userInfo?.nickName}
               </p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-gray-500">
                 {formatTimestamp(timeStamp)}
               </p>
               {isEdited && <p className="pl-2 text-xs">수정됨</p>}
@@ -83,12 +83,12 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
             <p className="w-full pr-1 text-sm text-gray-600 whitespace-pre-wrap">
               {comment.content}
             </p>
-            <div
-              className="text-sm font-semibold"
+            <button
+              className="flex pt-1 text-xs font-semibold text-gray-400 gap-x-1"
               onClick={handleReplyToComment}
             >
               답글 달기
-            </div>
+            </button>
             <ReplyList
               postId={comment.postId}
               commentId={comment.id || ""}
@@ -97,7 +97,7 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
             />
           </div>
         </div>
-        <div className="self-start pt-1 text-gray-600">
+        <div className="self-start pt-0.5 text-gray-600">
           <CommentLikeButton />
         </div>
       </div>
