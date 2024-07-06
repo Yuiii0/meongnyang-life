@@ -6,8 +6,8 @@ import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { Timestamp } from "firebase/firestore";
-import { Heart } from "lucide-react";
 import React from "react";
+import CommentLikeButton from "./LikeButton/CommentLikeButton";
 import ReplyList from "./ReplyList";
 
 interface CommentItemProps {
@@ -97,9 +97,9 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
             />
           </div>
         </div>
-        <button className="self-start pt-1 text-gray-600">
-          <Heart strokeWidth={1.5} size={18} />
-        </button>
+        <div className="self-start pt-1 text-gray-600">
+          <CommentLikeButton />
+        </div>
       </div>
     );
   }

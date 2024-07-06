@@ -1,7 +1,7 @@
 import { postDto } from "@/lib/post/type";
 import { truncateString } from "@/utils/truncateString";
 import { Link } from "react-router-dom";
-import LikeToggleButton from "./LikeButton/LikeToggleButton";
+import PostLikeToggleButton from "./LikeButton/PostLikeToggleButton";
 
 interface SimplePostCardProps {
   post: postDto;
@@ -22,7 +22,7 @@ function SimplePostCard({ post }: SimplePostCardProps) {
         </div>
         <div className="flex justify-between">
           <p className="text-sm font-semibold text-gray-500">{"nickname"}</p>
-          <LikeToggleButton postId={post.id || ""} />
+          <PostLikeToggleButton postId={post.id || ""} />
         </div>
       </div>
       {post.images && post.images.length > 0 && (

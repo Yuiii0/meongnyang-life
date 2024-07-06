@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import FollowToggleButton from "../user/follow/FollowButton/FollowToggleButton";
 import UserCard from "../user/userList/UserCard";
 import ImageCarousel from "./ImageCarousel";
-import LikeToggleButton from "./LikeButton/LikeToggleButton";
+import PostLikeToggleButton from "./LikeButton/PostLikeToggleButton";
 
 interface PostCardProps {
   post: postDto;
@@ -58,7 +58,7 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
         </div>
       </Link>
       <div className="flex items-center pb-5 mx-8 border-b gap-x-4">
-        <LikeToggleButton postId={post.id || ""} />
+        <PostLikeToggleButton postId={post.id || ""} />
         <div className="flex items-center text-gray-600 gap-x-2">
           <MessageSquare strokeWidth={1.5} />
           <span>{formatCount(post.commentCount || 0)}</span>
