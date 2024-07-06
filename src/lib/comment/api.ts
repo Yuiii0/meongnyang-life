@@ -101,20 +101,27 @@ const deleteAllRepliesByCommentId = async (
   );
   const querySnapshot = await getDocs(repliesQuery);
 
-  querySnapshot.forEach(async (doc) => {
-    await deleteDoc(doc.ref);
+  let replyCount = 0;
+  const deletePromises = querySnapshot.docs.map((replyDoc) => {
+    replyCount++;
+    return deleteDoc(replyDoc.ref);
   });
+
+  await Promise.all(deletePromises);
+
+  return replyCount;
 };
 
 export const deleteComment = async (postId: string, commentId: string) => {
-  await deleteAllRepliesByCommentId(postId, commentId);
+  const replyCount = await deleteAllRepliesByCommentId(postId, commentId);
+  console.log("replyCount", replyCount);
 
   const commentRef = doc(db, "posts", postId, "comments", commentId);
   await deleteDoc(commentRef);
 
   const postRef = doc(db, "posts", postId);
   await updateDoc(postRef, {
-    commentCount: increment(-1),
+    commentCount: increment(-(replyCount + 1)),
   });
 };
 
