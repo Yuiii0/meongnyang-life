@@ -18,6 +18,7 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
   const { data: userInfo } = useGetUserProfile(reply.userId);
 
   const isMyReply = reply.userId === user?.uid;
+  const isEdited = reply.createdAt.seconds !== reply.updatedAt.seconds;
 
   const { mutate: deleteReply } = useDeleteReply(
     reply.postId,
@@ -59,6 +60,7 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
             <p className="text-xs text-gray-400">
               {formatTimestamp(timeStamp)}
             </p>
+            {isEdited && <p className="pl-2 text-xs">수정됨</p>}
             <div className="flex items-start ml-auto mr-4 text-xs text-gray-500 gap-x-2">
               {isMyReply && <button onClick={handleEditReply}>수정</button>}
               {(isMyReply || isMyPost) && (

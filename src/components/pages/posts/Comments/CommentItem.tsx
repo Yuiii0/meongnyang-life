@@ -23,6 +23,7 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
     const { user } = useAuthStore();
     const { data: userInfo } = useGetUserProfile(comment.userId);
     const isMyComment = comment.userId === user?.uid;
+    const isEdited = comment.createdAt.seconds !== comment.updatedAt.seconds;
 
     const { mutate: deleteComment } = useDeleteComment(
       comment.postId,
@@ -69,6 +70,7 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
               <p className="text-xs text-gray-400">
                 {formatTimestamp(timeStamp)}
               </p>
+              {isEdited && <p className="pl-2 text-xs">수정됨</p>}
               <div className="flex items-start ml-auto mr-4 text-xs text-gray-500 gap-x-2">
                 {isMyComment && (
                   <button onClick={handleEditComment}>수정</button>
