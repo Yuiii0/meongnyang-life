@@ -1,5 +1,4 @@
 import CommentForm from "@/components/pages/posts/Comments/CommentForm";
-import LikeToggleButton from "@/components/pages/posts/LikeButton/LikeToggleButton";
 import FollowToggleButton from "@/components/pages/user/follow/FollowButton/FollowToggleButton";
 import UserCard from "@/components/pages/user/userList/UserCard";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
@@ -10,6 +9,7 @@ import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 
 import CommentList from "@/components/pages/posts/Comments/CommentList";
+import PostLikeToggleButton from "@/components/pages/posts/LikeButton/PostLikeToggleButton";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatCount } from "@/utils/formatCount";
@@ -151,7 +151,7 @@ const PostDetailPage = () => {
             {post.content}
           </div>
           <div className="flex pt-2 pb-3 border-b gap-x-4">
-            <LikeToggleButton postId={postId} />
+            <PostLikeToggleButton postId={postId} />
             <div className="flex items-center text-gray-600 gap-x-2">
               <MessageSquare strokeWidth={1.5} />
               <span>{formatCount(post.commentCount || 0)}</span>
@@ -170,7 +170,6 @@ const PostDetailPage = () => {
           isReply={isReplying}
           onSubmitComment={handleSubmitComment}
         />
-
         <CommentList
           postId={postId}
           isMyPost={isMyPost}
