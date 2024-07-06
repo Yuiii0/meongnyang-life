@@ -14,20 +14,21 @@ function SearchBar() {
         return;
       }
       //search API
-
-      searchInputRef.current.value = "";
     }
   };
   return (
-    <form className="relative flex items-center" onSubmit={handleSearch}>
+    <form
+      className="relative flex items-center flex-grow mr-12"
+      onSubmit={handleSearch}
+    >
       <input
         ref={searchInputRef}
         type="text"
         placeholder="검색어를 입력하세요"
-        className="px-5 py-2.5 border border-gray-700 rounded-lg w-full pr-12 hover:border-brand-100  focus:border-brand-100"
+        className="px-5 py-2.5 border border-brand-100 rounded-lg w-full pl-12"
       />
-      <button className="absolute text-gray-600 right-4">
-        <Search />
+      <button className="absolute text-gray-600 left-4">
+        <Search size={20} />
       </button>
     </form>
   );
