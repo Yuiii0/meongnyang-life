@@ -17,7 +17,9 @@ import {
   startAfter,
   updateDoc,
 } from "firebase/firestore";
-import { CommentDto } from './type';
+import { CommentDto, ReplyDto } from "./type";
+
+// Comment
 
 export const getCommentsByPostId = async (
   postId: string,
@@ -65,7 +67,6 @@ export const createComment = async (
 ) => {
   const commentRef = await addDoc(collection(db, "posts", postId, "comments"), {
     userId,
-
     postId,
     content,
     createdAt: serverTimestamp(),
@@ -94,6 +95,111 @@ export const updateComment = async (
 export const deleteComment = async (postId: string, commentId: string) => {
   const commentRef = doc(db, "posts", postId, "comments", commentId);
   await deleteDoc(commentRef);
+
+  const postRef = doc(db, "posts", postId);
+  await updateDoc(postRef, {
+    commentCount: increment(-1),
+  });
+};
+
+// Reply
+export const getRepliesByCommentId = async (
+  postId: string,
+  commentId: string
+) => {
+  const repliesQuery = query(
+    collection(db, "posts", postId, "comments", commentId, "replies"),
+    orderBy("createdAt", "desc")
+  );
+  const querySnapshot = await getDocs(repliesQuery);
+
+  const replies: ReplyDto[] = [];
+  querySnapshot.forEach((doc) => {
+    replies.push({ id: doc.id, ...doc.data() } as ReplyDto);
+  });
+};
+
+export const getReplyById = async (
+  postId: string,
+  commentId: string,
+  replyId: string
+) => {
+  const replyRef = doc(
+    db,
+    "posts",
+    postId,
+    "comments",
+    commentId,
+    "replies",
+    replyId
+  );
+  const docSnap = await getDoc(replyRef);
+  if (docSnap.exists()) {
+    const replyData = docSnap.data();
+    return { id: docSnap.id, ...replyData } as ReplyDto;
+  } else {
+    throw new Error("대댓글을 찾을 수 없습니다.");
+  }
+};
+export const createReply = async (
+  postId: string,
+  commentId: string,
+  userId: string,
+  content: string
+) => {
+  const repliesRef = await addDoc(
+    collection(db, "posts", postId, "comments", commentId, "replies"),
+    {
+      userId,
+      postId,
+      commentId,
+      content,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    }
+  );
+  await updateDoc(repliesRef, {
+    id: repliesRef.id,
+  });
+  const postRef = doc(db, "posts", postId);
+  await updateDoc(postRef, {
+    commentCount: increment(1),
+  });
+  return repliesRef.id;
+};
+export const updateReply = async (
+  postId: string,
+  commentId: string,
+  replyId: string,
+  content: string
+) => {
+  const repliesRef = doc(
+    db,
+    "posts",
+    postId,
+    "comments",
+    commentId,
+    "replies",
+    replyId
+  );
+  await updateDoc(repliesRef, { content, updatedAt: Timestamp.now() });
+};
+
+export const deleteReply = async (
+  postId: string,
+  commentId: string,
+  replyId: string
+) => {
+  const repliesRef = doc(
+    db,
+    "posts",
+    postId,
+    "comments",
+    commentId,
+    "replies",
+    replyId
+  );
+  await deleteDoc(repliesRef);
 
   const postRef = doc(db, "posts", postId);
   await updateDoc(postRef, {
