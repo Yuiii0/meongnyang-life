@@ -62,7 +62,11 @@ export const uploadImagesAndGetUrls = async (
 // storage에서 이미지를 삭제하는 함수
 export const removeImageFromStorage = async (url: string) => {
   const imageRef = ref(storage, url);
-  await deleteObject(imageRef);
+  try {
+    await deleteObject(imageRef);
+  } catch (error) {
+    throw new Error("스토리지 삭제에 실패하였습니다.");
+  }
 };
 
 export const createPost = async (postDto: postDto) => {

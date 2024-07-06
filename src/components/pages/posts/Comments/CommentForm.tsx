@@ -1,5 +1,8 @@
+import { updateReply } from "@/lib/comment/api";
 import useCreateComment from "@/lib/comment/hooks/useCreateComment";
+import { useCreateReply } from "@/lib/comment/hooks/useCreateReply";
 import useUpdateComment from "@/lib/comment/hooks/useUpdateComment";
+import { useUpdateReply } from "@/lib/comment/hooks/useUpdateReply";
 import EmojiPicker from "emoji-picker-react";
 import { Smile } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
@@ -10,6 +13,8 @@ interface CommentFormProps {
   inputRef?: React.RefObject<HTMLInputElement>;
   isEdit?: boolean;
   commentId?: string;
+  replyId: string;
+  isReply?: boolean;
   onSubmitComment: () => void;
 }
 
@@ -18,7 +23,9 @@ const CommentForm: React.FC<CommentFormProps> = ({
   userId,
   inputRef,
   isEdit = false,
+  isReply = false,
   commentId,
+  replyId,
   onSubmitComment,
 }) => {
   const [showPicker, setShowPicker] = useState(false);
@@ -26,7 +33,10 @@ const CommentForm: React.FC<CommentFormProps> = ({
   const MAX_COMMENT_LENGTH = 200;
 
   const { mutate: createComment } = useCreateComment(postId, userId);
-  const { mutate: updateComment } = useUpdateComment(postId);
+  const { mutate: editComment } = useUpdateComment(postId);
+
+  const { mutate: createReply } = useCreateReply(postId, userId);
+  const { mutate: editReply } = useUpdateReply(postId);
 
   const handleEmojiClick = (event: any) => {
     if (inputRef?.current) {
@@ -52,10 +62,23 @@ const CommentForm: React.FC<CommentFormProps> = ({
       }
 
       try {
-        if (isEdit && commentId) {
-          updateComment({ commentId, content: inputValue });
+        if (isEdit) {
+          if (isReply && replyId && commentId) {
+            await updateReply(postId, commentId, replyId, inputValue);
+            editReply({ replyId, commentId, content: inputValue });
+          } else if (commentId) {
+            editComment({ commentId, content: inputValue });
+          }
         } else {
-          createComment(inputValue);
+          if (isReply && commentId) {
+            try {
+              createReply({ commentId, content: inputValue });
+            } catch (error) {
+              alert("오류가 발생하였습니다. 다시 시도해주세요");
+            }
+          } else {
+            createComment(inputValue);
+          }
         }
 
         inputRef.current.value = "";
