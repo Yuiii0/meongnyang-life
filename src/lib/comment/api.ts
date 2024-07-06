@@ -117,6 +117,7 @@ export const getRepliesByCommentId = async (
   querySnapshot.forEach((doc) => {
     replies.push({ id: doc.id, ...doc.data() } as ReplyDto);
   });
+  return replies;
 };
 
 export const getReplyById = async (
