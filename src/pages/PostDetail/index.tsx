@@ -1,4 +1,3 @@
-import CommentForm from "@/components/pages/posts/Comments/CommentForm";
 import FollowToggleButton from "@/components/pages/user/follow/FollowButton/FollowToggleButton";
 import UserCard from "@/components/pages/user/userList/UserCard";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
@@ -8,6 +7,7 @@ import { removeImageFromStorage } from "@/lib/post/api";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 
+import CommentForm from "@/components/pages/posts/Comments/CommentForm";
 import CommentList from "@/components/pages/posts/Comments/CommentList";
 import PostLikeToggleButton from "@/components/pages/posts/LikeButton/PostLikeToggleButton";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
@@ -151,6 +151,15 @@ const PostDetailPage = () => {
         </div>
       </section>
       <section>
+        <CommentList
+          postId={postId}
+          isMyPost={isMyPost}
+          onEditComment={handleEditComment}
+          onEditReply={handleEditReply}
+          onSubmitReply={handleSubmitReply}
+        />
+      </section>
+      <div className="fixed bottom-0 left-0 bg-white">
         <CommentForm
           postId={postId}
           userId={user?.uid || ""}
@@ -161,14 +170,7 @@ const PostDetailPage = () => {
           isReply={isReplying}
           onSubmitComment={handleSubmitComment}
         />
-        <CommentList
-          postId={postId}
-          isMyPost={isMyPost}
-          onEditComment={handleEditComment}
-          onEditReply={handleEditReply}
-          onSubmitReply={handleSubmitReply}
-        />
-      </section>
+      </div>
     </Page>
   );
 };
