@@ -1,5 +1,6 @@
 import { POST } from "@/lib/post/key";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Timestamp } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import { createComment } from "../api";
 import { COMMENT } from "../key";
@@ -18,7 +19,8 @@ export default function useCreateComment(postId: string, userId: string) {
         postId,
         userId,
         content,
-        createdAt: new Date(),
+        createdAt: Timestamp.fromDate(new Date()),
+        updatedAt: Timestamp.fromDate(new Date()),
       };
 
       queryClient.setQueryData(
