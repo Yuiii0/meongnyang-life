@@ -4,13 +4,20 @@ import { updateReply } from "../api";
 import { COMMENT } from "../key";
 import { ReplyDto } from "../type";
 
-export const useUpdateReply = (postId: string, commentId: string) => {
+export const useUpdateReply = (postId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ replyId, content }: { replyId: string; content: string }) =>
-      updateReply(postId, commentId, replyId, content),
-    onMutate: async ({ replyId, content }) => {
+    mutationFn: ({
+      replyId,
+      commentId,
+      content,
+    }: {
+      replyId: string;
+      commentId: string;
+      content: string;
+    }) => updateReply(postId, commentId, replyId, content),
+    onMutate: async ({ replyId, commentId, content }) => {
       await queryClient.cancelQueries({
         queryKey: [COMMENT, postId, commentId],
       });
@@ -31,7 +38,7 @@ export const useUpdateReply = (postId: string, commentId: string) => {
       );
       return { previousReplies };
     },
-    onError: (_err, _variables, context) => {
+    onError: (_err, { commentId }, context) => {
       if (context?.previousReplies) {
         queryClient.setQueryData(
           [COMMENT, postId, commentId],
@@ -39,7 +46,7 @@ export const useUpdateReply = (postId: string, commentId: string) => {
         );
       }
     },
-    onSettled: () => {
+    onSettled: (_data, _error, { commentId }) => {
       queryClient.invalidateQueries({ queryKey: [COMMENT, postId, commentId] });
       queryClient.invalidateQueries({ queryKey: [POST, postId] });
     },
