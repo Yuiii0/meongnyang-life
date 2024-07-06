@@ -141,7 +141,7 @@ const PostDetailPage = () => {
           <div className="py-6 text-gray-600 whitespace-pre-wrap">
             {post.content}
           </div>
-          <div className="flex pt-2 pb-3 border-b gap-x-4">
+          <div className="flex pt-2 pb-3.5 border-b gap-x-4">
             <PostLikeToggleButton postId={postId} />
             <div className="flex items-center text-gray-600 gap-x-2">
               <MessageSquare strokeWidth={1.5} />
@@ -150,7 +150,7 @@ const PostDetailPage = () => {
           </div>
         </div>
       </section>
-      <section>
+      <section className="pt-3">
         <CommentList
           postId={postId}
           isMyPost={isMyPost}
