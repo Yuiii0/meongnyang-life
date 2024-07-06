@@ -92,7 +92,23 @@ export const updateComment = async (
   await updateDoc(commentRef, { content, updatedAt: Timestamp.now() });
 };
 
+const deleteAllRepliesByCommentId = async (
+  postId: string,
+  commentId: string
+) => {
+  const repliesQuery = query(
+    collection(db, "posts", postId, "comments", commentId, "replies")
+  );
+  const querySnapshot = await getDocs(repliesQuery);
+
+  querySnapshot.forEach(async (doc) => {
+    await deleteDoc(doc.ref);
+  });
+};
+
 export const deleteComment = async (postId: string, commentId: string) => {
+  await deleteAllRepliesByCommentId(postId, commentId);
+
   const commentRef = doc(db, "posts", postId, "comments", commentId);
   await deleteDoc(commentRef);
 
