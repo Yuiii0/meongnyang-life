@@ -33,6 +33,16 @@ const PostDetailPage = () => {
   const [replyId, setReplyId] = useState<string | null>(null);
   const [isReplying, setIsReplying] = useState(false);
 
+  const focusCommentForm = () => {
+    if (commentFormRef.current) {
+      commentFormRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      commentFormRef.current.focus();
+    }
+  };
+
   const handleEditComment = useCallback((comment: CommentDto) => {
     if (commentFormRef.current) {
       commentFormRef.current.value = comment.content;
@@ -41,13 +51,7 @@ const PostDetailPage = () => {
     setReplyId(null);
     setIsEdit(true);
     setIsReplying(false);
-    if (commentFormRef.current) {
-      commentFormRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-      commentFormRef.current.focus();
-    }
+    focusCommentForm();
   }, []);
 
   const handleEditReply = useCallback((reply: ReplyDto) => {
@@ -58,14 +62,7 @@ const PostDetailPage = () => {
     setCommentId(reply.commentId || "");
     setIsEdit(true);
     setIsReplying(true);
-
-    if (commentFormRef.current) {
-      commentFormRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-      commentFormRef.current.focus();
-    }
+    focusCommentForm();
   }, []);
 
   const handleSubmitComment = useCallback(() => {
@@ -78,13 +75,7 @@ const PostDetailPage = () => {
     setCommentId(commentId);
     setIsEdit(false);
     setIsReplying(true);
-    if (commentFormRef.current) {
-      commentFormRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-      commentFormRef.current.focus();
-    }
+    focusCommentForm();
   }, []);
 
   const isMyPost = user?.uid == post?.userId;
