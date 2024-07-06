@@ -5,17 +5,18 @@ import { createReply } from "../api";
 import { COMMENT } from "../key";
 import { ReplyDto } from "../type";
 
-export const useCreateReply = (
-  postId: string,
-  commentId: string,
-  userId: string
-) => {
+export const useCreateReply = (postId: string, userId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (content: string) =>
-      createReply(postId, commentId, userId, content),
-    onMutate: async (content: string) => {
+    mutationFn: ({
+      commentId,
+      content,
+    }: {
+      commentId: string;
+      content: string;
+    }) => createReply(postId, commentId, userId, content),
+    onMutate: async ({ commentId, content }) => {
       await queryClient.cancelQueries({
         queryKey: [COMMENT, postId, commentId],
       });
@@ -43,7 +44,7 @@ export const useCreateReply = (
 
       return { previousReplies };
     },
-    onError: (_err, _variables, context) => {
+    onError: (_err, { commentId }, context) => {
       if (context?.previousReplies) {
         queryClient.setQueryData(
           [COMMENT, postId, commentId],
