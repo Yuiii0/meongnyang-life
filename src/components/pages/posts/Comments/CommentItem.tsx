@@ -68,7 +68,7 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
             </div>
             <div className="w-full">
               <div className="flex items-center gap-x-2">
-                <p className="font-semibold text-[14px] text-gray-900">
+                <p className="font-semibold text-[15px] text-gray-900">
                   {truncateString(userInfo?.nickName || "", 10)}
                 </p>
                 <p className="text-[11px] text-gray-500 ml-1.5">
@@ -85,7 +85,7 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
                   )}
                 </div>
               </div>
-              <p className="w-full pt-2 pr-1 text-sm text-gray-600 whitespace-pre-wrap">
+              <p className="w-full pt-1 pr-1 text-sm text-gray-600 whitespace-pre-wrap">
                 {comment.content}
                 {isEdited && (
                   <span className="text-[10px] text-gray-400 text-end pl-3">
