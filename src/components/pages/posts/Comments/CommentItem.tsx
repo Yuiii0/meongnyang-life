@@ -5,9 +5,13 @@ import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatTimestamp } from "@/utils/formatTimestamp";
+import { truncateString } from "@/utils/truncateString";
+
 import { Timestamp } from "firebase/firestore";
-import { Heart } from "lucide-react";
 import React from "react";
+import { Link } from "react-router-dom";
+import EditAndDeleteDropDown from "./EditAndDeleteDropDown";
+import CommentLikeButton from "./LikeButton/CommentLikeButton";
 import ReplyList from "./ReplyList";
 
 interface CommentItemProps {
@@ -52,54 +56,64 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
     );
 
     return (
-      <div className="flex py-4">
-        <div className="flex flex-1 gap-x-3">
-          <div>
-            <img
-              src={userInfo?.profileImg || DEFAULT_PROFILE_IMG_CAT}
-              alt="profile-img"
-              width={50}
-              height={50}
-            />
-          </div>
-          <div className="w-full">
-            <div className="flex items-center gap-x-2">
-              <p className="font-semibold text-gray-900">
-                {userInfo?.nickName}
-              </p>
-              <p className="text-xs text-gray-400">
-                {formatTimestamp(timeStamp)}
-              </p>
-              {isEdited && <p className="pl-2 text-xs">수정됨</p>}
-              <div className="flex items-start ml-auto mr-4 text-xs text-gray-500 gap-x-2">
-                {isMyComment && (
-                  <button onClick={handleEditComment}>수정</button>
+      <div>
+        <div className="flex py-3">
+          <div className="flex flex-1 gap-x-3">
+            <Link to={`/profiles/${comment.userId}`}>
+              <img
+                src={userInfo?.profileImg || DEFAULT_PROFILE_IMG_CAT}
+                alt="profile-img"
+                width={38}
+                height={38}
+              />
+            </Link>
+            <div className="w-full">
+              <div className="flex items-center gap-x-2">
+                <p className="font-semibold text-[15px] text-gray-900">
+                  {truncateString(userInfo?.nickName || "", 10)}
+                </p>
+                <p className="text-[11px] text-gray-500 ml-1.5">
+                  {formatTimestamp(timeStamp)}
+                </p>
+                <div className="ml-auto mr-4">
+                  {(isMyComment || isMyPost) && (
+                    <EditAndDeleteDropDown
+                      isMyComment={isMyComment}
+                      isMyPost={isMyPost}
+                      onEdit={handleEditComment}
+                      onDelete={handleDeleteComment}
+                    />
+                  )}
+                </div>
+              </div>
+              <p className="w-full pt-1 pr-1 text-sm text-gray-600 whitespace-pre-wrap">
+                {comment.content}
+                {isEdited && (
+                  <span className="text-[10px] text-gray-400 text-end pl-3">
+                    (수정)
+                  </span>
                 )}
-                {(isMyComment || isMyPost) && (
-                  <button onClick={handleDeleteComment}>삭제</button>
-                )}
+              </p>
+              <div className="flex items-center">
+                <button
+                  className="flex pt-1 text-xs font-semibold text-gray-400 gap-x-1"
+                  onClick={handleReplyToComment}
+                >
+                  답글 달기
+                </button>
               </div>
             </div>
-            <p className="w-full pr-1 text-sm text-gray-600 whitespace-pre-wrap">
-              {comment.content}
-            </p>
-            <div
-              className="text-sm font-semibold"
-              onClick={handleReplyToComment}
-            >
-              답글 달기
-            </div>
-            <ReplyList
-              postId={comment.postId}
-              commentId={comment.id || ""}
-              onEditReply={onEditReply}
-              isMyPost={isMyPost}
-            />
+          </div>
+          <div className="self-start pt-0.5 text-gray-600">
+            <CommentLikeButton />
           </div>
         </div>
-        <button className="self-start pt-1 text-gray-600">
-          <Heart strokeWidth={1.5} size={18} />
-        </button>
+        <ReplyList
+          postId={comment.postId}
+          commentId={comment.id || ""}
+          onEditReply={onEditReply}
+          isMyPost={isMyPost}
+        />
       </div>
     );
   }

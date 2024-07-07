@@ -1,5 +1,3 @@
-import CommentForm from "@/components/pages/posts/Comments/CommentForm";
-import LikeToggleButton from "@/components/pages/posts/LikeButton/LikeToggleButton";
 import FollowToggleButton from "@/components/pages/user/follow/FollowButton/FollowToggleButton";
 import UserCard from "@/components/pages/user/userList/UserCard";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
@@ -9,7 +7,9 @@ import { removeImageFromStorage } from "@/lib/post/api";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 
+import CommentForm from "@/components/pages/posts/Comments/CommentForm";
 import CommentList from "@/components/pages/posts/Comments/CommentList";
+import PostLikeToggleButton from "@/components/pages/posts/LikeButton/PostLikeToggleButton";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatCount } from "@/utils/formatCount";
@@ -33,6 +33,16 @@ const PostDetailPage = () => {
   const [replyId, setReplyId] = useState<string | null>(null);
   const [isReplying, setIsReplying] = useState(false);
 
+  const focusCommentForm = () => {
+    if (commentFormRef.current) {
+      commentFormRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      commentFormRef.current.focus();
+    }
+  };
+
   const handleEditComment = useCallback((comment: CommentDto) => {
     if (commentFormRef.current) {
       commentFormRef.current.value = comment.content;
@@ -41,13 +51,7 @@ const PostDetailPage = () => {
     setReplyId(null);
     setIsEdit(true);
     setIsReplying(false);
-    if (commentFormRef.current) {
-      commentFormRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-      commentFormRef.current.focus();
-    }
+    focusCommentForm();
   }, []);
 
   const handleEditReply = useCallback((reply: ReplyDto) => {
@@ -58,14 +62,7 @@ const PostDetailPage = () => {
     setCommentId(reply.commentId || "");
     setIsEdit(true);
     setIsReplying(true);
-
-    if (commentFormRef.current) {
-      commentFormRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-      commentFormRef.current.focus();
-    }
+    focusCommentForm();
   }, []);
 
   const handleSubmitComment = useCallback(() => {
@@ -78,13 +75,7 @@ const PostDetailPage = () => {
     setCommentId(commentId);
     setIsEdit(false);
     setIsReplying(true);
-    if (commentFormRef.current) {
-      commentFormRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-      commentFormRef.current.focus();
-    }
+    focusCommentForm();
   }, []);
 
   const isMyPost = user?.uid == post?.userId;
@@ -150,8 +141,8 @@ const PostDetailPage = () => {
           <div className="py-6 text-gray-600 whitespace-pre-wrap">
             {post.content}
           </div>
-          <div className="flex pt-2 pb-3 border-b gap-x-4">
-            <LikeToggleButton postId={postId} />
+          <div className="flex pt-2 pb-3.5 border-b gap-x-4">
+            <PostLikeToggleButton postId={postId} />
             <div className="flex items-center text-gray-600 gap-x-2">
               <MessageSquare strokeWidth={1.5} />
               <span>{formatCount(post.commentCount || 0)}</span>
@@ -159,7 +150,16 @@ const PostDetailPage = () => {
           </div>
         </div>
       </section>
-      <section>
+      <section className="pt-3">
+        <CommentList
+          postId={postId}
+          isMyPost={isMyPost}
+          onEditComment={handleEditComment}
+          onEditReply={handleEditReply}
+          onSubmitReply={handleSubmitReply}
+        />
+      </section>
+      <div className="fixed bottom-0 left-0 bg-white">
         <CommentForm
           postId={postId}
           userId={user?.uid || ""}
@@ -170,15 +170,7 @@ const PostDetailPage = () => {
           isReply={isReplying}
           onSubmitComment={handleSubmitComment}
         />
-
-        <CommentList
-          postId={postId}
-          isMyPost={isMyPost}
-          onEditComment={handleEditComment}
-          onEditReply={handleEditReply}
-          onSubmitReply={handleSubmitReply}
-        />
-      </section>
+      </div>
     </Page>
   );
 };

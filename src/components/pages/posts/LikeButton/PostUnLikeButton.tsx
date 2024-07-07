@@ -3,7 +3,7 @@ interface UnLikeButtonProps {
   onToggleButton: () => void;
 }
 
-function UnLikeButton({ onToggleButton }: UnLikeButtonProps) {
+function PostUnLikeButton({ onToggleButton }: UnLikeButtonProps) {
   return (
     <button onClick={onToggleButton} className="text-red-400">
       <Heart className="fill-current" />
@@ -11,4 +11,4 @@ function UnLikeButton({ onToggleButton }: UnLikeButtonProps) {
   );
 }
 
-export default UnLikeButton;
+export default PostUnLikeButton;
