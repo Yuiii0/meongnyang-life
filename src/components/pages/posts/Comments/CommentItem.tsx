@@ -5,7 +5,9 @@ import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatTimestamp } from "@/utils/formatTimestamp";
+import { truncateString } from "@/utils/truncateString";
 import { Timestamp } from "firebase/firestore";
+import { Pencil, Trash } from "lucide-react";
 import React from "react";
 import CommentLikeButton from "./LikeButton/CommentLikeButton";
 import ReplyList from "./ReplyList";
@@ -53,7 +55,7 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
 
     return (
       <div>
-        <div className="flex py-4">
+        <div className="flex py-3">
           <div className="flex flex-1 gap-x-3">
             <div>
               <img
@@ -65,33 +67,43 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
             </div>
             <div className="w-full">
               <div className="flex items-center gap-x-2">
-                <p className="font-semibold text-[15px] text-gray-900">
-                  {userInfo?.nickName}
+                <p className="font-semibold text-[14px] text-gray-900">
+                  {truncateString(userInfo?.nickName || "", 10)}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-[11px] text-gray-500">
                   {formatTimestamp(timeStamp)}
                 </p>
-                {isEdited && (
-                  <p className="pl-2 text-xs text-gray-700">수정됨</p>
-                )}
-                <div className="flex items-start ml-auto mr-4 text-xs text-gray-500 gap-x-2">
+
+                <div className="flex items-start pr-3 ml-auto text-[11px] text-gray-500 gap-x-2.5">
                   {isMyComment && (
-                    <button onClick={handleEditComment}>수정</button>
+                    <button onClick={handleEditComment}>
+                      <Pencil size={12} />
+                    </button>
                   )}
                   {(isMyComment || isMyPost) && (
-                    <button onClick={handleDeleteComment}>삭제</button>
+                    <button onClick={handleDeleteComment}>
+                      <Trash size={12} />
+                    </button>
                   )}
                 </div>
               </div>
-              <p className="w-full py-0.5 pr-1 text-sm text-gray-600 whitespace-pre-wrap">
+              <p className="w-full pt-2 pr-1 text-sm text-gray-600 whitespace-pre-wrap">
                 {comment.content}
+                {isEdited && (
+                  <span className="text-[10px] text-gray-400 text-end pl-3">
+                    (수정)
+                  </span>
+                )}
               </p>
-              <button
-                className="flex pt-1 text-xs font-semibold text-gray-400 gap-x-1"
-                onClick={handleReplyToComment}
-              >
-                답글 달기
-              </button>
+
+              <div className="flex items-center">
+                <button
+                  className="flex pt-1 text-xs font-semibold text-gray-400 gap-x-1"
+                  onClick={handleReplyToComment}
+                >
+                  답글 달기
+                </button>
+              </div>
             </div>
           </div>
           <div className="self-start pt-0.5 text-gray-600">
