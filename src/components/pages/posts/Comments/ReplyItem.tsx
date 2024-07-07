@@ -7,6 +7,7 @@ import { formatTimestamp } from "@/utils/formatTimestamp";
 import { truncateString } from "@/utils/truncateString";
 import { Timestamp } from "firebase/firestore";
 import { CornerDownRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import EditAndDeleteDropDown from "./EditAndDeleteDropDown";
 import CommentLikeButton from "./LikeButton/CommentLikeButton";
 
@@ -50,14 +51,14 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
     <div className="flex w-full py-4 pl-2 ">
       <CornerDownRight size={14} className="mt-2 mr-3" />
       <div className="flex flex-1 gap-x-3">
-        <div>
+        <Link to={`/profiles/${reply.userId}`}>
           <img
             src={userInfo?.profileImg || DEFAULT_PROFILE_IMG_CAT}
             alt="profile-img"
             width={38}
             height={38}
           />
-        </div>
+        </Link>
         <div className="w-full">
           <div className="flex items-center gap-x-2">
             <p className="text-[13px] font-semibold text-gray-900">

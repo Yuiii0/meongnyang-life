@@ -9,6 +9,7 @@ import { truncateString } from "@/utils/truncateString";
 
 import { Timestamp } from "firebase/firestore";
 import React from "react";
+import { Link } from "react-router-dom";
 import EditAndDeleteDropDown from "./EditAndDeleteDropDown";
 import CommentLikeButton from "./LikeButton/CommentLikeButton";
 import ReplyList from "./ReplyList";
@@ -58,14 +59,14 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
       <div>
         <div className="flex py-3">
           <div className="flex flex-1 gap-x-3">
-            <div>
+            <Link to={`/profiles/${comment.userId}`}>
               <img
                 src={userInfo?.profileImg || DEFAULT_PROFILE_IMG_CAT}
                 alt="profile-img"
-                width={40}
-                height={40}
+                width={38}
+                height={38}
               />
-            </div>
+            </Link>
             <div className="w-full">
               <div className="flex items-center gap-x-2">
                 <p className="font-semibold text-[15px] text-gray-900">
