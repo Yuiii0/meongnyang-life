@@ -2,20 +2,14 @@ import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
 import useDeleteComment from "@/lib/comment/hooks/useDeleteComment";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { truncateString } from "@/utils/truncateString";
 
 import { Timestamp } from "firebase/firestore";
-import { Ellipsis, Pencil, Trash } from "lucide-react";
 import React from "react";
+import EditAndDeleteDropDown from "./EditAndDeleteDropDown";
 import CommentLikeButton from "./LikeButton/CommentLikeButton";
 import ReplyList from "./ReplyList";
 
@@ -82,31 +76,12 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
                 </p>
                 <div className="ml-auto mr-4">
                   {(isMyComment || isMyPost) && (
-                    <DropdownMenu>
-                      <DropdownMenuTrigger>
-                        <Ellipsis size={14} />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="text-center  min-w-20">
-                        {isMyComment && (
-                          <DropdownMenuItem
-                            onClick={handleEditComment}
-                            className="flex items-center gap-x-2"
-                          >
-                            <Pencil size={12} />
-                            수정
-                          </DropdownMenuItem>
-                        )}
-                        {(isMyComment || isMyPost) && (
-                          <DropdownMenuItem
-                            onClick={handleDeleteComment}
-                            className="flex items-center gap-x-2"
-                          >
-                            <Trash size={12} />
-                            삭제
-                          </DropdownMenuItem>
-                        )}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <EditAndDeleteDropDown
+                      isMyComment={isMyComment}
+                      isMyPost={isMyPost}
+                      onEdit={handleEditComment}
+                      onDelete={handleDeleteComment}
+                    />
                   )}
                 </div>
               </div>
