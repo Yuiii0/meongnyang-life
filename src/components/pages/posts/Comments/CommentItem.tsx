@@ -2,12 +2,19 @@ import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
 import useDeleteComment from "@/lib/comment/hooks/useDeleteComment";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { truncateString } from "@/utils/truncateString";
+
 import { Timestamp } from "firebase/firestore";
-import { Pencil, Trash } from "lucide-react";
+import { Ellipsis, Pencil, Trash } from "lucide-react";
 import React from "react";
 import CommentLikeButton from "./LikeButton/CommentLikeButton";
 import ReplyList from "./ReplyList";
@@ -70,20 +77,36 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
                 <p className="font-semibold text-[14px] text-gray-900">
                   {truncateString(userInfo?.nickName || "", 10)}
                 </p>
-                <p className="text-[11px] text-gray-500">
+                <p className="text-[11px] text-gray-500 ml-1.5">
                   {formatTimestamp(timeStamp)}
                 </p>
-
-                <div className="flex items-start pr-3 ml-auto text-[11px] text-gray-500 gap-x-2.5">
-                  {isMyComment && (
-                    <button onClick={handleEditComment}>
-                      <Pencil size={12} />
-                    </button>
-                  )}
+                <div className="ml-auto mr-4">
                   {(isMyComment || isMyPost) && (
-                    <button onClick={handleDeleteComment}>
-                      <Trash size={12} />
-                    </button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <Ellipsis size={14} />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="text-center  min-w-20">
+                        {isMyComment && (
+                          <DropdownMenuItem
+                            onClick={handleEditComment}
+                            className="flex items-center gap-x-2"
+                          >
+                            <Pencil size={12} />
+                            수정
+                          </DropdownMenuItem>
+                        )}
+                        {(isMyComment || isMyPost) && (
+                          <DropdownMenuItem
+                            onClick={handleDeleteComment}
+                            className="flex items-center gap-x-2"
+                          >
+                            <Trash size={12} />
+                            삭제
+                          </DropdownMenuItem>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   )}
                 </div>
               </div>
@@ -95,7 +118,6 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
                   </span>
                 )}
               </p>
-
               <div className="flex items-center">
                 <button
                   className="flex pt-1 text-xs font-semibold text-gray-400 gap-x-1"
