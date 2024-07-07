@@ -4,8 +4,10 @@ import { ReplyDto } from "@/lib/comment/type";
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatTimestamp } from "@/utils/formatTimestamp";
+import { truncateString } from "@/utils/truncateString";
 import { Timestamp } from "firebase/firestore";
 import { CornerDownRight } from "lucide-react";
+import EditAndDeleteDropDown from "./EditAndDeleteDropDown";
 import CommentLikeButton from "./LikeButton/CommentLikeButton";
 
 interface ReplyItemProps {
@@ -58,22 +60,30 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
         </div>
         <div className="w-full">
           <div className="flex items-center gap-x-2">
-            <p className="text-sm font-semibold text-gray-900">
-              {userInfo?.nickName}
+            <p className="text-[13px] font-semibold text-gray-900">
+              {truncateString(userInfo?.nickName || "", 10)}
             </p>
-            <p className="text-xs text-gray-400">
+            <p className="text-[11px]  text-gray-500  ml-1">
               {formatTimestamp(timeStamp)}
             </p>
-            {isEdited && <p className="pl-2 text-xs">수정됨</p>}
-            <div className="flex items-start ml-auto mr-4 text-xs text-gray-500 gap-x-2">
-              {isMyReply && <button onClick={handleEditReply}>수정</button>}
+            <div className="ml-auto mr-3.5">
               {(isMyReply || isMyPost) && (
-                <button onClick={handleDeleteReply}>삭제</button>
+                <EditAndDeleteDropDown
+                  isMyComment={isMyReply}
+                  isMyPost={isMyPost}
+                  onEdit={handleEditReply}
+                  onDelete={handleDeleteReply}
+                />
               )}
             </div>
           </div>
           <p className="w-full py-0.5 pr-1 text-sm text-gray-600 whitespace-pre-wrap">
             {reply.content}
+            {isEdited && (
+              <span className="text-[10px] text-gray-400 text-end pl-3">
+                (수정)
+              </span>
+            )}
           </p>
         </div>
       </div>
