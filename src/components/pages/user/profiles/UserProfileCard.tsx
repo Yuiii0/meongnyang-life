@@ -8,6 +8,7 @@ import {
   MALE_ICON_IMG,
 } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
+import { useModalStore } from "@/stores/modal/useModalStore";
 import { UserRoundCog } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
