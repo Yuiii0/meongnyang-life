@@ -115,7 +115,6 @@ const deleteAllRepliesByCommentId = async (
 
 export const deleteComment = async (postId: string, commentId: string) => {
   const replyCount = await deleteAllRepliesByCommentId(postId, commentId);
-  console.log("replyCount", replyCount);
 
   const commentRef = doc(db, "posts", postId, "comments", commentId);
   await deleteDoc(commentRef);

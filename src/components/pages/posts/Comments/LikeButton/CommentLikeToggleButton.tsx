@@ -49,15 +49,6 @@ function CommentLikeToggleButton({
     replyId
   );
 
-  console.log(
-    "commentId, userId, type, replyId",
-    commentId,
-    userId,
-    type,
-    replyId
-  );
-  console.log("isLike, likeCount", isLike, likeCount);
-
   const handleToggleLikeButton = debounce(() => {
     if (isLike) {
       removeLikeReaction();
