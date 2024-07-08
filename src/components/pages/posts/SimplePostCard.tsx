@@ -8,21 +8,28 @@ interface SimplePostCardProps {
 }
 
 function SimplePostCard({ post }: SimplePostCardProps) {
+  const handleButtonClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+  };
+
   return (
     <Link
       to={`/posts/${post.id}`}
-      className="flex items-center justify-between h-40 gap-x-4 "
+      className="flex items-center justify-between h-40 rounded-sm bg-gray-50 gap-x-4"
     >
       <div className="flex flex-col flex-grow gap-y-2">
-        <h2 className="font-semibold text-gray-700">
+        <h2 className="font-semibold text-left text-gray-700">
           {post.title.slice(0, 10)}
         </h2>
-        <div className="text-sm text-gray-600 min-h-20">
+        <div className="text-sm text-left text-gray-600 min-h-20">
           {truncateString(post.content, 90)}
         </div>
         <div className="flex justify-between">
           <p className="text-sm font-semibold text-gray-500">{"nickname"}</p>
-          <PostLikeToggleButton postId={post.id || ""} />
+          <div onClick={handleButtonClick}>
+            <PostLikeToggleButton postId={post.id || ""} />
+          </div>
         </div>
       </div>
       {post.images && post.images.length > 0 && (
