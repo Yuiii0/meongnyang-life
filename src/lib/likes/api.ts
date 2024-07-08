@@ -86,7 +86,7 @@ export const getCommentLikeStatus = async (
   replyId?: string
 ) => {
   const id = type === "REPLY" ? `${commentId}_${replyId}` : `${commentId}`;
-  const likeCommentRef = doc(db, `likes_comments/${userId}/comments/${id}`);
+  const likeCommentRef = doc(db, `like_comments/${userId}/comments/${id}`);
   const docSnap = await getDoc(likeCommentRef);
 
   return docSnap.exists();
@@ -126,7 +126,7 @@ export const removeCommentLikeReaction = async (
   replyId?: string
 ) => {
   const id = type === "REPLY" ? `${commentId}_${replyId}` : `${commentId}`;
-  const likeCommentRef = doc(db, `likes_comments/${userId}/comments/${id}`);
+  const likeCommentRef = doc(db, `like_comments/${userId}/comments/${id}`);
   await deleteDoc(likeCommentRef);
 
   const ref =
@@ -158,7 +158,7 @@ export const getCommentLikeCount = async (
 };
 export const getLikedCommentsByUserId = async (userId: string) => {
   const likedCommentsQuery = query(
-    collection(db, `likes_comments/${userId}/comments`)
+    collection(db, `like_comments/${userId}/comments`)
   );
   const likedCommentsSnapshot = await getDocs(likedCommentsQuery);
   const likedComments: any[] = [];
