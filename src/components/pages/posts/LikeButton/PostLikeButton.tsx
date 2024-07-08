@@ -1,9 +1,9 @@
 import { Heart } from "lucide-react";
-interface LikeButtonProps {
+interface PostLikeButtonProps {
   onToggleButton: () => void;
 }
 
-function PostLikeButton({ onToggleButton }: LikeButtonProps) {
+function PostLikeButton({ onToggleButton }: PostLikeButtonProps) {
   return (
     <button className="text-gray-600" onClick={onToggleButton}>
       <Heart strokeWidth={1.5} />
