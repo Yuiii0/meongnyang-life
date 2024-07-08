@@ -69,6 +69,7 @@ export const createComment = async (
     userId,
     postId,
     content,
+    likeCount: 0,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   });
