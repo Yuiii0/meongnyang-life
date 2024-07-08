@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { removePostLikeReaction } from "../api";
-import { POST_LIKE_COUNT, POST_LIKE_STATUS } from "../key";
+import { POST_LIKE_COUNT, POST_LIKE_STATUS } from '../key';
+import { removePostLikeReaction } from '../api';
 
 export const useDeletePostLikeReaction = (postId: string, userId: string) => {
   const queryClient = useQueryClient();

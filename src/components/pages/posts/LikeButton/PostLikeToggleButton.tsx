@@ -1,13 +1,13 @@
-import { useCreatePostLikeReaction } from "@/lib/post/hooks/useCreatePostLikeReaction";
-import { useDeletePostLikeReaction } from "@/lib/post/hooks/useDeletePostLikeReaction";
-import { useGetPostLikeCount } from "@/lib/post/hooks/useGetLikeCount";
-import { useGetPostLikeStatus } from "@/lib/post/hooks/useGetPostLikeStatus";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 
 import { formatCount } from "@/utils/formatCount";
 import { debounce } from "lodash";
 import PostLikeButton from "./PostLikeButton";
 import PostUnLikeButton from "./PostUnLikeButton";
+import { useGetPostLikeStatus } from '@/lib/likes/hooks/useGetPostLikeStatus';
+import { useGetPostLikeCount } from '@/lib/likes/hooks/useGetPostLikeCount';
+import { useCreatePostLikeReaction } from '@/lib/likes/hooks/useCreatePostLikeReaction';
+import { useDeletePostLikeReaction } from '@/lib/likes/hooks/useDeletePostLikeReaction';
 
 interface LikeToggleButtonProps {
   postId: string;

@@ -1,6 +1,7 @@
 import SimplePostCardsList from "@/components/pages/posts/SimplePostCardsList";
 import Page from "@/components/ui/Page";
-import { useGetLikedPostsByUserId } from "@/lib/post/hooks/useGetLikedPostsByUserId";
+import { useGetLikedPostsByUserId } from "@/lib/likes/hooks/useGetLikedPostsByUserId";
+
 import { useParams } from "react-router-dom";
 
 function LikePage() {
