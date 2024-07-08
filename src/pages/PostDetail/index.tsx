@@ -1,5 +1,3 @@
-import CommentForm from "@/components/pages/posts/Comments/CommentForm";
-import LikeToggleButton from "@/components/pages/posts/LikeButton/LikeToggleButton";
 import FollowToggleButton from "@/components/pages/user/follow/FollowButton/FollowToggleButton";
 import UserCard from "@/components/pages/user/userList/UserCard";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
@@ -9,16 +7,16 @@ import { removeImageFromStorage } from "@/lib/post/api";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 
+import CommentForm from "@/components/pages/posts/Comments/CommentForm";
 import CommentList from "@/components/pages/posts/Comments/CommentList";
-import { useGetCommentsByPostId } from "@/lib/comment/hooks/useGetCommentsByPostId";
-import { CommentDto } from "@/lib/comment/type";
+import PostLikeToggleButton from "@/components/pages/posts/LikeButton/PostLikeToggleButton";
+import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { Timestamp } from "firebase/firestore";
 import { FilePenLine, MessageSquare, Trash2 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useInView } from "react-intersection-observer";
+import { useCallback, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../route";
 
@@ -26,36 +24,17 @@ const PostDetailPage = () => {
   const { postId } = useParams();
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { data: post } = useGetPostByPostId(postId || "");
+  const { data: post, isError, isLoading } = useGetPostByPostId(postId || "");
+
   const { mutate: deletePost } = useDeletePost();
 
   const commentFormRef = useRef<HTMLInputElement>(null);
   const [isEdit, setIsEdit] = useState(false);
   const [commentId, setCommentId] = useState<string | null>(null);
+  const [replyId, setReplyId] = useState<string | null>(null);
+  const [isReplying, setIsReplying] = useState(false);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetCommentsByPostId(postId || "");
-  const comments = useMemo(
-    () => data?.pages.flatMap((page) => page) || [],
-    [data]
-  );
-
-  const { ref, inView } = useInView({
-    threshold: 0.8,
-  });
-
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, fetchNextPage]);
-
-  const handleEditComment = useCallback((comment: CommentDto) => {
-    if (commentFormRef.current) {
-      commentFormRef.current.value = comment.content;
-    }
-    setCommentId(comment.id || "");
-    setIsEdit(true);
+  const focusCommentForm = () => {
     if (commentFormRef.current) {
       commentFormRef.current.scrollIntoView({
         behavior: "smooth",
@@ -63,11 +42,41 @@ const PostDetailPage = () => {
       });
       commentFormRef.current.focus();
     }
+  };
+
+  const handleEditComment = useCallback((comment: CommentDto) => {
+    if (commentFormRef.current) {
+      commentFormRef.current.value = comment.content;
+    }
+    setCommentId(comment.id || "");
+    setReplyId(null);
+    setIsEdit(true);
+    setIsReplying(false);
+    focusCommentForm();
+  }, []);
+
+  const handleEditReply = useCallback((reply: ReplyDto) => {
+    if (commentFormRef.current) {
+      commentFormRef.current.value = reply.content;
+    }
+    setReplyId(reply.id || "");
+    setCommentId(reply.commentId || "");
+    setIsEdit(true);
+    setIsReplying(true);
+    focusCommentForm();
   }, []);
 
   const handleSubmitComment = useCallback(() => {
     setCommentId(null);
     setIsEdit(false);
+  }, []);
+
+  const handleSubmitReply = useCallback((commentId: string) => {
+    setReplyId(null);
+    setCommentId(commentId);
+    setIsEdit(false);
+    setIsReplying(true);
+    focusCommentForm();
   }, []);
 
   const isMyPost = user?.uid == post?.userId;
@@ -76,7 +85,10 @@ const PostDetailPage = () => {
     post?.createdAt.nanoseconds
   );
 
-  if (!post || !postId) {
+  if (isError || !post) {
+    return <div>삭제된 포스트입니다.</div>;
+  }
+  if (!post || !postId || isLoading) {
     return <LoadingSpinner text="포스트를 가져오는 중 입니다" />;
   }
   const handleDeletePost = async () => {
@@ -133,8 +145,8 @@ const PostDetailPage = () => {
           <div className="py-6 text-gray-600 whitespace-pre-wrap">
             {post.content}
           </div>
-          <div className="flex pt-2 pb-3 border-b gap-x-4">
-            <LikeToggleButton postId={postId} />
+          <div className="flex pt-2 pb-3.5 border-b gap-x-4">
+            <PostLikeToggleButton postId={postId} />
             <div className="flex items-center text-gray-600 gap-x-2">
               <MessageSquare strokeWidth={1.5} />
               <span>{formatCount(post.commentCount || 0)}</span>
@@ -142,46 +154,29 @@ const PostDetailPage = () => {
           </div>
         </div>
       </section>
-      <section>
+      <section className="pt-3">
+        <div className="pb-8">
+          <CommentList
+            postId={postId}
+            isMyPost={isMyPost}
+            onEditComment={handleEditComment}
+            onEditReply={handleEditReply}
+            onSubmitReply={handleSubmitReply}
+          />
+        </div>
+      </section>
+      <div className="fixed bottom-0 left-0 bg-white">
         <CommentForm
           postId={postId}
           userId={user?.uid || ""}
           inputRef={commentFormRef}
           isEdit={isEdit}
           commentId={commentId || ""}
+          replyId={replyId || ""}
+          isReply={isReplying}
           onSubmitComment={handleSubmitComment}
         />
-        {comments && (
-          <>
-            <CommentList
-              comments={comments as CommentDto[]}
-              isMyPost={isMyPost}
-              onEditComment={handleEditComment}
-            />
-            <div ref={ref}>
-              {isFetchingNextPage && (
-                <LoadingSpinner text="댓글을 가져오는 중입니다 🐾" />
-              )}
-            </div>
-          </>
-        )}
-        {/* <ul>
-          {comments.pages.map((page) =>
-            page?.map((comment: CommentDto) => {
-              return (
-                <li key={comment.id}>
-                  <CommentItem
-                    comment={comment}
-                    isMyPost={isMyPost}
-                    onEditComment={handleEditComment}
-                  />
-                </li>
-              );
-            })
-          )}
-          <div ref={ref}>{isFetchingNextPage && "Loading more..."}</div>
-        </ul> */}
-      </section>
+      </div>
     </Page>
   );
 };

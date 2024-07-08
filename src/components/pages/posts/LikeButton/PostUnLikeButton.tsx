@@ -1,9 +1,9 @@
 import { Heart } from "lucide-react";
-interface UnLikeButtonProps {
+interface PostUnLikeButtonProps {
   onToggleButton: () => void;
 }
 
-function UnLikeButton({ onToggleButton }: UnLikeButtonProps) {
+function PostUnLikeButton({ onToggleButton }: PostUnLikeButtonProps) {
   return (
     <button onClick={onToggleButton} className="text-red-400">
       <Heart className="fill-current" />
@@ -11,4 +11,4 @@ function UnLikeButton({ onToggleButton }: UnLikeButtonProps) {
   );
 }
 
-export default UnLikeButton;
+export default PostUnLikeButton;
