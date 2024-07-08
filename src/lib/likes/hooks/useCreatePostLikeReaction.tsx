@@ -15,7 +15,7 @@ export const useCreatePostLikeReaction = (postId: string, userId: string) => {
 
       queryClient.setQueryData<number | undefined>(
         [POST_LIKE_COUNT, postId],
-        (old) => (old ? old + 1 : 1)
+        (old) => (old ?? 0) + 1
       );
 
       return { previousLikeCount };

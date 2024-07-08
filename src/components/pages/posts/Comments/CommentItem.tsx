@@ -11,19 +11,27 @@ import { Timestamp } from "firebase/firestore";
 import React from "react";
 import { Link } from "react-router-dom";
 import EditAndDeleteDropDown from "./EditAndDeleteDropDown";
-import CommentLikeButton from "./LikeButton/CommentLikeButton";
+import CommentLikeToggleButton from "./LikeButton/CommentLikeToggleButton";
 import ReplyList from "./ReplyList";
 
 interface CommentItemProps {
   comment: CommentDto;
-  isMyPost: boolean;
-  onEditComment: (comment: CommentDto) => void;
-  onEditReply: (reply: ReplyDto) => void;
-  onSubmitReply: (commentId: string) => void;
+  isMyPost?: boolean;
+  isShowReply?: boolean;
+  onEditComment?: (comment: CommentDto) => void;
+  onEditReply?: (reply: ReplyDto) => void;
+  onSubmitReply?: (commentId: string) => void;
 }
 
 const CommentItem: React.FC<CommentItemProps> = React.memo(
-  ({ comment, isMyPost, onEditComment, onEditReply, onSubmitReply }) => {
+  ({
+    comment,
+    isMyPost,
+    onEditComment,
+    onEditReply,
+    onSubmitReply,
+    isShowReply = true,
+  }) => {
     const { user } = useAuthStore();
     const { data: userInfo } = useGetUserProfile(comment.userId);
     const isMyComment = comment.userId === user?.uid;
@@ -43,11 +51,15 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
     };
 
     const handleEditComment = () => {
-      onEditComment(comment);
+      if (onEditComment) {
+        onEditComment(comment);
+      }
     };
 
     const handleReplyToComment = () => {
-      onSubmitReply(comment.id || "");
+      if (onSubmitReply) {
+        onSubmitReply(comment.id || "");
+      }
     };
 
     const timeStamp = new Timestamp(
@@ -105,15 +117,22 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
             </div>
           </div>
           <div className="self-start pt-0.5 text-gray-600">
-            <CommentLikeButton />
+            <CommentLikeToggleButton
+              postId={comment.postId}
+              commentId={comment.id || ""}
+              userId={user?.uid || ""}
+              type="COMMENT"
+            />
           </div>
         </div>
-        <ReplyList
-          postId={comment.postId}
-          commentId={comment.id || ""}
-          onEditReply={onEditReply}
-          isMyPost={isMyPost}
-        />
+        {isShowReply && (
+          <ReplyList
+            postId={comment.postId}
+            commentId={comment.id || ""}
+            onEditReply={onEditReply}
+            isMyPost={isMyPost}
+          />
+        )}
       </div>
     );
   }
