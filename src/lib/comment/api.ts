@@ -179,6 +179,7 @@ export const createReply = async (
       postId,
       commentId,
       content,
+      likeCount: 0,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     }
