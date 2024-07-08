@@ -15,7 +15,7 @@ import { getCommentById, getReplyById } from "../comment/api";
 import { getPostByPostId } from "../post/api";
 import { postDto } from "../post/type";
 
-// Like
+// Posts
 export const getPostLikeStatus = async (postId: string, userId: string) => {
   const likePostDocRef = doc(db, `like_posts/${userId}/posts/${postId}`);
   const docSnap = await getDoc(likePostDocRef);
@@ -62,23 +62,35 @@ export const getPostLikeCount = async (postId: string) => {
 };
 
 export const getLikedPostsByUserId = async (userId: string) => {
-  const likedPostsQuery = query(collection(db, `like_posts/${userId}/posts`));
-  const likedPostsSnapshot = await getDocs(likedPostsQuery);
-  const likedPostIds: string[] = [];
+  try {
+    const likedPostsQuery = query(collection(db, `like_posts/${userId}/posts`));
+    const likedPostsSnapshot = await getDocs(likedPostsQuery);
+    const likedPostIds: string[] = [];
 
-  likedPostsSnapshot.forEach((doc) => {
-    likedPostIds.push(doc.id);
-  });
+    likedPostsSnapshot.forEach((doc) => {
+      likedPostIds.push(doc.id);
+    });
 
-  const posts: postDto[] = [];
-  for (const postId of likedPostIds) {
-    const post = await getPostByPostId(postId);
-    posts.push(post as postDto);
+    const posts: postDto[] = [];
+    for (const postId of likedPostIds) {
+      try {
+        const post = await getPostByPostId(postId);
+        if (post) {
+          posts.push(post as postDto);
+        }
+      } catch (error) {
+        console.warn(`포스트를 찾을 수 없습니다. 포스트 ID: ${postId}`);
+      }
+    }
+
+    return posts;
+  } catch (error) {
+    console.warn("좋아하는 포스트를 가져오는 중 오류가 발생하였습니다.", error);
+    return [];
   }
-
-  return posts;
 };
 
+// Comments
 export const getCommentLikeStatus = async (
   commentId: string,
   userId: string,
@@ -156,32 +168,51 @@ export const getCommentLikeCount = async (
     throw new Error("데이터를 찾을 수 없습니다.");
   }
 };
+
 export const getLikedCommentsByUserId = async (userId: string) => {
-  const likedCommentsQuery = query(
-    collection(db, `like_comments/${userId}/comments`)
-  );
-  const likedCommentsSnapshot = await getDocs(likedCommentsQuery);
-  const likedComments: any[] = [];
+  try {
+    const likedCommentsQuery = query(
+      collection(db, `like_comments/${userId}/comments`)
+    );
+    const likedCommentsSnapshot = await getDocs(likedCommentsQuery);
+    const likedComments: any[] = [];
 
-  for (const doc of likedCommentsSnapshot.docs) {
-    const data = doc.data();
-    likedComments.push({
-      postId: data.postId,
-      commentId: data.commentId,
-      replyId: data.replyId,
-      type: data.type,
-    });
+    for (const doc of likedCommentsSnapshot.docs) {
+      const data = doc.data();
+      likedComments.push({
+        postId: data.postId,
+        commentId: data.commentId,
+        replyId: data.replyId,
+        type: data.type,
+      });
+    }
+
+    const comments: any[] = [];
+    for (const likedComment of likedComments) {
+      const { postId, commentId, replyId, type } = likedComment;
+      try {
+        const comment =
+          type === "REPLY"
+            ? await getReplyById(postId, commentId, replyId)
+            : await getCommentById(postId, commentId);
+        if (comment) {
+          comments.push(comment);
+        } else {
+          console.warn(
+            `댓글을 찾을 수 없습니다. 게시물 ID: ${postId}, 댓글 ID: ${commentId}, 답글 ID: ${replyId}`
+          );
+        }
+      } catch (error) {
+        console.warn(
+          `댓글을 가져오는 중 오류가 발생하였습니다. 게시물 ID: ${postId}, 댓글 ID: ${commentId}, 답글 ID: ${replyId}`,
+          error
+        );
+      }
+    }
+
+    return comments;
+  } catch (error) {
+    console.warn("좋아요한 댓글을 가져오는 중 오류가 발생하였습니다.", error);
+    return [];
   }
-
-  const comments: any[] = [];
-  for (const likedComment of likedComments) {
-    const { postId, commentId, replyId, type } = likedComment;
-    const comment =
-      type === "REPLY"
-        ? await getReplyById(postId, commentId, replyId)
-        : await getCommentById(postId, commentId);
-    comments.push(comment);
-  }
-
-  return comments;
 };

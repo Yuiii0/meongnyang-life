@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createPostLikeReaction } from "../api";
-import { POST_LIKE_COUNT, POST_LIKE_STATUS } from "../key";
+import { POST_LIKE_COUNT, POST_LIKE_STATUS, POST_LIKED_BY_USER } from "../key";
 
 export const useCreatePostLikeReaction = (postId: string, userId: string) => {
   const queryClient = useQueryClient();
@@ -33,6 +33,7 @@ export const useCreatePostLikeReaction = (postId: string, userId: string) => {
         queryKey: [POST_LIKE_STATUS, postId, userId],
       });
       queryClient.invalidateQueries({ queryKey: [POST_LIKE_COUNT, postId] });
+      queryClient.invalidateQueries({ queryKey: [POST_LIKED_BY_USER, userId] });
     },
   });
 };
