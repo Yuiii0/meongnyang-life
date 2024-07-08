@@ -62,6 +62,11 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
       }
     };
 
+    const handleLikeButtonClick = (event: React.MouseEvent) => {
+      event.stopPropagation();
+      event.preventDefault();
+    };
+
     const timeStamp = new Timestamp(
       comment.createdAt.seconds,
       comment.createdAt.nanoseconds
@@ -118,7 +123,10 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
               </div>
             </div>
           </div>
-          <div className="self-start pt-0.5 text-gray-600">
+          <div
+            className="self-start pt-0.5 text-gray-600"
+            onClick={handleLikeButtonClick}
+          >
             <CommentLikeToggleButton
               postId={comment.postId}
               commentId={comment.id || ""}
