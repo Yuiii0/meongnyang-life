@@ -9,7 +9,7 @@ import { Timestamp } from "firebase/firestore";
 import { CornerDownRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import EditAndDeleteDropDown from "./EditAndDeleteDropDown";
-import CommentLikeButton from "./LikeButton/CommentLikeButton";
+import CommentLikeToggleButton from "./LikeButton/CommentLikeToggleButton";
 
 interface ReplyItemProps {
   reply: ReplyDto;
@@ -89,7 +89,13 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
         </div>
       </div>
       <div className="self-start pt-0.5 text-gray-600">
-        <CommentLikeButton />
+        <CommentLikeToggleButton
+          postId={reply.postId}
+          commentId={reply.commentId}
+          userId={user?.uid || ""}
+          replyId={reply.id}
+          type="REPLY"
+        />
       </div>
     </div>
   );
