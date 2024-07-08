@@ -11,7 +11,7 @@ import { Timestamp } from "firebase/firestore";
 import React from "react";
 import { Link } from "react-router-dom";
 import EditAndDeleteDropDown from "./EditAndDeleteDropDown";
-import CommentLikeButton from "./LikeButton/CommentLikeButton";
+import CommentLikeToggleButton from "./LikeButton/CommentLikeToggleButton";
 import ReplyList from "./ReplyList";
 
 interface CommentItemProps {
@@ -105,7 +105,12 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
             </div>
           </div>
           <div className="self-start pt-0.5 text-gray-600">
-            <CommentLikeButton />
+            <CommentLikeToggleButton
+              postId={comment.postId}
+              commentId={comment.id || ""}
+              userId={user?.uid || ""}
+              type="COMMENT"
+            />
           </div>
         </div>
         <ReplyList
