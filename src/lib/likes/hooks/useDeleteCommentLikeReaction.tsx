@@ -38,7 +38,7 @@ export const useDeleteCommentLikeReaction = (
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: [COMMENT_LIKE_STATUS, commentId, replyId],
+        queryKey: [COMMENT_LIKE_STATUS, userId, commentId, replyId],
       });
       queryClient.invalidateQueries({
         queryKey: [COMMENT_LIKE_COUNT, commentId, replyId],

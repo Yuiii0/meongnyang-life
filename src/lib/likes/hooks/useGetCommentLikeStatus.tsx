@@ -9,7 +9,7 @@ export const useGetCommentLikeStatus = (
   replyId?: string
 ) => {
   return useQuery({
-    queryKey: [COMMENT_LIKE_STATUS, commentId, replyId],
+    queryKey: [COMMENT_LIKE_STATUS, userId, commentId, replyId],
     queryFn: () => getCommentLikeStatus(commentId, userId, type, replyId),
     staleTime: 1000 * 60 * 1,
   });
