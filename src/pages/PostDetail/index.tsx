@@ -151,13 +151,15 @@ const PostDetailPage = () => {
         </div>
       </section>
       <section className="pt-3">
-        <CommentList
-          postId={postId}
-          isMyPost={isMyPost}
-          onEditComment={handleEditComment}
-          onEditReply={handleEditReply}
-          onSubmitReply={handleSubmitReply}
-        />
+        <div className="pb-8">
+          <CommentList
+            postId={postId}
+            isMyPost={isMyPost}
+            onEditComment={handleEditComment}
+            onEditReply={handleEditReply}
+            onSubmitReply={handleSubmitReply}
+          />
+        </div>
       </section>
       <div className="fixed bottom-0 left-0 bg-white">
         <CommentForm
