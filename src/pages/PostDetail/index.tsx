@@ -24,7 +24,8 @@ const PostDetailPage = () => {
   const { postId } = useParams();
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { data: post } = useGetPostByPostId(postId || "");
+  const { data: post, isError, isLoading } = useGetPostByPostId(postId || "");
+
   const { mutate: deletePost } = useDeletePost();
 
   const commentFormRef = useRef<HTMLInputElement>(null);
@@ -84,7 +85,10 @@ const PostDetailPage = () => {
     post?.createdAt.nanoseconds
   );
 
-  if (!post || !postId) {
+  if (isError || !post) {
+    return <div>삭제된 포스트입니다.</div>;
+  }
+  if (!post || !postId || isLoading) {
     return <LoadingSpinner text="포스트를 가져오는 중 입니다" />;
   }
   const handleDeletePost = async () => {

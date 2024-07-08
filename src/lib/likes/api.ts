@@ -79,13 +79,13 @@ export const getLikedPostsByUserId = async (userId: string) => {
           posts.push(post as postDto);
         }
       } catch (error) {
-        alert("포스트를 찾을 수 없습니다.");
+        console.warn(`포스트를 찾을 수 없습니다. 포스트 ID: ${postId}`);
       }
     }
 
     return posts;
   } catch (error) {
-    alert("포스트를 찾을 수 없습니다.");
+    console.warn("좋아하는 포스트를 가져오는 중 오류가 발생하였습니다.", error);
     return [];
   }
 };
@@ -189,8 +189,8 @@ export const getLikedCommentsByUserId = async (userId: string) => {
 
     const comments: any[] = [];
     for (const likedComment of likedComments) {
+      const { postId, commentId, replyId, type } = likedComment;
       try {
-        const { postId, commentId, replyId, type } = likedComment;
         const comment =
           type === "REPLY"
             ? await getReplyById(postId, commentId, replyId)
@@ -198,18 +198,21 @@ export const getLikedCommentsByUserId = async (userId: string) => {
         if (comment) {
           comments.push(comment);
         } else {
-          alert(
+          console.warn(
             `댓글을 찾을 수 없습니다. 게시물 ID: ${postId}, 댓글 ID: ${commentId}, 답글 ID: ${replyId}`
           );
         }
       } catch (error) {
-        alert(`댓글을 가져오는 중 오류가 발생하였습니다.`);
+        console.warn(
+          `댓글을 가져오는 중 오류가 발생하였습니다. 게시물 ID: ${postId}, 댓글 ID: ${commentId}, 답글 ID: ${replyId}`,
+          error
+        );
       }
     }
 
     return comments;
   } catch (error) {
-    alert("좋아요한 댓글을 가져오는 중 오류가 발생하였습니다.");
+    console.warn("좋아요한 댓글을 가져오는 중 오류가 발생하였습니다.", error);
     return [];
   }
 };
