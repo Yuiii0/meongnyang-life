@@ -17,7 +17,7 @@ export const useDeletePostLikeReaction = (postId: string, userId: string) => {
 
       queryClient.setQueryData<number | undefined>(
         [POST_LIKE_COUNT, postId],
-        (old) => (old ? old - 1 : 0)
+        (old) => (old ?? 0) - 1
       );
 
       return { previousLikeCount };
