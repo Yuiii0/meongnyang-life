@@ -1,6 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCommentLikeReaction } from "../api";
-import { COMMENT_LIKE_COUNT, COMMENT_LIKE_STATUS } from "../key";
+import {
+  COMMENT_LIKE_COUNT,
+  COMMENT_LIKE_STATUS,
+  COMMENT_LIKED_BY_USER,
+} from "../key";
 
 export const useCreateCommentLikeReaction = (
   postId: string,
@@ -42,6 +46,9 @@ export const useCreateCommentLikeReaction = (
       });
       queryClient.invalidateQueries({
         queryKey: [COMMENT_LIKE_COUNT, commentId, replyId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [COMMENT_LIKED_BY_USER, userId],
       });
     },
   });

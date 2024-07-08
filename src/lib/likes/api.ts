@@ -168,32 +168,48 @@ export const getCommentLikeCount = async (
     throw new Error("데이터를 찾을 수 없습니다.");
   }
 };
+
 export const getLikedCommentsByUserId = async (userId: string) => {
-  const likedCommentsQuery = query(
-    collection(db, `like_comments/${userId}/comments`)
-  );
-  const likedCommentsSnapshot = await getDocs(likedCommentsQuery);
-  const likedComments: any[] = [];
+  try {
+    const likedCommentsQuery = query(
+      collection(db, `like_comments/${userId}/comments`)
+    );
+    const likedCommentsSnapshot = await getDocs(likedCommentsQuery);
+    const likedComments: any[] = [];
 
-  for (const doc of likedCommentsSnapshot.docs) {
-    const data = doc.data();
-    likedComments.push({
-      postId: data.postId,
-      commentId: data.commentId,
-      replyId: data.replyId,
-      type: data.type,
-    });
+    for (const doc of likedCommentsSnapshot.docs) {
+      const data = doc.data();
+      likedComments.push({
+        postId: data.postId,
+        commentId: data.commentId,
+        replyId: data.replyId,
+        type: data.type,
+      });
+    }
+
+    const comments: any[] = [];
+    for (const likedComment of likedComments) {
+      try {
+        const { postId, commentId, replyId, type } = likedComment;
+        const comment =
+          type === "REPLY"
+            ? await getReplyById(postId, commentId, replyId)
+            : await getCommentById(postId, commentId);
+        if (comment) {
+          comments.push(comment);
+        } else {
+          alert(
+            `댓글을 찾을 수 없습니다. 게시물 ID: ${postId}, 댓글 ID: ${commentId}, 답글 ID: ${replyId}`
+          );
+        }
+      } catch (error) {
+        alert(`댓글을 가져오는 중 오류가 발생하였습니다.`);
+      }
+    }
+
+    return comments;
+  } catch (error) {
+    alert("좋아요한 댓글을 가져오는 중 오류가 발생하였습니다.");
+    return [];
   }
-
-  const comments: any[] = [];
-  for (const likedComment of likedComments) {
-    const { postId, commentId, replyId, type } = likedComment;
-    const comment =
-      type === "REPLY"
-        ? await getReplyById(postId, commentId, replyId)
-        : await getCommentById(postId, commentId);
-    comments.push(comment);
-  }
-
-  return comments;
 };
