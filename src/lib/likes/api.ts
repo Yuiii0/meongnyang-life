@@ -15,7 +15,7 @@ import { getCommentById, getReplyById } from "../comment/api";
 import { getPostByPostId } from "../post/api";
 import { postDto } from "../post/type";
 
-// Like
+// Posts
 export const getPostLikeStatus = async (postId: string, userId: string) => {
   const likePostDocRef = doc(db, `like_posts/${userId}/posts/${postId}`);
   const docSnap = await getDoc(likePostDocRef);
@@ -62,23 +62,35 @@ export const getPostLikeCount = async (postId: string) => {
 };
 
 export const getLikedPostsByUserId = async (userId: string) => {
-  const likedPostsQuery = query(collection(db, `like_posts/${userId}/posts`));
-  const likedPostsSnapshot = await getDocs(likedPostsQuery);
-  const likedPostIds: string[] = [];
+  try {
+    const likedPostsQuery = query(collection(db, `like_posts/${userId}/posts`));
+    const likedPostsSnapshot = await getDocs(likedPostsQuery);
+    const likedPostIds: string[] = [];
 
-  likedPostsSnapshot.forEach((doc) => {
-    likedPostIds.push(doc.id);
-  });
+    likedPostsSnapshot.forEach((doc) => {
+      likedPostIds.push(doc.id);
+    });
 
-  const posts: postDto[] = [];
-  for (const postId of likedPostIds) {
-    const post = await getPostByPostId(postId);
-    posts.push(post as postDto);
+    const posts: postDto[] = [];
+    for (const postId of likedPostIds) {
+      try {
+        const post = await getPostByPostId(postId);
+        if (post) {
+          posts.push(post as postDto);
+        }
+      } catch (error) {
+        alert("포스트를 찾을 수 없습니다.");
+      }
+    }
+
+    return posts;
+  } catch (error) {
+    alert("포스트를 찾을 수 없습니다.");
+    return [];
   }
-
-  return posts;
 };
 
+// Comments
 export const getCommentLikeStatus = async (
   commentId: string,
   userId: string,
