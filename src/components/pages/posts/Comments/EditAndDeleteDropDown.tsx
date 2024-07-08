@@ -8,7 +8,7 @@ import { Ellipsis, Pencil, Trash } from "lucide-react";
 
 interface EditAndDeleteDropDownProps {
   isMyComment: boolean;
-  isMyPost: boolean;
+  isMyPost?: boolean;
   onEdit: () => void;
   onDelete: () => void;
 }
