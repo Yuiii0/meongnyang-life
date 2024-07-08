@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CommentItem from "../posts/Comments/CommentItem";
+import SimplePostCardsList from "../posts/SimplePostCardsList";
 
 interface LikedPostAndCommentTabProps {
   initialTab: string;
@@ -48,19 +49,25 @@ function LikedPostAndCommentTab({ initialTab }: LikedPostAndCommentTabProps) {
           }`}
         >{`댓글 ${likedComments?.length || 0}`}</TabsTrigger>
       </TabsList>
-      <TabsContent value="posts" className="h-full overflow-auto"></TabsContent>
+      <TabsContent value="posts" className="h-full overflow-auto">
+        <section className="px-8 pt-6">
+          <SimplePostCardsList posts={likedPosts || []} />
+        </section>
+      </TabsContent>
       <TabsContent value="comments" className="h-full overflow-auto">
-        <ul className="px-8 pt-6">
-          {likedComments?.map((comment) => (
-            <li
-              key={comment.id}
-              onClick={() => navigate(`/posts/${comment.postId}`)}
-              className="pb-1"
-            >
-              <CommentItem comment={comment} isShowReply={false} />
-            </li>
-          ))}
-        </ul>
+        <section className="px-8 pt-6">
+          <ul>
+            {likedComments?.map((comment) => (
+              <li
+                key={comment.id}
+                onClick={() => navigate(`/posts/${comment.postId}`)}
+                className="pb-1"
+              >
+                <CommentItem comment={comment} isShowReply={false} />
+              </li>
+            ))}
+          </ul>
+        </section>
       </TabsContent>
     </Tabs>
   );
