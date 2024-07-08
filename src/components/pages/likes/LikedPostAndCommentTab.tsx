@@ -50,7 +50,7 @@ function LikedPostAndCommentTab({ initialTab }: LikedPostAndCommentTabProps) {
       </TabsList>
       <TabsContent value="posts" className="h-full overflow-auto"></TabsContent>
       <TabsContent value="comments" className="h-full overflow-auto">
-        <ul className="pt-6">
+        <ul className="px-8 pt-6">
           {likedComments?.map((comment) => (
             <li
               key={comment.id}
