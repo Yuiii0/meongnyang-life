@@ -98,7 +98,7 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
                   )}
                 </div>
               </div>
-              <p className="w-full pt-1 pr-1 text-sm text-gray-600 whitespace-pre-wrap">
+              <p className="w-full pt-1 pr-1 text-sm text-left text-gray-600 whitespace-pre-wrap">
                 {comment.content}
                 {isEdited && (
                   <span className="text-[10px] text-gray-400 text-end pl-3">
@@ -107,12 +107,14 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
                 )}
               </p>
               <div className="flex items-center">
-                <button
-                  className="flex pt-1 text-xs font-semibold text-gray-400 gap-x-1"
-                  onClick={handleReplyToComment}
-                >
-                  답글 달기
-                </button>
+                {isShowReply && (
+                  <button
+                    className="flex pt-1 text-xs font-semibold text-gray-400 gap-x-1"
+                    onClick={handleReplyToComment}
+                  >
+                    답글 달기
+                  </button>
+                )}
               </div>
             </div>
           </div>
