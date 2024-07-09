@@ -1,19 +1,22 @@
 import { Search } from "lucide-react";
 import { useRef } from "react";
 
-function SearchBar() {
+interface SearchBarProps {
+  onSearch: (term: string) => void;
+}
+
+function SearchBar({ onSearch }: SearchBarProps) {
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchInputRef.current) {
       const searchTerm = searchInputRef?.current.value;
-
       if (searchTerm.trim().length == 0) {
         alert("검색어를 입력해주세요");
         return;
       }
-      //search API
+      onSearch(searchTerm);
     }
   };
   return (
@@ -25,7 +28,7 @@ function SearchBar() {
         ref={searchInputRef}
         type="text"
         placeholder="검색어를 입력하세요"
-        className="px-5 py-2.5 border border-brand-100 rounded-lg w-full pl-12"
+        className="px-5 py-2.5 border border-brand-100 rounded-lg w-full pl-12 focus:border-2"
       />
       <button className="absolute text-gray-600 left-4">
         <Search size={20} />
