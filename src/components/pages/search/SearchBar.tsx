@@ -18,7 +18,7 @@ function SearchBar() {
   };
   return (
     <form
-      className="relative flex items-center flex-grow mr-12"
+      className="relative flex items-center flex-grow mr-8"
       onSubmit={handleSearch}
     >
       <input
