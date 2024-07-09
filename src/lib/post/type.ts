@@ -10,6 +10,7 @@ export type postDto = {
   commentCount: number;
   createdAt: Timestamp;
   updatedAt?: Timestamp;
+  keywords: string[];
 };
 
 export type PostFormData = {
