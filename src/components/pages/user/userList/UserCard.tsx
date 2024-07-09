@@ -1,6 +1,6 @@
 import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
-import { useModalStore } from '@/stores/modal/useModalStore';
+import { useModalStore } from "@/stores/modal/useModalStore";
 import { useNavigate } from "react-router-dom";
 
 interface UserCardProps {
@@ -36,7 +36,6 @@ function UserCard({ userId, isDate }: UserCardProps) {
             {isDate ? isDate : userProfile?.breed}
           </div>
         </div>
-        <div className="ml-auto"></div>
       </div>
     </div>
   );
