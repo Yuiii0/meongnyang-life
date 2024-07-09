@@ -1,5 +1,6 @@
 import { db } from "@/api/database";
 import { cleaningText } from "@/utils/cleaningText";
+import { createKeyWords } from "@/utils/createKeywords";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { UserProfile } from "./type";
 
@@ -8,9 +9,10 @@ export const createUserProfile = async (
   userId: string
 ) => {
   const cleanedNickname = cleaningText(userData.nickName);
+  const keywords = createKeyWords([cleanedNickname]);
   return await setDoc(doc(db, "users", userId), {
     ...userData,
-    cleanedNickname,
+    keywords,
   });
 };
 
@@ -19,10 +21,12 @@ export const updateUserProfile = async (
   userData: UserProfile
 ) => {
   const cleanedNickname = cleaningText(userData.nickName);
+  const keywords = createKeyWords([cleanedNickname]);
+
   const docRef = doc(db, "users", userId);
   await updateDoc(docRef, {
     ...userData,
-    cleanedNickname,
+    keywords,
   });
 };
 

@@ -8,16 +8,14 @@ import { UserProfile } from "../user/type";
 export const searchUsersByNickname = async (nickname: string) => {
   try {
     const cleanedNickname = cleaningText(nickname);
+    const keywords = createKeyWords([cleanedNickname]);
+
     const userRef = collection(db, "users");
-    const q = query(
-      userRef,
-      where("cleanedNickname", ">=", cleanedNickname),
-      where("cleanedNickname", "<=", cleanedNickname + "\uf8ff")
-    );
+    const q = query(userRef, where("keywords", "array-contains-any", keywords));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      return null;
+      return [];
     }
 
     const users: UserProfile[] = [];
@@ -36,8 +34,6 @@ export const searchPostsByTitle = async (title: string) => {
   try {
     const cleanedTitle = cleaningText(title);
     const keywords = createKeyWords([cleanedTitle]);
-    console.log("cleanedTitle", cleanedTitle);
-    console.log("keywords", keywords);
 
     const postRef = collection(db, "posts");
     const q = query(postRef, where("keywords", "array-contains-any", keywords));
