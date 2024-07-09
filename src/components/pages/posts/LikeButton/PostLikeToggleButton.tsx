@@ -1,19 +1,19 @@
-import { useCreatePostLikeReaction } from "@/lib/post/hooks/useCreatePostLikeReaction";
-import { useDeletePostLikeReaction } from "@/lib/post/hooks/useDeletePostLikeReaction";
-import { useGetPostLikeCount } from "@/lib/post/hooks/useGetLikeCount";
-import { useGetPostLikeStatus } from "@/lib/post/hooks/useGetPostLikeStatus";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 
 import { formatCount } from "@/utils/formatCount";
 import { debounce } from "lodash";
-import LikeButton from "./LikeButton";
-import UnLikeButton from "./UnLikeButton";
+import PostLikeButton from "./PostLikeButton";
+import PostUnLikeButton from "./PostUnLikeButton";
+import { useGetPostLikeStatus } from '@/lib/likes/hooks/useGetPostLikeStatus';
+import { useGetPostLikeCount } from '@/lib/likes/hooks/useGetPostLikeCount';
+import { useCreatePostLikeReaction } from '@/lib/likes/hooks/useCreatePostLikeReaction';
+import { useDeletePostLikeReaction } from '@/lib/likes/hooks/useDeletePostLikeReaction';
 
 interface LikeToggleButtonProps {
   postId: string;
 }
 
-function LikeToggleButton({ postId }: LikeToggleButtonProps) {
+function PostLikeToggleButton({ postId }: LikeToggleButtonProps) {
   const { user } = useAuthStore();
   const userId = user?.uid;
 
@@ -39,13 +39,13 @@ function LikeToggleButton({ postId }: LikeToggleButtonProps) {
   return (
     <div className="flex items-center text-gray-600 gap-x-2">
       {isLike ? (
-        <UnLikeButton onToggleButton={handleToggleLikeButton} />
+        <PostUnLikeButton onToggleButton={handleToggleLikeButton} />
       ) : (
-        <LikeButton onToggleButton={handleToggleLikeButton} />
+        <PostLikeButton onToggleButton={handleToggleLikeButton} />
       )}
       <span>{formatCount(likeCount || 0)}</span>
     </div>
   );
 }
 
-export default LikeToggleButton;
+export default PostLikeToggleButton;

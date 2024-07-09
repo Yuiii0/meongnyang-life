@@ -5,6 +5,7 @@ export type CommentDto = {
   postId: string;
   userId: string;
   content: string;
+  likeCount: number;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 };

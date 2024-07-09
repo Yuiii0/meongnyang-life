@@ -1,4 +1,3 @@
-import { useModalStore } from "@/hooks/Modal/useModal";
 import { useGetFollowerList } from "@/lib/follow/hooks/useGetFollowerList";
 import { useGetFollowingList } from "@/lib/follow/hooks/useGetFollowingList";
 import { UserProfile } from "@/lib/user/type";
@@ -9,6 +8,7 @@ import {
   MALE_ICON_IMG,
 } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
+import { useModalStore } from "@/stores/modal/useModalStore";
 import { UserRoundCog } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -53,9 +53,7 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
         <div className="flex-grow ml-6">
           <div className="flex flex-col gap-y-1">
             <div className="flex items-center justify-between">
-              <div className="text-lg font-semibold text-gray-800 ">
-                {nickName}
-              </div>
+              <div className="font-semibold text-gray-800 ">{nickName}</div>
               <div className="">
                 {isMyProfile ? (
                   <div className="ml-auto">

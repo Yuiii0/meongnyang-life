@@ -1,4 +1,4 @@
-import { useModalStore } from "@/hooks/Modal/useModal";
+import { useModalStore } from "@/stores/modal/useModalStore";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";

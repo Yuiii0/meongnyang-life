@@ -4,13 +4,17 @@ import { ReplyDto } from "@/lib/comment/type";
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatTimestamp } from "@/utils/formatTimestamp";
+import { truncateString } from "@/utils/truncateString";
 import { Timestamp } from "firebase/firestore";
-import { Heart } from "lucide-react";
+import { CornerDownRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import EditAndDeleteDropDown from "./EditAndDeleteDropDown";
+import CommentLikeToggleButton from "./LikeButton/CommentLikeToggleButton";
 
 interface ReplyItemProps {
   reply: ReplyDto;
-  onEditReply: (reply: ReplyDto) => void;
-  isMyPost: boolean;
+  onEditReply?: (reply: ReplyDto) => void;
+  isMyPost?: boolean;
 }
 
 function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
@@ -27,7 +31,9 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
   );
 
   const handleEditReply = () => {
-    onEditReply(reply);
+    if (onEditReply) {
+      onEditReply(reply);
+    }
   };
 
   const handleDeleteReply = () => {
@@ -44,38 +50,55 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
   );
 
   return (
-    <div className="flex py-4 bg-red-50">
+    <div className="flex w-full py-4 pl-2 ">
+      <CornerDownRight size={14} className="mt-2 mr-3" />
       <div className="flex flex-1 gap-x-3">
-        <div>
+        <Link to={`/profiles/${reply.userId}`}>
           <img
             src={userInfo?.profileImg || DEFAULT_PROFILE_IMG_CAT}
             alt="profile-img"
-            width={50}
-            height={50}
+            width={38}
+            height={38}
           />
-        </div>
+        </Link>
         <div className="w-full">
           <div className="flex items-center gap-x-2">
-            <p className="font-semibold text-gray-900">{userInfo?.nickName}</p>
-            <p className="text-xs text-gray-400">
+            <p className="text-[13px] font-semibold text-gray-900">
+              {truncateString(userInfo?.nickName || "", 10)}
+            </p>
+            <p className="text-[11px]  text-gray-500  ml-1">
               {formatTimestamp(timeStamp)}
             </p>
-            {isEdited && <p className="pl-2 text-xs">수정됨</p>}
-            <div className="flex items-start ml-auto mr-4 text-xs text-gray-500 gap-x-2">
-              {isMyReply && <button onClick={handleEditReply}>수정</button>}
+            <div className="ml-auto mr-3.5">
               {(isMyReply || isMyPost) && (
-                <button onClick={handleDeleteReply}>삭제</button>
+                <EditAndDeleteDropDown
+                  isMyComment={isMyReply}
+                  isMyPost={isMyPost}
+                  onEdit={handleEditReply}
+                  onDelete={handleDeleteReply}
+                />
               )}
             </div>
           </div>
-          <p className="w-full pr-1 text-sm text-gray-600 whitespace-pre-wrap">
+          <p className="w-full py-0.5 pr-1 text-sm text-gray-600 whitespace-pre-wrap">
             {reply.content}
+            {isEdited && (
+              <span className="text-[10px] text-gray-400 text-end pl-3">
+                (수정)
+              </span>
+            )}
           </p>
         </div>
       </div>
-      <button className="self-start pt-1 text-gray-600">
-        <Heart strokeWidth={1.5} size={18} />
-      </button>
+      <div className="self-start pt-0.5 text-gray-600">
+        <CommentLikeToggleButton
+          postId={reply.postId}
+          commentId={reply.commentId}
+          userId={user?.uid || ""}
+          replyId={reply.id}
+          type="REPLY"
+        />
+      </div>
     </div>
   );
 }
