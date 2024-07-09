@@ -49,7 +49,7 @@ function Navbar() {
       <div className="w-full max-w-md px-12 ">
         <div className="pb-6 ">
           <img
-            src="/public/images/dog_cat.png"
+            src="/images/dog_cat.png"
             alt="cat_and_dog"
             width={140}
             className="mx-auto"
