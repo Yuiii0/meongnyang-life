@@ -30,6 +30,16 @@ function SearchPage() {
   const { data: postData, refetch: refetchPosts } =
     useGetPostsByTitle(searchTerm);
 
+  useEffect(() => {
+    if (searchStarted && searchTerm) {
+      if (activeTab === "users") {
+        refetchUsers();
+      } else {
+        refetchPosts();
+      }
+    }
+  }, [searchTerm, searchStarted, activeTab, refetchUsers, refetchPosts]);
+
   const handleSearch = (term: string) => {
     setSearchTerm(term);
     setSearchStarted(true);
@@ -37,28 +47,19 @@ function SearchPage() {
       refetchUsers();
     } else {
       refetchPosts();
-      console.log("postsData", postData);
     }
   };
 
   const handleChangeTab = (tab: string) => {
     setActiveTab(tab);
-    console.log("change Tab", tab);
     if (searchStarted && searchTerm) {
       if (tab === "users") {
         refetchUsers();
-        console.log("refetch userData", userData);
       } else {
         refetchPosts();
-        console.log("refetch postsData", postData);
       }
     }
   };
-  useEffect(() => {
-    if (searchStarted && searchTerm && activeTab === "users") {
-      refetchUsers();
-    }
-  }, [searchTerm, searchStarted, activeTab, refetchUsers]);
 
   return (
     <Page fullWidth>
@@ -90,10 +91,11 @@ function SearchPage() {
       ) : (
         <section>
           <SearchResultTab
-            initialTab="user"
+            initialTab="users"
             activeTab={activeTab}
             onTabChange={handleChangeTab}
             userData={userData || []}
+            postData={postData || []}
           />
         </section>
       )}
