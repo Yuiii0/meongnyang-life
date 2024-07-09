@@ -1,4 +1,4 @@
-import { updateUserProfile } from "@/api/database/User/user.api";
+import { updateUserProfile } from "@/lib/user/api";
 import { UserProfile } from "@/lib/user/type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
