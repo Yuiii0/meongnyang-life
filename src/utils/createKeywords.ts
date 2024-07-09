@@ -1,6 +1,6 @@
 import { cleaningText } from "./cleaningText";
 
-export const createKeyWords = (texts: string[]) => {
+export const createKeyWords = (texts: string[]): string[] => {
   const keywords = new Set<string>();
 
   texts.forEach((text) => {
@@ -17,7 +17,7 @@ export const createKeyWords = (texts: string[]) => {
         }
       }
     }
-
-    return Array.from(keywords);
   });
+
+  return Array.from(keywords);
 };
