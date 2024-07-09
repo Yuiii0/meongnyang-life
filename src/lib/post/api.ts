@@ -91,14 +91,12 @@ export const updatePost = async (postId: string, postDto: postDto) => {
   });
 };
 
-// 모든 사용자의 like_posts 컬렉션에서 특정 포스트 ID의 좋아요 정보를 삭제하는 함수
 const deleteAllPostLikes = async (postId: string) => {
   try {
-    // 모든 사용자 문서를 가져옴
     const usersSnapshot = await getDocs(collection(db, "users"));
 
     if (usersSnapshot.empty) {
-      console.log("No users found.");
+      console.warn("유저가 존재하지 않습니다");
       return;
     }
 
@@ -113,15 +111,12 @@ const deleteAllPostLikes = async (postId: string) => {
       const likePostsSnapshot = await getDocs(likePostsQuery);
 
       likePostsSnapshot.forEach((likeDoc) => {
-        console.log("Deleting likeDoc with path:", likeDoc.ref.path);
         deletePromises.push(deleteDoc(likeDoc.ref));
       });
     }
 
     await Promise.all(deletePromises);
-    console.log("All like documents deleted successfully.");
   } catch (error) {
-    console.error("Failed to delete post likes: ", error);
     throw new Error("포스트 좋아요 정보를 삭제하는 데 실패하였습니다.");
   }
 };
