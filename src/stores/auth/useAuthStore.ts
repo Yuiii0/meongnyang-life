@@ -1,6 +1,6 @@
 import { auth } from "@/api/auth/auth.api";
 import { User, onAuthStateChanged } from "firebase/auth";
-import create from "zustand";
+import { create } from "zustand";
 
 interface AuthState {
   user: User | null;
