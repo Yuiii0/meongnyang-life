@@ -1,5 +1,7 @@
 import { db } from "@/api/database";
 import { storage } from "@/api/store/store.api";
+import { cleaningText } from "@/utils/cleaningText";
+import { createKeyWords } from "@/utils/createKeywords";
 import imageCompression from "browser-image-compression";
 import {
   DocumentData,
@@ -68,29 +70,40 @@ export const removeImageFromStorage = async (url: string) => {
 };
 
 export const createPost = async (postDto: postDto) => {
-  const postRef = await addDoc(collection(db, "posts"), {
-    userId: postDto.userId,
-    title: postDto.title,
-    images: postDto.images,
-    content: postDto.content,
-    createdAt: postDto.createdAt,
-    updatedAt: postDto.updatedAt || serverTimestamp(),
-    likeCount: postDto.likeCount,
-    commentCount: postDto.commentCount,
-  });
-  await updateDoc(postRef, { id: postRef.id });
+  try {
+    const cleanedTitle = cleaningText(postDto.title);
+    const keywords = createKeyWords([cleanedTitle]);
 
-  return postRef.id;
+    const postRef = await addDoc(collection(db, "posts"), {
+      userId: postDto.userId,
+      title: postDto.title,
+      images: postDto.images,
+      content: postDto.content,
+      createdAt: postDto.createdAt,
+      updatedAt: postDto.updatedAt || serverTimestamp(),
+      likeCount: postDto.likeCount,
+      commentCount: postDto.commentCount,
+      keywords,
+    });
+    await updateDoc(postRef, { id: postRef.id });
+
+    return postRef.id;
+  } catch (error) {
+    throw new Error("포스트 작성에 실패하였습니다");
+  }
 };
 
 export const updatePost = async (postId: string, postDto: postDto) => {
+  const cleanedTitle = cleaningText(postDto.title);
+  const keywords = createKeyWords([cleanedTitle]);
+
   const postRef = doc(db, "posts", postId);
   await updateDoc(postRef, {
     ...postDto,
+    keywords,
     updatedAt: Timestamp.now(),
   });
 };
-
 const deleteAllPostLikes = async (postId: string) => {
   try {
     const usersSnapshot = await getDocs(collection(db, "users"));
