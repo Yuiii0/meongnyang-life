@@ -40,7 +40,6 @@ export const searchPostsByTitle = async (title: string) => {
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      console.log("No posts found");
       return null;
     }
 
