@@ -7,28 +7,23 @@ import { useGetUsersByNickname } from "@/lib/search/hooks/useGetUsersByNickname"
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const recentSearches = [
-  "포메라니안",
-  "사료 추천",
-  "애카 추천",
-  "포메라니안",
-  "사료 추천",
-  "애카 추천",
-  "포메라니안",
-  "사료 추천",
-  "애카 추천",
-  "포메라니안",
-];
-
 function SearchPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchStarted, setSearchStarted] = useState(false);
   const [activeTab, setActiveTab] = useState("users");
+  const [recentSearches, setRecentSearches] = useState([]);
 
   const { data: userData, refetch: refetchUsers } =
     useGetUsersByNickname(searchTerm);
   const { data: postData, refetch: refetchPosts } =
     useGetPostsByTitle(searchTerm);
+
+  useEffect(() => {
+    const storedSearches = JSON.parse(
+      localStorage.getItem("recentSearches") || "[]"
+    );
+    setRecentSearches(storedSearches.reverse());
+  }, []);
 
   useEffect(() => {
     if (searchStarted && searchTerm) {
@@ -60,6 +55,11 @@ function SearchPage() {
       }
     }
   };
+  const handleRemoveRecentSearch = (index: number) => {
+    const updatedSearches = recentSearches.filter((_, idx) => index !== idx);
+    setRecentSearches(updatedSearches);
+    localStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
+  };
 
   return (
     <Page fullWidth>
@@ -81,7 +81,7 @@ function SearchPage() {
                 className="flex pl-2 py-2.5 gray-500 justify-between items-center text-sm"
               >
                 <p>{search}</p>
-                <button>
+                <button onClick={() => handleRemoveRecentSearch(index)}>
                   <X size={16} />
                 </button>
               </li>

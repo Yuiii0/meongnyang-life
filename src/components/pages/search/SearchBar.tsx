@@ -16,7 +16,21 @@ function SearchBar({ onSearch }: SearchBarProps) {
         alert("검색어를 2글자 이상 입력해주세요.");
         return;
       }
+      saveRecentSearchTerm(searchTerm);
       onSearch(searchTerm);
+    }
+  };
+
+  const saveRecentSearchTerm = (term: string) => {
+    const recentSearches = JSON.parse(
+      localStorage.getItem("recentSearches") || "[]"
+    );
+    if (!recentSearches.includes(term)) {
+      recentSearches.push(term);
+      if (recentSearches.length > 10) {
+        recentSearches.shift();
+      }
+      localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
     }
   };
   return (
