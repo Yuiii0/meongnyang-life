@@ -85,7 +85,7 @@ const PostDetailPage = () => {
     post?.createdAt.nanoseconds
   );
 
-  if (isError || !post) {
+  if (isError) {
     return <div>삭제된 포스트입니다.</div>;
   }
   if (!post || !postId || isLoading) {
