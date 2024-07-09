@@ -1,11 +1,17 @@
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-function PrevButton({ ...props }) {
+interface PrevButtonProps extends React.ComponentProps<typeof ChevronLeft> {
+  isNavigate?: boolean;
+}
+
+function PrevButton({ isNavigate = true, ...props }: PrevButtonProps) {
   const navigate = useNavigate();
 
   const handleClickPrevButton = () => {
-    navigate(-1);
+    if (isNavigate) {
+      navigate(-1);
+    }
   };
 
   return (

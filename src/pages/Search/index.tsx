@@ -19,10 +19,7 @@ function SearchPage() {
     useGetPostsByTitle(searchTerm);
 
   useEffect(() => {
-    const storedSearches = JSON.parse(
-      localStorage.getItem("recentSearches") || "[]"
-    );
-    setRecentSearches(storedSearches.reverse());
+    loadRecentSearches();
   }, []);
 
   useEffect(() => {
@@ -34,6 +31,13 @@ function SearchPage() {
       }
     }
   }, [searchTerm, searchStarted, activeTab, refetchUsers, refetchPosts]);
+
+  const loadRecentSearches = () => {
+    const storedSearches = JSON.parse(
+      localStorage.getItem("recentSearches") || "[]"
+    );
+    setRecentSearches(storedSearches.reverse());
+  };
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -61,11 +65,19 @@ function SearchPage() {
     localStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
   };
 
+  const handleGoBack = () => {
+    setSearchStarted(false);
+    loadRecentSearches();
+  };
+
   return (
     <Page fullWidth>
       <div className="flex items-center w-full pt-2 pb-4">
-        <div className="px-3">
-          <PrevButton />
+        <div
+          className="px-3"
+          onClick={searchStarted ? handleGoBack : undefined}
+        >
+          <PrevButton isNavigate={!searchStarted} />
         </div>
         <SearchBar onSearch={handleSearch} />
       </div>
