@@ -16,6 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const { user } = useAuthStore();
+  const { resetModal } = useModalStore();
   const navigate = useNavigate();
   const { isOpen, closeModal } = useModalStore();
 
@@ -23,6 +24,7 @@ function Navbar() {
 
   const handleClickLogOut = async () => {
     try {
+      resetModal();
       await logOut();
       navigate(PATHS.logIn);
     } catch (error) {
