@@ -14,9 +14,14 @@ function FollowToggleButton({ userId }: FollowButtonProps) {
   const { user } = useAuthStore();
 
   const myUserId = user?.uid || "";
+
   const { data: isFollowing } = useGetFollowStatus(myUserId, userId);
   const { mutate: addFollowing } = useCreateFollow();
   const { mutate: removeFollowing } = useDeleteFollow();
+
+  if (myUserId === userId) {
+    return null;
+  }
 
   const handleToggleFollowButton = async () => {
     if (isFollowing) {

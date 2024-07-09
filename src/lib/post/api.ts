@@ -1,5 +1,7 @@
 import { db } from "@/api/database";
 import { storage } from "@/api/store/store.api";
+import { cleaningText } from "@/utils/cleaningText";
+import { createKeyWords } from "@/utils/createKeywords";
 import imageCompression from "browser-image-compression";
 import {
   DocumentData,
@@ -68,37 +70,46 @@ export const removeImageFromStorage = async (url: string) => {
 };
 
 export const createPost = async (postDto: postDto) => {
-  const postRef = await addDoc(collection(db, "posts"), {
-    userId: postDto.userId,
-    title: postDto.title,
-    images: postDto.images,
-    content: postDto.content,
-    createdAt: postDto.createdAt,
-    updatedAt: postDto.updatedAt || serverTimestamp(),
-    likeCount: postDto.likeCount,
-    commentCount: postDto.commentCount,
-  });
-  await updateDoc(postRef, { id: postRef.id });
+  try {
+    const cleanedTitle = cleaningText(postDto.title);
+    const keywords = createKeyWords([cleanedTitle]);
 
-  return postRef.id;
+    const postRef = await addDoc(collection(db, "posts"), {
+      userId: postDto.userId,
+      title: postDto.title,
+      images: postDto.images,
+      content: postDto.content,
+      createdAt: postDto.createdAt,
+      updatedAt: postDto.updatedAt || serverTimestamp(),
+      likeCount: postDto.likeCount,
+      commentCount: postDto.commentCount,
+      keywords,
+    });
+    await updateDoc(postRef, { id: postRef.id });
+
+    return postRef.id;
+  } catch (error) {
+    throw new Error("포스트 작성에 실패하였습니다");
+  }
 };
 
 export const updatePost = async (postId: string, postDto: postDto) => {
+  const cleanedTitle = cleaningText(postDto.title);
+  const keywords = createKeyWords([cleanedTitle]);
+
   const postRef = doc(db, "posts", postId);
   await updateDoc(postRef, {
     ...postDto,
+    keywords,
     updatedAt: Timestamp.now(),
   });
 };
-
-// 모든 사용자의 like_posts 컬렉션에서 특정 포스트 ID의 좋아요 정보를 삭제하는 함수
 const deleteAllPostLikes = async (postId: string) => {
   try {
-    // 모든 사용자 문서를 가져옴
     const usersSnapshot = await getDocs(collection(db, "users"));
 
     if (usersSnapshot.empty) {
-      console.log("No users found.");
+      console.warn("유저가 존재하지 않습니다");
       return;
     }
 
@@ -113,15 +124,12 @@ const deleteAllPostLikes = async (postId: string) => {
       const likePostsSnapshot = await getDocs(likePostsQuery);
 
       likePostsSnapshot.forEach((likeDoc) => {
-        console.log("Deleting likeDoc with path:", likeDoc.ref.path);
         deletePromises.push(deleteDoc(likeDoc.ref));
       });
     }
 
     await Promise.all(deletePromises);
-    console.log("All like documents deleted successfully.");
   } catch (error) {
-    console.error("Failed to delete post likes: ", error);
     throw new Error("포스트 좋아요 정보를 삭제하는 데 실패하였습니다.");
   }
 };

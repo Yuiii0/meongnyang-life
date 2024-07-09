@@ -1,4 +1,4 @@
-import { createUserProfile } from "@/api/database/User/user.api";
+import { createUserProfile } from "@/lib/user/api";
 import { UserProfile } from "@/lib/user/type";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";

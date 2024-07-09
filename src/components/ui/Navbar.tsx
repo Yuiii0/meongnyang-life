@@ -16,6 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const { user } = useAuthStore();
+  const { resetModal } = useModalStore();
   const navigate = useNavigate();
   const { isOpen, closeModal } = useModalStore();
 
@@ -23,6 +24,7 @@ function Navbar() {
 
   const handleClickLogOut = async () => {
     try {
+      resetModal();
       await logOut();
       navigate(PATHS.logIn);
     } catch (error) {
@@ -47,7 +49,7 @@ function Navbar() {
       <div className="w-full max-w-md px-12 ">
         <div className="pb-6 ">
           <img
-            src="/public/images/dog_cat.png"
+            src="/images/dog_cat.png"
             alt="cat_and_dog"
             width={140}
             className="mx-auto"

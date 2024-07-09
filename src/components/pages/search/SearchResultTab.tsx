@@ -1,63 +1,78 @@
+import { postDto } from "@/lib/post/type";
+import { UserProfile } from "@/lib/user/type";
+import { formatCount } from "@/utils/formatCount";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
-import { useEffect, useState } from "react";
-
-const count = 5;
+import SimplePostCardsList from "../posts/SimplePostCardsList";
+import FollowToggleButton from "../user/follow/FollowButton/FollowToggleButton";
+import UserCard from "../user/userList/UserCard";
+import NoResults from "./NoResults";
 
 interface SearchResultTabProps {
   initialTab: string;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+  userData: UserProfile[];
+  postData: postDto[];
 }
 
-function SearchResultTab({ initialTab }: SearchResultTabProps) {
-  const [activeTab, setActiveTab] = useState(initialTab);
-
-  const handleChangeTab = (value: string) => {
-    setActiveTab(value);
-  };
-
-  useEffect(() => {
-    setActiveTab(initialTab);
-  }, [initialTab]);
-
+function SearchResultTab({
+  initialTab,
+  activeTab,
+  onTabChange,
+  userData,
+  postData,
+}: SearchResultTabProps) {
   return (
     <Tabs
       defaultValue={initialTab}
       className="w-full text-center text-gray-500"
-      onValueChange={handleChangeTab}
+      onValueChange={onTabChange}
     >
-      <TabsList className="flex justify-center ">
-        <TabsTrigger
-          value="all"
-          className={`flex-1 py-3 border-b ${
-            activeTab === "all"
-              ? "border-b-2 border-brand-100 text-brand-100 opacity-95"
-              : ""
-          }`}
-        >{`전체 ${count}`}</TabsTrigger>
+      <TabsList className="flex justify-center h-12">
         <TabsTrigger
           value="users"
-          className={`flex-1  border-b ${
+          className={`flex-1 py-3 border-b ${
             activeTab === "users"
               ? "border-b-2 border-brand-100 text-brand-100 opacity-95"
               : ""
           }`}
-        >{`유저 ${count}`}</TabsTrigger>
+        >
+          {`유저 ${formatCount(userData.length || 0)}`}
+        </TabsTrigger>
         <TabsTrigger
           value="posts"
-          className={`flex-1  border-b ${
+          className={`flex-1 py-3 border-b ${
             activeTab === "posts"
               ? "border-b-2 border-brand-100 text-brand-100 opacity-95"
               : ""
           }`}
-        >{`게시글 ${count}`}</TabsTrigger>
+        >{`게시글 ${formatCount(postData.length || 0)}`}</TabsTrigger>
       </TabsList>
-      <TabsContent value="all" className="h-full overflow-auto">
-        {/* <UserCardsList userIdList={followings} /> */}
-      </TabsContent>
       <TabsContent value="users" className="h-full overflow-auto">
-        {/* <UserCardsList userIdList={users} /> */}
+        {userData && userData.length > 0 ? (
+          <ul className="px-8 py-6">
+            {userData.map((user) => (
+              <li
+                key={user.userId}
+                className="flex items-center justify-between pb-1"
+              >
+                <UserCard userId={user.userId} />
+                <FollowToggleButton userId={user.userId} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <NoResults />
+        )}
       </TabsContent>
       <TabsContent value="posts" className="h-full overflow-auto">
-        {/* <SimplePostCardsList posts={posts} /> */}
+        <div className="px-8 py-6">
+          {postData && postData.length > 0 ? (
+            <SimplePostCardsList posts={postData} />
+          ) : (
+            <NoResults />
+          )}
+        </div>
       </TabsContent>
     </Tabs>
   );
