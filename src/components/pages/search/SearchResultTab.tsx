@@ -62,7 +62,10 @@ function SearchResultTab({
             ))}
           </ul>
         ) : (
-          <NoResults />
+          <NoResults
+            title="검색 결과가 없습니다."
+            description="다른 키워드로 검색해보세요"
+          />
         )}
       </TabsContent>
       <TabsContent value="posts" className="h-full overflow-auto">
@@ -70,7 +73,10 @@ function SearchResultTab({
           {postData && postData.length > 0 ? (
             <SimplePostCardsList posts={postData} />
           ) : (
-            <NoResults />
+            <NoResults
+              title="검색 결과가 없습니다."
+              description="다른 키워드로 검색해보세요"
+            />
           )}
         </div>
       </TabsContent>
