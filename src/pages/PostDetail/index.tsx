@@ -128,7 +128,7 @@ const PostDetailPage = () => {
           )}
         </div>
         <h1 className="text-xl font-semibold">{post.title}</h1>
-        <div className="pt-2">
+        <div className="pt-6">
           {post.images && post.images.length > 0 && (
             <div className="flex flex-col overflow-auto gap-y-4">
               {post.images.map((image: string, index: number) => (
