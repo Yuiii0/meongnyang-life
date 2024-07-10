@@ -26,6 +26,8 @@ function UserCard({ userId, isDate }: UserCardProps) {
           <img
             src={userProfile?.profileImg || DEFAULT_PROFILE_IMG_CAT}
             alt="profile"
+            height={56}
+            width={56}
           />
         </div>
         <div className="pl-4">

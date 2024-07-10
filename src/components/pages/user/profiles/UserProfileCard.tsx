@@ -48,6 +48,8 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
             src={profileImg || defaultProfileImg}
             alt="profile_img"
             className="w-full h-full overflow-hidden"
+            width={80}
+            height={80}
           />
         </div>
         <div className="flex-grow ml-6">
@@ -74,7 +76,8 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
               <img
                 src={gender == "female" ? FEMALE_ICON_IMG : MALE_ICON_IMG}
                 alt="gender_icon"
-                className="w-4 h-4"
+                width={14}
+                height={14}
               />
             </div>
             <div className="flex pt-1 text-[15px] font-medium text-gray-700 gap-x-6">

@@ -18,7 +18,9 @@ function Success({
           <img
             src="/images/family.webp"
             alt="dogs_family"
-            className="items-center justify-center w-[220px] mx-auto h-[220px]"
+            width={220}
+            height={220}
+            className="items-center justify-center mx-auto"
           />
         </div>
         <div className="text-lg text-gray-400">{text}</div>
