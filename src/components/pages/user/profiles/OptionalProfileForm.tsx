@@ -39,7 +39,7 @@ function OptionalProfileForm({
             }}
           >
             <img
-              src="/images/dog_smiling.png"
+              src="/images/dog_smiling.webp"
               alt="강아지"
               className="object-contain mx-auto"
             />
@@ -57,7 +57,7 @@ function OptionalProfileForm({
             }}
           >
             <img
-              src="/images/cat_smiling.png"
+              src="/images/cat_smiling.webp"
               alt="고양이"
               className="object-cover h-18 w-18"
             />

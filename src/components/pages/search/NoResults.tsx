@@ -2,7 +2,7 @@ function NoResults() {
   return (
     <div className="relative flex flex-col items-center justify-center w-full h-screen -translate-y-1/4 gap-y-4 ">
       <img
-        src="/images/dog_cute.png"
+        src="/images/dog_cute.webp"
         alt="dog_img"
         width={130}
         className="mx-auto"
