@@ -7,9 +7,10 @@ import { Timestamp } from "firebase/firestore";
 import { FilePenLine, MessageSquare } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
+
+import ImageSwiper from "@/components/ui/ImageSwiper";
 import FollowToggleButton from "../user/follow/FollowButton/FollowToggleButton";
 import UserCard from "../user/userList/UserCard";
-import ImageCarousel from "./ImageCarousel";
 import PostLikeToggleButton from "./LikeButton/PostLikeToggleButton";
 
 interface PostCardProps {
@@ -47,9 +48,9 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
           {post.title.slice(0, 18)}
         </h2>
         {post.images && post.images.length > 0 && (
-          <div className="flex items-center justify-center aspect-w-1 ">
+          <div className="flex items-center justify-center aspect-w-1 aspect-h-1">
             <div className="w-full h-full overflow-hidden">
-              <ImageCarousel images={post.images} visibleItems={1} />
+              <ImageSwiper images={post.images} />
             </div>
           </div>
         )}
