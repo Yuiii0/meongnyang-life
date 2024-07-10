@@ -11,6 +11,7 @@ import CommentForm from "@/components/pages/posts/Comments/CommentForm";
 import CommentList from "@/components/pages/posts/Comments/CommentList";
 import PostLikeToggleButton from "@/components/pages/posts/LikeButton/PostLikeToggleButton";
 import NoResults from "@/components/pages/search/NoResults";
+import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatCount } from "@/utils/formatCount";
@@ -134,10 +135,18 @@ const PostDetailPage = () => {
             <div className="flex flex-col overflow-auto gap-y-4">
               {post.images.map((image: string, index: number) => (
                 <div key={index} className="overflow-hidden rounded-sm">
-                  <img
+                  {/* <img
                     src={image}
                     alt={`Post image ${index + 1}`}
                     className="object-cover w-full h-auto"
+                    loading={index === 0 ? "eager" : "lazy"}
+                  /> */}
+                  <PlaceholderImage
+                    key={index}
+                    src={image}
+                    alt={`Post image ${index + 1}`}
+                    width={600}
+                    height={400}
                     loading={index === 0 ? "eager" : "lazy"}
                   />
                 </div>
