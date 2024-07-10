@@ -23,6 +23,7 @@ function ImageSwiper({ images }: ImageSwiperProps) {
             src={image}
             alt={`image_${index + 1}`}
             className="object-cover w-full h-full"
+            loading={index === 0 ? "eager" : "lazy"}
           />
         </SwiperSlide>
       ))}
