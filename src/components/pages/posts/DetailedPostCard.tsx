@@ -61,7 +61,9 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
         <PostLikeToggleButton postId={post.id || ""} />
         <div className="flex items-center text-gray-600 gap-x-2">
           <MessageSquare strokeWidth={1.5} />
-          <span>{formatCount(post.commentCount || 0)}</span>
+          <span className="text-gray-600">
+            {formatCount(post.commentCount || 0)}
+          </span>
         </div>
       </div>
     </div>

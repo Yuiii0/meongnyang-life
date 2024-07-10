@@ -24,7 +24,9 @@ function UserPage() {
   return (
     <Page>
       <UserProfileCard userProfile={userProfile} />
-      <SimplePostCardsList posts={posts || []} />
+      <section className="pt-4">
+        <SimplePostCardsList posts={posts || []} />
+      </section>
     </Page>
   );
 }
