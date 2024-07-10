@@ -39,7 +39,7 @@ export const uploadImagesAndGetUrls = async (
         maxSizeMB: 1,
         maxWidthOrHeight: 1920,
         useWebWorker: true,
-        fileType: "image/jpeg",
+        fileType: "image/webp",
       };
       try {
         const compressedImage = await imageCompression(image, options);
