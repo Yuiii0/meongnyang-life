@@ -138,6 +138,7 @@ const PostDetailPage = () => {
                     src={image}
                     alt={`Post image ${index + 1}`}
                     className="object-cover w-full h-auto"
+                    loading={index === 0 ? "eager" : "lazy"}
                   />
                 </div>
               ))}
