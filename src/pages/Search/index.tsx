@@ -72,7 +72,7 @@ function SearchPage() {
 
   return (
     <Page fullWidth>
-      <div className="flex items-center w-full pt-2 pb-4">
+      <div className="flex items-center w-full pb-4">
         <div
           className="px-3"
           onClick={searchStarted ? handleGoBack : undefined}

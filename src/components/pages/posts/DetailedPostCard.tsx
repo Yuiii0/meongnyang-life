@@ -27,7 +27,7 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
 
   return (
     <div>
-      <div className="flex items-center justify-between pt-2 px-7">
+      <div className="flex items-center justify-between px-7">
         <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
         {isMyPost ? (
           <div className="text-brand-100">
@@ -47,7 +47,7 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
           {post.title.slice(0, 18)}
         </h2>
         {post.images && post.images.length > 0 && (
-          <div className="flex items-center justify-center aspect-w-1 aspect-h-1">
+          <div className="flex items-center justify-center aspect-w-1 ">
             <div className="w-full h-full overflow-hidden">
               <ImageCarousel images={post.images} visibleItems={1} />
             </div>

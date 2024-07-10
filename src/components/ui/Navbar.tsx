@@ -55,7 +55,7 @@ function Navbar() {
             className="mx-auto"
           />
         </div>
-        <button onClick={closeModal} className="fixed mb-4 top-6 left-6">
+        <button onClick={closeModal} className="fixed mb-4 top-24 left-6">
           <X size={20} />
         </button>
         <nav>

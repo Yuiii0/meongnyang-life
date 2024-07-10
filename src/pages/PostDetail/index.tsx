@@ -10,6 +10,7 @@ import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 import CommentForm from "@/components/pages/posts/Comments/CommentForm";
 import CommentList from "@/components/pages/posts/Comments/CommentList";
 import PostLikeToggleButton from "@/components/pages/posts/LikeButton/PostLikeToggleButton";
+import NoResults from "@/components/pages/search/NoResults";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatCount } from "@/utils/formatCount";
@@ -86,7 +87,7 @@ const PostDetailPage = () => {
   );
 
   if (isError) {
-    return <div>삭제된 포스트입니다.</div>;
+    return <NoResults title="삭제된 포스트입니다" />;
   }
   if (!post || !postId || isLoading) {
     return <LoadingSpinner text="포스트를 가져오는 중 입니다" />;
