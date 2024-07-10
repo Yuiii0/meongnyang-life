@@ -98,12 +98,20 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         })}
       />
       <p>{errors.content?.message}</p>
-      <ImageUpload
-        maxImages={5}
-        onchangeImages={handleChangeImageUpload}
-        onIsImgUploading={setIsImgUploading}
-      />
-      <ImageCarousel images={selectedFiles} onRemoveImage={handleRemoveImage} />
+      <div className="flex items-center pt-8 gap-x-4">
+        <ImageUpload
+          maxImages={5}
+          onchangeImages={handleChangeImageUpload}
+          onIsImgUploading={setIsImgUploading}
+        />
+        <ImageCarousel
+          images={selectedFiles}
+          onRemoveImage={handleRemoveImage}
+        />
+      </div>
+      <p className="pr-4 text-sm text-gray-500 text-end">
+        {selectedFiles.length}/5
+      </p>
       <Button>작성 완료</Button>
       {isImgUploading && <p>이미지 업로드 중입니다...</p>}
     </form>

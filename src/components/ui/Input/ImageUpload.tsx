@@ -1,5 +1,6 @@
 import { uploadImagesAndGetUrls } from "@/lib/post/api";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
+import { Image } from "lucide-react";
 
 interface ImageUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   maxImages?: number;
@@ -34,7 +35,11 @@ function ImageUpload({
         onChange={handleChangeImages}
         {...props}
       />
-      <label htmlFor="fileImg">업로드</label>
+      <label htmlFor="fileImg">
+        <div className="flex items-center justify-center text-center text-gray-500 rounded-sm cursor-pointer h-[100px] w-[100px]">
+          <Image size={28} />
+        </div>
+      </label>
     </div>
   );
 }
