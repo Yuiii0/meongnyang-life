@@ -75,6 +75,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         placeholder="타이틀을 입력해주세요"
         type="text"
         error={!!errors.title}
+        isBorder={false}
         {...register("title", {
           required: "타이틀을 입력해주세요",
           minLength: { value: 3, message: "3글자 이상으로 작성해주세요" },
@@ -85,6 +86,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
       <TextArea
         placeholder="반려동물의 일상을 함께 공유해보세요"
         error={!!errors.content}
+        isBorder={false}
         {...register("content", {
           required: "내용을 입력해주세요",
           minLength: {
@@ -98,7 +100,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         })}
       />
       <p>{errors.content?.message}</p>
-      <div className="flex items-center pt-8 gap-x-4">
+      <div className="flex items-center pt-6 gap-x-4">
         <ImageUpload
           maxImages={5}
           onchangeImages={handleChangeImageUpload}
