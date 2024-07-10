@@ -113,7 +113,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
             onRemoveImage={handleRemoveImage}
           />
         </div>
-        <p className="pb-5 pr-4 text-sm text-gray-500 text-end">
+        <p className="pt-3 pb-5 pr-4 text-sm text-gray-500 text-end">
           {selectedFiles.length}/5
         </p>
         <Button>작성 완료</Button>
