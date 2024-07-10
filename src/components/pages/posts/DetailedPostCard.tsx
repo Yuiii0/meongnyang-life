@@ -4,7 +4,7 @@ import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { truncateString } from "@/utils/truncateString";
 import { Timestamp } from "firebase/firestore";
-import { FilePenLine, MessageSquare } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -30,13 +30,7 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
     <div>
       <div className="flex items-center justify-between px-7">
         <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
-        {isMyPost ? (
-          <div className="text-brand-100">
-            <FilePenLine />
-          </div>
-        ) : (
-          <FollowToggleButton userId={post.userId} />
-        )}
+        {!isMyPost && <FollowToggleButton userId={post.userId} />}
       </div>
 
       <Link
