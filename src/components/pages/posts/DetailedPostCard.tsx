@@ -28,7 +28,7 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
 
   return (
     <div>
-      <div className="flex items-center justify-between px-7">
+      <div className="z-10 flex items-center justify-between px-7">
         <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
         {!isMyPost && <FollowToggleButton userId={post.userId} />}
       </div>

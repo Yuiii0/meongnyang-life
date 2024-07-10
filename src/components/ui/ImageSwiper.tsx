@@ -15,7 +15,7 @@ function ImageSwiper({ images }: ImageSwiperProps) {
       pagination={{ clickable: true }}
       navigation={true}
       modules={[Pagination, Navigation]}
-      className="w-full h-full"
+      className="relative z-10 w-full h-full"
     >
       {images.map((image, index) => (
         <SwiperSlide key={index}>
