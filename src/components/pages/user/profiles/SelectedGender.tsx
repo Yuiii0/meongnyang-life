@@ -29,6 +29,8 @@ function SelectedGender({
             src={MALE_ICON_IMG}
             alt="남아"
             className="object-contain w-8 h-8 min-w-8 min-h-8"
+            width={32}
+            height={32}
           />
           <p className="pt-3 text-xs font-semibold text-gray-700">남아</p>
         </button>
@@ -42,7 +44,9 @@ function SelectedGender({
           <img
             src={FEMALE_ICON_IMG}
             alt="여아"
-            className="object-contain w-8 h-8 min-w-8 min-h-8"
+            width={32}
+            height={32}
+            className="object-contain min-w-8 min-h-8"
           />
           <p className="pt-3 text-xs font-semibold text-gray-700">여아</p>
         </button>

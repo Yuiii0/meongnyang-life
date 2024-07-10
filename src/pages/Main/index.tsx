@@ -1,5 +1,6 @@
 import DetailedPostCard from "@/components/pages/posts/DetailedPostCard";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import Page from "@/components/ui/Page";
 import { useGetAllPosts } from "@/lib/post/hooks/useGetAllPosts";
 import { postDto } from "@/lib/post/type";
 import { useEffect } from "react";
@@ -24,7 +25,7 @@ function MainPage() {
   }, [inView, hasNextPage, fetchNextPage]);
 
   return (
-    <div>
+    <Page fullWidth>
       {posts?.pages.map((page, index) => (
         <div key={index}>
           {page ? (
@@ -45,7 +46,7 @@ function MainPage() {
           <LoadingSpinner text="포스트를 가져오는 중입니다🐾" />
         )}
       </div>
-    </div>
+    </Page>
   );
 }
 export default MainPage;

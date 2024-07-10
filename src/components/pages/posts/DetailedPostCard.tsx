@@ -4,12 +4,13 @@ import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { truncateString } from "@/utils/truncateString";
 import { Timestamp } from "firebase/firestore";
-import { FilePenLine, MessageSquare } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
+
+import ImageSwiper from "@/components/ui/ImageSwiper";
 import FollowToggleButton from "../user/follow/FollowButton/FollowToggleButton";
 import UserCard from "../user/userList/UserCard";
-import ImageCarousel from "./ImageCarousel";
 import PostLikeToggleButton from "./LikeButton/PostLikeToggleButton";
 
 interface PostCardProps {
@@ -27,15 +28,9 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
 
   return (
     <div>
-      <div className="flex items-center justify-between pt-2 px-7">
+      <div className="z-10 flex items-center justify-between px-7">
         <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
-        {isMyPost ? (
-          <div className="text-brand-100">
-            <FilePenLine />
-          </div>
-        ) : (
-          <FollowToggleButton userId={post.userId} />
-        )}
+        {!isMyPost && <FollowToggleButton userId={post.userId} />}
       </div>
 
       <Link
@@ -47,9 +42,9 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
           {post.title.slice(0, 18)}
         </h2>
         {post.images && post.images.length > 0 && (
-          <div className="flex items-center justify-center aspect-square">
-            <div className="w-full h-full overflow-hidden aspect-square ">
-              <ImageCarousel images={post.images} visibleItems={1} />
+          <div className="flex items-center justify-center aspect-w-1 aspect-h-1">
+            <div className="w-full h-full overflow-hidden">
+              <ImageSwiper images={post.images} />
             </div>
           </div>
         )}
@@ -61,7 +56,9 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
         <PostLikeToggleButton postId={post.id || ""} />
         <div className="flex items-center text-gray-600 gap-x-2">
           <MessageSquare strokeWidth={1.5} />
-          <span>{formatCount(post.commentCount || 0)}</span>
+          <span className="text-gray-600">
+            {formatCount(post.commentCount || 0)}
+          </span>
         </div>
       </div>
     </div>

@@ -39,9 +39,11 @@ function OptionalProfileForm({
             }}
           >
             <img
-              src="/images/dog_smiling.png"
+              src="/images/dog_smiling.webp"
               alt="강아지"
               className="object-contain mx-auto"
+              width={76}
+              height={56}
             />
             <p className="pt-1 text-xs font-semibold text-gray-700">강아지</p>
           </button>
@@ -57,9 +59,11 @@ function OptionalProfileForm({
             }}
           >
             <img
-              src="/images/cat_smiling.png"
+              src="/images/cat_smiling.webp"
               alt="고양이"
               className="object-cover h-18 w-18"
+              width={76}
+              height={56}
             />
             <p className="pt-1 text-xs font-semibold text-gray-700">고양이</p>
           </button>

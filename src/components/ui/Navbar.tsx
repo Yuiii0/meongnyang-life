@@ -43,19 +43,20 @@ function Navbar() {
       isOpen={isOpen}
       onRequestClose={closeModal}
       className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white"
-      overlayClassName="fixed inset-0 bg-black bg-opacity-50"
-      ariaHideApp={false}
+      overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-50"
     >
       <div className="w-full max-w-md px-12 ">
-        <div className="pb-6 ">
+        <div className="pb-6">
           <img
-            src="/images/dog_cat.png"
+            src="/images/dog_cat.webp"
             alt="cat_and_dog"
             width={140}
             className="mx-auto"
           />
         </div>
-        <button onClick={closeModal} className="fixed mb-4 top-6 left-6">
+        <button onClick={closeModal} className="fixed mb-4 top-24 left-6 z-110">
+          {" "}
+          {/* 여기에도 z-110 추가 */}
           <X size={20} />
         </button>
         <nav>

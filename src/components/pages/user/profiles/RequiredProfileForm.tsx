@@ -85,6 +85,8 @@ function RequiredProfileForm({
           <img
             src={profileImg || DEFAULT_PROFILE_IMG_DOG}
             alt="profile-img"
+            width={80}
+            height={80}
             className="object-cover w-full h-full rounded-full"
           />
           <div className="absolute bottom-0 right-0 flex items-center justify-center w-5 h-5 overflow-hidden bg-gray-200 rounded-full">

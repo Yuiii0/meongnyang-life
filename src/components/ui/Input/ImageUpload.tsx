@@ -1,15 +1,19 @@
 import { uploadImagesAndGetUrls } from "@/lib/post/api";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
+import { Image } from "lucide-react";
+import Loader from "../Loader";
 
 interface ImageUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   maxImages?: number;
   onchangeImages: (files: string[]) => void;
+  isImgUploading: boolean;
   onIsImgUploading: (status: boolean) => void;
 }
 
 function ImageUpload({
   maxImages = 1,
   onchangeImages,
+  isImgUploading,
   onIsImgUploading,
   ...props
 }: ImageUploadProps) {
@@ -34,7 +38,15 @@ function ImageUpload({
         onChange={handleChangeImages}
         {...props}
       />
-      <label htmlFor="fileImg">업로드</label>
+      <label htmlFor="fileImg">
+        <div className="flex items-center justify-center text-center text-gray-500 rounded-sm cursor-pointer h-[96px] w-[96px]">
+          {isImgUploading ? (
+            <Loader loading={isImgUploading} />
+          ) : (
+            <Image size={28} />
+          )}
+        </div>
+      </label>
     </div>
   );
 }

@@ -75,6 +75,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         placeholder="타이틀을 입력해주세요"
         type="text"
         error={!!errors.title}
+        isBorder={false}
         {...register("title", {
           required: "타이틀을 입력해주세요",
           minLength: { value: 3, message: "3글자 이상으로 작성해주세요" },
@@ -85,6 +86,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
       <TextArea
         placeholder="반려동물의 일상을 함께 공유해보세요"
         error={!!errors.content}
+        isBorder={false}
         {...register("content", {
           required: "내용을 입력해주세요",
           minLength: {
@@ -98,14 +100,24 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         })}
       />
       <p>{errors.content?.message}</p>
-      <ImageUpload
-        maxImages={5}
-        onchangeImages={handleChangeImageUpload}
-        onIsImgUploading={setIsImgUploading}
-      />
-      <ImageCarousel images={selectedFiles} onRemoveImage={handleRemoveImage} />
-      <Button>작성 완료</Button>
-      {isImgUploading && <p>이미지 업로드 중입니다...</p>}
+      <div className="fixed bottom-0 left-0 w-full px-8 py-8">
+        <div className="flex items-center pt-6 gap-x-4">
+          <ImageUpload
+            maxImages={5}
+            onchangeImages={handleChangeImageUpload}
+            isImgUploading={isImgUploading}
+            onIsImgUploading={setIsImgUploading}
+          />
+          <ImageCarousel
+            images={selectedFiles}
+            onRemoveImage={handleRemoveImage}
+          />
+        </div>
+        <p className="pt-3 pb-5 pr-4 text-sm text-gray-500 text-end">
+          {selectedFiles.length}/5
+        </p>
+        <Button>작성 완료</Button>
+      </div>
     </form>
   );
 }

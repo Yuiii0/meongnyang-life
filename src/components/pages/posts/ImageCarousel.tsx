@@ -7,16 +7,16 @@ import { X } from "lucide-react";
 
 interface ImageCarouselProps {
   images: string[];
-  visibleItems?: number; // 표시할 이미지 개수
+  visibleItems?: number;
   onRemoveImage?: (imgURL: string) => void;
 }
 
 function ImageCarousel({
   images,
-  visibleItems = 3,
+  visibleItems = 2,
   onRemoveImage,
 }: ImageCarouselProps) {
-  const itemWidth = visibleItems === 1 ? "100%" : "33.3333%";
+  const itemWidth = `${100 / (visibleItems || 3)}%`;
 
   return (
     <Carousel
@@ -32,19 +32,24 @@ function ImageCarousel({
             className="flex-none"
             style={{ flexBasis: itemWidth }}
           >
-            <div className="relative w-full h-full overflow-hidden min-h-28">
+            <div className="w-full h-full overflow-hidden rounded-sm aspect-w-1 aspect-h-1">
               <img
                 src={image}
                 alt={`image_${index + 1}`}
-                className="object-cover w-full h-full"
+                className="object-cover w-full h-full "
               />
               {onRemoveImage && (
                 <button
                   type="button"
                   onClick={() => onRemoveImage(image)}
-                  className="absolute top-0 right-0 text-gray-400 bg-gray-200"
+                  className="absolute top-0 w-5 h-5 ml-auto bg-gray-600 rounded-sm opacity-80"
                 >
-                  <X strokeWidth={1} />
+                  <X
+                    strokeWidth={1}
+                    size={16}
+                    color="white"
+                    className="mx-auto"
+                  />
                 </button>
               )}
             </div>
