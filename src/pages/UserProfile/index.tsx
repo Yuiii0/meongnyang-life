@@ -1,4 +1,5 @@
 import SimplePostCardsList from "@/components/pages/posts/SimplePostCardsList";
+import NoResults from "@/components/pages/search/NoResults";
 import UserProfileCard from "@/components/pages/user/profiles/UserProfileCard";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
@@ -18,7 +19,7 @@ function UserPage() {
 
   if (isLoading) return <LoadingSpinner />;
   if (isError || !userProfile) {
-    return <div>유저 정보가 없습니다.</div>;
+    return <NoResults title="유저 정보가 없습니다." />;
   }
 
   return (
