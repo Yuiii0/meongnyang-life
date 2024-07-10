@@ -5,7 +5,6 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Fallback from "./components/ui/Fallback";
 import Header from "./components/ui/Header";
 import LogInPage from "./pages/LogIn";
-import ProtectedRoute from "./pages/ProtectedRoute";
 import { PATHS } from "./pages/route";
 import { initializeAuth } from "./stores/auth/useAuthStore";
 
@@ -27,10 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoute>
+      <>
         <Header />
         <Outlet />
-      </ProtectedRoute>
+      </>
     ),
     errorElement: <NotFoundPage />,
     children: [
