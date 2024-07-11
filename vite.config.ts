@@ -11,9 +11,9 @@ export default defineConfig({
   plugins: [
     react(),
     visualizer({
-      filename: "./dist/stats.html", 
-      gzipSize: true, 
-      brotliSize: true, 
+      filename: "./dist/stats.html",
+      gzipSize: true,
+      brotliSize: true,
     }),
   ],
   resolve: {
@@ -40,7 +40,7 @@ export default defineConfig({
             "@radix-ui/react-slot",
             "@radix-ui/react-tabs",
           ],
-          lodash: ["lodash", "lodash.debounce"],
+          lodash: ["lodash-es", "lodash-es/debounce"],
           emojiPicker: ["emoji-picker-react"],
         },
       },
