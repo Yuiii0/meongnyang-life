@@ -33,7 +33,7 @@ export const useCreateCommentLikeReaction = (
 
       return { previousLikeCount };
     },
-    onError: (_err, _variables, context) => {
+    onError: (err, _variables, context) => {
       if (context?.previousLikeCount) {
         queryClient.setQueryData(
           [COMMENT_LIKE_COUNT, commentId, replyId],
@@ -41,6 +41,7 @@ export const useCreateCommentLikeReaction = (
         );
       }
       toast.error("오류가 발생했습니다. 다시 시도해주세요");
+      console.warn(err.message);
     },
     onSettled: () => {
       queryClient.invalidateQueries({

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 function PostCreatePage() {
   const { user } = useAuthStore();
 
-  const { mutateAsync: create } = useCreatePost();
+  const { mutateAsync: createPost } = useCreatePost();
   const navigate = useNavigate();
   const handleCreatePost = async (data: PostFormData) => {
     const postDto = {
@@ -21,12 +21,11 @@ function PostCreatePage() {
       likeCount: 0,
       commentCount: 0,
     };
-    try {
-      const postId = await create(postDto);
-      navigate(`/posts/${postId}`);
-    } catch (error) {
-      alert("포스트 작성해 실패하였습니다. 다시 시도해주세요");
-    }
+    const postId = createPost(postDto, {
+      onSuccess: () => {
+        navigate(`/posts/${postId}`);
+      },
+    });
   };
   return (
     <Page>
