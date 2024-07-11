@@ -5,13 +5,13 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Fallback from "./components/ui/Fallback";
 import Header from "./components/ui/Header";
 import LogInPage from "./pages/LogIn";
+import MainPage from "./pages/Main";
 import { PATHS } from "./pages/route";
 import { initializeAuth } from "./stores/auth/useAuthStore";
 
 const BookmarkPage = lazy(() => import("./pages/Bookmark"));
 const FindPasswordPage = lazy(() => import("./pages/FindPassword"));
 const LikePage = lazy(() => import("./pages/Like"));
-const MainPage = lazy(() => import("./pages/Main"));
 const NotFoundPage = lazy(() => import("./pages/NotFound"));
 const PostCreatePage = lazy(() => import("./pages/PostCreate"));
 const PostDetailPage = lazy(() => import("./pages/PostDetail"));
