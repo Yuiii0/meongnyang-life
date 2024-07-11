@@ -4,7 +4,6 @@ import Input from "@/components/ui/Input/Input";
 import TextArea from "@/components/ui/Input/TextArea";
 import { removeImageFromStorage } from "@/lib/post/api";
 import { PostFormData } from "@/lib/post/type";
-import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import ImageCarousel from "./ImageCarousel";
@@ -20,7 +19,6 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
   >([]);
   const [isImgUploading, setIsImgUploading] = useState(false);
   const MAX_IMAGE = 5;
-  const { user } = useAuthStore();
 
   const {
     register,
