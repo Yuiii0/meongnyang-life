@@ -1,5 +1,6 @@
 import { Search } from "lucide-react";
 import { useRef } from "react";
+import toast from 'react-hot-toast';
 
 interface SearchBarProps {
   onSearch: (term: string) => void;
