@@ -5,7 +5,9 @@ import toast from "react-hot-toast";
 
 interface ImageUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   maxImages?: number;
-  onchangeImages: (files: string[]) => void;
+  onchangeImages: (
+    files: { original: string; small: string; large: string }[]
+  ) => void;
   onIsImgUploading: (status: boolean) => void;
 }
 
@@ -20,22 +22,17 @@ function ImageUpload({
   const handleChangeImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
     onIsImgUploading(true);
     const files = Array.from(e.target.files || []);
-
-    try {
-      const imageUrls = await toast.promise(
-        uploadImagesAndGetUrls(user?.uid || "", files),
-        {
-          loading: "이미지를 업로드 중입니다",
-          success: "이미지 업로드 성공!",
-          error: "이미지 업로드 실패",
-        }
-      );
-      onchangeImages(imageUrls);
-    } catch (error) {
-      console.error("Error uploading images:", error);
-    } finally {
-      onIsImgUploading(false);
-    }
+    const imageUrls = await uploadImagesAndGetUrls(
+      user?.uid || "",
+      files,
+      "posts"
+    );
+    const filteredImageUrls = imageUrls.filter(
+      (url): url is { original: string; small: string; large: string } =>
+        typeof url !== "string"
+    );
+    onchangeImages(filteredImageUrls);
+    onIsImgUploading(false);
   };
 
   return (

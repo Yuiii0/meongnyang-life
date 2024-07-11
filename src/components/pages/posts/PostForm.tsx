@@ -15,7 +15,9 @@ interface PostFormProps {
 }
 
 function PostForm({ onSubmit, initialData }: PostFormProps) {
-  const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<
+    { original: string; small: string; large: string }[]
+  >([]);
   const [isImgUploading, setIsImgUploading] = useState(false);
   const MAX_IMAGE = 5;
 
@@ -33,28 +35,28 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
     }
   }, [initialData]);
 
-  // 이미지 업로드 함수
-  const handleChangeImageUpload = (imageUrls: string[]) => {
+  const handleChangeImages = (
+    imageUrls: { original: string; small: string; large: string }[]
+  ) => {
     const newSelectedFiles = [...selectedFiles, ...imageUrls];
 
     if (newSelectedFiles.length > MAX_IMAGE) {
       toast.error("최대 5장까지 업로드 가능합니다");
       return;
     }
+
     setSelectedFiles(newSelectedFiles);
+    setIsImgUploading(false);
   };
 
-  // 첨부 이미지 삭제 함수
   const handleRemoveImage = (imgURL: string) => {
-    //storage에서 이미지 삭제
     removeImageFromStorage(imgURL);
-
-    //post 이미지 삭제
-    const newSelectedFiles = selectedFiles.filter((image) => image !== imgURL);
+    const newSelectedFiles = selectedFiles.filter(
+      (image) => image.original !== imgURL
+    );
     setSelectedFiles(newSelectedFiles);
   };
 
-  //form 제출 (create/update)
   const onValid = (data: PostFormData) => {
     if (isImgUploading) {
       toast("아직 이미지가 업로드 중입니다. 잠시만 기다려주세요.", {
@@ -111,7 +113,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
             onIsImgUploading={setIsImgUploading}
           />
           <ImageCarousel
-            images={selectedFiles}
+            images={selectedFiles.map((file) => file.original)}
             onRemoveImage={handleRemoveImage}
           />
         </div>

@@ -11,6 +11,7 @@ function PostCreatePage() {
 
   const { mutateAsync: createPost } = useCreatePost();
   const navigate = useNavigate();
+
   const handleCreatePost = async (data: PostFormData) => {
     const postDto = {
       userId: user?.uid || "",
@@ -27,6 +28,7 @@ function PostCreatePage() {
       },
     });
   };
+
   return (
     <Page>
       <PostForm onSubmit={handleCreatePost} />

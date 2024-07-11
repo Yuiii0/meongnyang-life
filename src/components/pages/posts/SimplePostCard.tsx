@@ -45,7 +45,9 @@ function SimplePostCard({ post }: SimplePostCardProps) {
       {post.images && post.images.length > 0 && (
         <div className="flex-shrink-0 ml-2 overflow-hidden rounded-md h-28 w-28">
           <img
-            src={post.images[0]}
+            src={post.images[0].original}
+            srcSet={`${post.images[0].small} 400w, ${post.images[0].large} 1080w`}
+            sizes="(max-width: 600px) 480px, 1080px"
             className="object-cover w-full h-full"
             width={112}
             height={112}
