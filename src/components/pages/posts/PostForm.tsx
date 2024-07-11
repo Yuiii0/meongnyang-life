@@ -4,6 +4,7 @@ import Input from "@/components/ui/Input/Input";
 import TextArea from "@/components/ui/Input/TextArea";
 import { removeImageFromStorage } from "@/lib/post/api";
 import { PostFormData } from "@/lib/post/type";
+import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import ImageCarousel from "./ImageCarousel";
@@ -14,9 +15,12 @@ interface PostFormProps {
 }
 
 function PostForm({ onSubmit, initialData }: PostFormProps) {
-  const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<
+    { original: string; small: string; large: string }[]
+  >([]);
   const [isImgUploading, setIsImgUploading] = useState(false);
   const MAX_IMAGE = 5;
+  const { user } = useAuthStore();
 
   const {
     register,
@@ -33,12 +37,9 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
   }, [initialData]);
 
   const handleChangeImages = (
-    imageUrls: (string | { original: string; small: string; large: string })[]
+    imageUrls: { original: string; small: string; large: string }[]
   ) => {
-    const newSelectedFiles = [
-      ...selectedFiles,
-      ...imageUrls.map((url) => (typeof url === "string" ? url : url.original)),
-    ];
+    const newSelectedFiles = [...selectedFiles, ...imageUrls];
 
     if (newSelectedFiles.length > MAX_IMAGE) {
       alert("최대 5장까지 업로드 가능합니다");
@@ -52,7 +53,9 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
 
   const handleRemoveImage = (imgURL: string) => {
     removeImageFromStorage(imgURL);
-    const newSelectedFiles = selectedFiles.filter((image) => image !== imgURL);
+    const newSelectedFiles = selectedFiles.filter(
+      (image) => image.original !== imgURL
+    );
     setSelectedFiles(newSelectedFiles);
   };
 
@@ -111,7 +114,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
             onIsImgUploading={setIsImgUploading}
           />
           <ImageCarousel
-            images={selectedFiles}
+            images={selectedFiles.map((file) => file.original)}
             onRemoveImage={handleRemoveImage}
           />
         </div>

@@ -5,7 +5,7 @@ export type postDto = {
   userId: string;
   title: string;
   content: string;
-  images?: string[] | null;
+  images?: { original: string; small: string; large: string }[] | null;
   likeCount: number;
   commentCount: number;
   createdAt: Timestamp;
@@ -16,5 +16,5 @@ export type postDto = {
 export type PostFormData = {
   title: string;
   content: string;
-  images: string[];
+  images: { original: string; small: string; large: string }[];
 };

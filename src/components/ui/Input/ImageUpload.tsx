@@ -6,7 +6,7 @@ import Loader from "../Loader";
 interface ImageUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   maxImages?: number;
   onchangeImages: (
-    files: (string | { original: string; small: string; large: string })[]
+    files: { original: string; small: string; large: string }[]
   ) => void;
   isImgUploading: boolean;
   onIsImgUploading: (status: boolean) => void;

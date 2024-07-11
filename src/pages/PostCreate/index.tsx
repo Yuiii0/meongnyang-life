@@ -8,9 +8,9 @@ import { useNavigate } from "react-router-dom";
 
 function PostCreatePage() {
   const { user } = useAuthStore();
-
   const { mutateAsync: create } = useCreatePost();
   const navigate = useNavigate();
+
   const handleCreatePost = async (data: PostFormData) => {
     const postDto = {
       userId: user?.uid || "",
@@ -28,6 +28,7 @@ function PostCreatePage() {
       alert("포스트 작성해 실패하였습니다. 다시 시도해주세요");
     }
   };
+
   return (
     <Page>
       <PostForm onSubmit={handleCreatePost} />
