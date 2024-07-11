@@ -5,7 +5,7 @@ import { useDeletePostLikeReaction } from "@/lib/likes/hooks/useDeletePostLikeRe
 import { useGetPostLikeCount } from "@/lib/likes/hooks/useGetPostLikeCount";
 import { useGetPostLikeStatus } from "@/lib/likes/hooks/useGetPostLikeStatus";
 import { formatCount } from "@/utils/formatCount";
-import debounce from "lodash/debounce";
+import { debounce } from "lodash-es";
 import PostLikeButton from "./PostLikeButton";
 import PostUnLikeButton from "./PostUnLikeButton";
 
