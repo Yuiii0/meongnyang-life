@@ -32,28 +32,30 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
     }
   }, [initialData]);
 
-  // 이미지 업로드 함수
-  const handleChangeImageUpload = (imageUrls: string[]) => {
-    const newSelectedFiles = [...selectedFiles, ...imageUrls];
+  const handleChangeImages = (
+    imageUrls: (string | { original: string; small: string; large: string })[]
+  ) => {
+    const newSelectedFiles = [
+      ...selectedFiles,
+      ...imageUrls.map((url) => (typeof url === "string" ? url : url.original)),
+    ];
 
     if (newSelectedFiles.length > MAX_IMAGE) {
       alert("최대 5장까지 업로드 가능합니다");
+      setIsImgUploading(false);
       return;
     }
+
     setSelectedFiles(newSelectedFiles);
+    setIsImgUploading(false);
   };
 
-  // 첨부 이미지 삭제 함수
   const handleRemoveImage = (imgURL: string) => {
-    //storage에서 이미지 삭제
     removeImageFromStorage(imgURL);
-
-    //post 이미지 삭제
     const newSelectedFiles = selectedFiles.filter((image) => image !== imgURL);
     setSelectedFiles(newSelectedFiles);
   };
 
-  //form 제출 (create/update)
   const onValid = (data: PostFormData) => {
     if (isImgUploading) {
       alert("이미지가 업로드 중입니다. 잠시만 기다려주세요.");
@@ -104,7 +106,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         <div className="flex items-center pt-6 gap-x-4">
           <ImageUpload
             maxImages={5}
-            onchangeImages={handleChangeImageUpload}
+            onchangeImages={handleChangeImages}
             isImgUploading={isImgUploading}
             onIsImgUploading={setIsImgUploading}
           />

@@ -4,12 +4,11 @@ import { cleaningText } from "@/utils/cleaningText";
 import { createKeyWords } from "@/utils/createKeywords";
 import imageCompression from "browser-image-compression";
 import {
-  DocumentData,
-  Timestamp,
   addDoc,
   collection,
   deleteDoc,
   doc,
+  DocumentData,
   getDoc,
   getDocs,
   limit,
@@ -17,6 +16,7 @@ import {
   query,
   serverTimestamp,
   startAfter,
+  Timestamp,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -24,47 +24,90 @@ import {
   deleteObject,
   getDownloadURL,
   ref,
+  StorageReference,
   uploadBytes,
 } from "firebase/storage";
 import { postDto } from "./type";
 
-// 이미지 url 생성 및 받아오는 함수
+interface UploadOptions {
+  maxSizeMB: number;
+  maxWidthOrHeight?: number;
+  useWebWorker: boolean;
+  fileType: string;
+}
+
+const uploadImage = async (
+  imageRef: StorageReference,
+  image: File
+): Promise<string> => {
+  const result = await uploadBytes(imageRef, image);
+  return await getDownloadURL(result.ref);
+};
+
+const compressImage = async (
+  image: File,
+  options: UploadOptions
+): Promise<File> => {
+  return await imageCompression(image, options);
+};
+
 export const uploadImagesAndGetUrls = async (
   userId: string,
   images: File[],
   refPath: string,
-  options: {
-    maxSizeMB: number;
-    maxWidthOrHeight: number;
-    useWebWorker: boolean;
-    fileType: string;
-  } = {
+  options: UploadOptions = {
     maxSizeMB: 1,
-    maxWidthOrHeight: 1920,
     useWebWorker: true,
     fileType: "image/webp",
   }
-): Promise<string[]> => {
+): Promise<(string | { original: string; small: string; large: string })[]> => {
   const imageUrls = await Promise.all(
     images.map(async (image) => {
       try {
-        const compressedImage = await imageCompression(image, options);
         const currentTime = Date.now();
-        let imageRef;
 
-        if (refPath === "posts") {
-          imageRef = ref(
+        if (refPath === "users") {
+          const compressedImage = await compressImage(image, options);
+          const imageRef = ref(storage, `${refPath}/${userId}`);
+          return await uploadImage(imageRef, compressedImage);
+        } else if (refPath === "posts") {
+          const largeImageOptions = { ...options, maxWidthOrHeight: 1080 };
+          const smallImageOptions = { ...options, maxWidthOrHeight: 480 };
+
+          const [compressedLargeImage, compressedSmallImage] =
+            await Promise.all([
+              compressImage(image, largeImageOptions),
+              compressImage(image, smallImageOptions),
+            ]);
+
+          const largeImageRef = ref(
+            storage,
+            `${refPath}/${userId}/${currentTime}_large_${image.name}`
+          );
+          const smallImageRef = ref(
+            storage,
+            `${refPath}/${userId}/${currentTime}_small_${image.name}`
+          );
+          const originalImageRef = ref(
             storage,
             `${refPath}/${userId}/${currentTime}_${image.name}`
           );
-        } else if (refPath === "users") {
-          imageRef = ref(storage, `${refPath}/${userId}`);
-        } else {
-          throw new Error("존재하지 않는 refPath 입니다.");
-        }
 
-        const result = await uploadBytes(imageRef, compressedImage);
-        return await getDownloadURL(result.ref);
+          const [largeImageUrl, smallImageUrl, originalImageUrl] =
+            await Promise.all([
+              uploadImage(largeImageRef, compressedLargeImage),
+              uploadImage(smallImageRef, compressedSmallImage),
+              uploadImage(originalImageRef, image),
+            ]);
+
+          return {
+            original: originalImageUrl,
+            small: smallImageUrl,
+            large: largeImageUrl,
+          };
+        } else {
+          throw new Error("잘못된 접근입니다.");
+        }
       } catch (error) {
         alert(error);
         throw error;
