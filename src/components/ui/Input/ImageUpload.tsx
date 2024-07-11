@@ -29,7 +29,11 @@ function ImageUpload({
       files,
       "posts"
     );
-    onchangeImages(imageUrls);
+    const filteredImageUrls = imageUrls.filter(
+      (url): url is { original: string; small: string; large: string } =>
+        typeof url !== "string"
+    );
+    onchangeImages(filteredImageUrls);
     onIsImgUploading(false);
   };
 

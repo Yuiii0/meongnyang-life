@@ -13,6 +13,7 @@ import PostLikeToggleButton from "@/components/pages/posts/LikeButton/PostLikeTo
 import NoResults from "@/components/pages/search/NoResults";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
+import { PostImage } from "@/lib/post/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";
@@ -133,17 +134,19 @@ const PostDetailPage = () => {
         <div className="pt-6">
           {post.images && post.images.length > 0 && (
             <div className="flex flex-col overflow-auto gap-y-4">
-              {post.images.map((image: string, index: number) => (
+              {post.images.map((image: PostImage, index: number) => (
                 <div key={index} className="overflow-hidden rounded-sm">
                   {/* <img
                     src={image}
                     alt={`Post image ${index + 1}`}
-                    className="object-cover w-full h-auto"
+                    claspsName="object-cover w-full h-auto"
                     loading={index === 0 ? "eager" : "lazy"}
                   /> */}
                   <PlaceholderImage
                     key={index}
-                    src={image}
+                    src={image.original}
+                    srcSet={`${image.small} 400w, ${image.large} 1080w`}
+                    sizes="(max-width: 600px) 480px, 1080px"
                     alt={`Post image ${index + 1}`}
                     width={600}
                     height={400}

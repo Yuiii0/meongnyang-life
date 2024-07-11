@@ -7,6 +7,8 @@ interface PlaceholderImageProps {
   className?: string;
   width: number;
   height: number;
+  srcSet?: string;
+  sizes?: string;
 }
 
 const PlaceholderImage: React.FC<PlaceholderImageProps> = ({
@@ -16,6 +18,8 @@ const PlaceholderImage: React.FC<PlaceholderImageProps> = ({
   className = "",
   width,
   height,
+  srcSet,
+  sizes,
 }) => {
   const [loaded, setLoaded] = useState(false);
 
@@ -42,6 +46,8 @@ const PlaceholderImage: React.FC<PlaceholderImageProps> = ({
       ></div>
       <img
         src={src}
+        srcSet={srcSet}
+        sizes={sizes}
         alt={alt}
         onLoad={handleLoad}
         className={`relative w-full h-full object-contain transition-opacity duration-300 rounded-md ${
