@@ -42,6 +42,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
 
     if (newSelectedFiles.length > MAX_IMAGE) {
       toast.error("최대 5장까지 업로드 가능합니다");
+      setIsImgUploading(false);
       return;
     }
 
@@ -59,7 +60,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
 
   const onValid = (data: PostFormData) => {
     if (isImgUploading) {
-      toast("아직 이미지가 업로드 중입니다. 잠시만 기다려주세요.", {
+      toast("아직 이미지가 업로드 중입니다", {
         icon: "🙏🏻",
       });
       return;
@@ -108,9 +109,10 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
       <div className="fixed bottom-0 left-0 w-full px-8 py-8">
         <div className="flex items-center pt-6 gap-x-4">
           <ImageUpload
-            maxImages={5}
-            onchangeImages={handleChangeImageUpload}
+            maxImages={MAX_IMAGE}
+            onchangeImages={handleChangeImages}
             onIsImgUploading={setIsImgUploading}
+            currentImagesCount={selectedFiles.length}
           />
           <ImageCarousel
             images={selectedFiles.map((file) => file.original)}
@@ -118,7 +120,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
           />
         </div>
         <p className="pt-3 pb-5 pr-4 text-sm text-gray-500 text-end">
-          {selectedFiles.length}/5
+          {selectedFiles.length}/{MAX_IMAGE}
         </p>
         <Button>작성 완료</Button>
       </div>

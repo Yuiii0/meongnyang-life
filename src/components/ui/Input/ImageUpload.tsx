@@ -22,17 +22,27 @@ function ImageUpload({
   const handleChangeImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
     onIsImgUploading(true);
     const files = Array.from(e.target.files || []);
-    const imageUrls = await uploadImagesAndGetUrls(
-      user?.uid || "",
-      files,
-      "posts"
-    );
-    const filteredImageUrls = imageUrls.filter(
-      (url): url is { original: string; small: string; large: string } =>
-        typeof url !== "string"
-    );
-    onchangeImages(filteredImageUrls);
-    onIsImgUploading(false);
+
+    try {
+      const imageUrls = await toast.promise(
+        uploadImagesAndGetUrls(user?.uid || "", files, "posts"),
+        {
+          loading: "이미지를 업로드 중입니다...",
+          success: "이미지 업로드 성공!",
+          error: "이미지 업로드 실패.",
+        }
+      );
+
+      const filteredImageUrls = imageUrls.filter(
+        (url): url is { original: string; small: string; large: string } =>
+          typeof url !== "string"
+      );
+      onchangeImages(filteredImageUrls);
+    } catch (error) {
+      console.warn("이미지 업로드에 실패하였습니다", error);
+    } finally {
+      onIsImgUploading(false);
+    }
   };
 
   return (
