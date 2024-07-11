@@ -18,28 +18,35 @@ const PlaceholderImage: React.FC<PlaceholderImageProps> = ({
   height,
 }) => {
   const [loaded, setLoaded] = useState(false);
-  const placeholderSrc = `https://via.placeholder.com/${width}x${height}`;
 
   const handleLoad = () => {
     setLoaded(true);
   };
 
+  const paddingBottom = (height / width) * 100;
+
   return (
-    <div className="relative w-full h-auto">
-      <img
-        src={placeholderSrc}
-        alt={`${alt} placeholder`}
-        className={`absolute top-0 left-0 w-full h-full object-contain transition-opacity duration-300 ${
+    <div
+      className={`relative ${className}`}
+      style={{
+        width: "100%",
+        paddingBottom: loaded ? "0" : `${paddingBottom}%`,
+        transition: "padding-bottom 0.3s ease",
+      }}
+    >
+      <div
+        className={`absolute top-0 left-0 w-full h-full bg-gray-100 transition-opacity duration-300  rounded-md ${
           loaded ? "opacity-0" : "opacity-100"
         }`}
-      />
+        style={{ width: `${width}px`, height: `${height}px` }}
+      ></div>
       <img
         src={src}
         alt={alt}
         onLoad={handleLoad}
-        className={`relative w-full h-auto object-contain transition-opacity duration-300 ${
+        className={`relative w-full h-full object-contain transition-opacity duration-300 rounded-md ${
           loaded ? "opacity-100" : "opacity-0"
-        } ${className}`}
+        }`}
         loading={loading}
       />
     </div>
