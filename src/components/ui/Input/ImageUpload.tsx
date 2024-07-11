@@ -22,7 +22,11 @@ function ImageUpload({
   const handleChangeImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
     onIsImgUploading(true);
     const files = Array.from(e.target.files || []);
-    const imageUrls = await uploadImagesAndGetUrls(user?.uid || "", files);
+    const imageUrls = await uploadImagesAndGetUrls(
+      user?.uid || "",
+      files,
+      "posts"
+    );
     onchangeImages(imageUrls);
     onIsImgUploading(false);
   };

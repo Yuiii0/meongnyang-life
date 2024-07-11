@@ -31,23 +31,38 @@ import { postDto } from "./type";
 // 이미지 url 생성 및 받아오는 함수
 export const uploadImagesAndGetUrls = async (
   userId: string,
-  images: File[]
+  images: File[],
+  refPath: string,
+  options: {
+    maxSizeMB: number;
+    maxWidthOrHeight: number;
+    useWebWorker: boolean;
+    fileType: string;
+  } = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true,
+    fileType: "image/webp",
+  }
 ): Promise<string[]> => {
   const imageUrls = await Promise.all(
     images.map(async (image) => {
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 1920,
-        useWebWorker: true,
-        fileType: "image/webp",
-      };
       try {
         const compressedImage = await imageCompression(image, options);
         const currentTime = Date.now();
-        const imageRef = ref(
-          storage,
-          `posts/${userId}/${currentTime}_${image.name}`
-        );
+        let imageRef;
+
+        if (refPath === "posts") {
+          imageRef = ref(
+            storage,
+            `${refPath}/${userId}/${currentTime}_${image.name}`
+          );
+        } else if (refPath === "users") {
+          imageRef = ref(storage, `${refPath}/${userId}`);
+        } else {
+          throw new Error("존재하지 않는 refPath 입니다.");
+        }
+
         const result = await uploadBytes(imageRef, compressedImage);
         return await getDownloadURL(result.ref);
       } catch (error) {
