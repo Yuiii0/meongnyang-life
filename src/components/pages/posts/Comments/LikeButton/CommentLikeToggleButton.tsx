@@ -3,7 +3,7 @@ import { useDeleteCommentLikeReaction } from "@/lib/likes/hooks/useDeleteComment
 import { useGetCommentLikeCount } from "@/lib/likes/hooks/useGetCommentLikeCount";
 import { useGetCommentLikeStatus } from "@/lib/likes/hooks/useGetCommentLikeStatus";
 import { formatCount } from "@/utils/formatCount";
-import { debounce } from "lodash";
+import { debounce } from "lodash-es";
 import CommentLikeButton from "./CommentLikeButton";
 import CommentUnLikeButton from "./CommentUnLikeButton";
 
