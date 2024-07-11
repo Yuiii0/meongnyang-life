@@ -54,12 +54,15 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
       <CornerDownRight size={14} className="mt-2 mr-3" />
       <div className="flex flex-1 gap-x-3">
         <Link to={`/profiles/${reply.userId}`}>
-          <img
-            src={userInfo?.profileImg || DEFAULT_PROFILE_IMG_CAT}
-            alt="profile-img"
-            width={38}
-            height={38}
-          />
+          <div className="w-[36px] h-[36px] ">
+            <img
+              src={userInfo?.profileImg || DEFAULT_PROFILE_IMG_CAT}
+              alt="profile-img"
+              width={36}
+              height={36}
+              className="object-cover w-full h-full rounded-full"
+            />
+          </div>
         </Link>
         <div className="w-full">
           <div className="flex items-center gap-x-2">
