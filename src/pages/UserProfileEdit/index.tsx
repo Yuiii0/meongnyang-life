@@ -7,8 +7,8 @@ import PrevButton from "@/components/ui/Button/PrevButton";
 import Page from "@/components/ui/Page";
 import Success from "@/components/ui/Success";
 import { useAuth } from "@/hooks/Auth/useAuth";
-import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
-import { useUpdateUserProfile } from "@/hooks/User/useUpdateUserProfile";
+import { useUpdateUserProfile } from "@/lib/user/hooks/useUpdateUserProfile";
+import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
 
 import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

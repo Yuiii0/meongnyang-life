@@ -5,7 +5,7 @@ import NextButton from "@/components/ui/Button/NextButton";
 import PrevButton from "@/components/ui/Button/PrevButton";
 import Page from "@/components/ui/Page";
 import Success from "@/components/ui/Success";
-import { useCreateUserProfile } from "@/hooks/User/useCreateUserProfile";
+import { useCreateUserProfile } from '@/lib/user/hooks/useCreateUserProfile';
 
 import { ChangeEvent, useState } from "react";
 
