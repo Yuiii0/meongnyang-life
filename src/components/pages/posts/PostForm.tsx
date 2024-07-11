@@ -108,7 +108,6 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
           <ImageUpload
             maxImages={5}
             onchangeImages={handleChangeImageUpload}
-            isImgUploading={isImgUploading}
             onIsImgUploading={setIsImgUploading}
           />
           <ImageCarousel

@@ -8,6 +8,7 @@ import Success from "@/components/ui/Success";
 import { useCreateUserProfile } from "@/lib/user/hooks/useCreateUserProfile";
 
 import { ChangeEvent, useState } from "react";
+import toast from "react-hot-toast";
 
 function UserProfileCreatePage() {
   const user = auth.currentUser;
@@ -70,7 +71,7 @@ function UserProfileCreatePage() {
   const handleSubmitProfile = async () => {
     const user = auth.currentUser;
     if (!user) {
-      alert("접근 권한이 없습니다");
+      toast.error("접근 권한이 없습니다");
       return;
     }
 

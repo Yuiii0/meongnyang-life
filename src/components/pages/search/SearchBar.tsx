@@ -13,7 +13,7 @@ function SearchBar({ onSearch }: SearchBarProps) {
     if (searchInputRef.current) {
       const searchTerm = searchInputRef?.current.value;
       if (searchTerm.trim().length < 2) {
-        alert("검색어를 2글자 이상 입력해주세요.");
+        toast.error("검색어를 2글자 이상 입력해주세요.");
         return;
       }
       saveRecentSearchTerm(searchTerm);

@@ -51,7 +51,7 @@ export const uploadImagesAndGetUrls = async (
         const result = await uploadBytes(imageRef, compressedImage);
         return await getDownloadURL(result.ref);
       } catch (error) {
-        alert(error);
+        console.warn(error);
         throw error;
       }
     })

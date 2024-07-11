@@ -11,6 +11,7 @@ import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
 import { useUpdateUserProfile } from "@/lib/user/hooks/useUpdateUserProfile";
 
 import { ChangeEvent, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 function UserEditPage() {
@@ -99,7 +100,7 @@ function UserEditPage() {
   const handleSubmitProfile = async () => {
     const user = auth.currentUser;
     if (!user) {
-      alert("접근 권한이 없습니다");
+      toast.error("접근 권한이 없습니다");
       return;
     }
 
