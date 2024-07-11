@@ -37,11 +37,7 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
   };
 
   const handleDeleteReply = () => {
-    try {
-      deleteReply();
-    } catch (error) {
-      alert("오류가 발생하였습니다. 다시 시도해주세요");
-    }
+    deleteReply();
   };
 
   const timeStamp = new Timestamp(

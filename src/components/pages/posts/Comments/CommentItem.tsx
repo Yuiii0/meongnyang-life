@@ -43,11 +43,7 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
     );
 
     const handleDeleteComment = () => {
-      try {
-        deleteComment();
-      } catch (error) {
-        alert("오류가 발생하였습니다. 다시 시도해주세요");
-      }
+      deleteComment();
     };
 
     const handleEditComment = () => {

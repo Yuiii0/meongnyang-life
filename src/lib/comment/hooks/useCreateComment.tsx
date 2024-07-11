@@ -1,6 +1,7 @@
 import { POST } from "@/lib/post/key";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Timestamp } from "firebase/firestore";
+import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 import { createComment } from "../api";
 import { COMMENT } from "../key";
@@ -36,10 +37,12 @@ export default function useCreateComment(postId: string, userId: string) {
       );
       return { previousComments };
     },
-    onError: (_err, _variables, context) => {
+    onError: (err, _variables, context) => {
       if (context?.previousComments) {
         queryClient.setQueryData([COMMENT, postId], context.previousComments);
       }
+      toast.error("오류가 발생했습니다. 다시 시도해주세요");
+      console.warn(err.message);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [COMMENT, postId] });

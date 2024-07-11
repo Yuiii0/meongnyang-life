@@ -71,11 +71,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
           }
         } else {
           if (isReply && commentId) {
-            try {
-              createReply({ commentId, content: inputValue });
-            } catch (error) {
-              alert("오류가 발생하였습니다. 다시 시도해주세요");
-            }
+            createReply({ commentId, content: inputValue });
           } else {
             createComment(inputValue);
           }
@@ -84,7 +80,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
         inputRef.current.value = "";
         onSubmitComment();
       } catch (error) {
-        alert("오류가 발생했습니다. 다시 시도해주세요");
+        console.warn(error);
       }
     }
   };
