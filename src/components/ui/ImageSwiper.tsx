@@ -15,6 +15,7 @@ function ImageSwiper({ images }: ImageSwiperProps) {
       pagination={{ clickable: true }}
       navigation={true}
       modules={[Pagination, Navigation]}
+      lazyPreloadPrevNext={1}
       className="relative z-10 w-full h-full"
     >
       {images.map((image, index) => (
@@ -25,6 +26,7 @@ function ImageSwiper({ images }: ImageSwiperProps) {
             className="object-cover w-full h-full overflow-hidden rounded-md"
             loading={index === 0 ? "eager" : "lazy"}
           />
+          <div className="swiper-lazy-preloader-black"></div>
         </SwiperSlide>
       ))}
     </Swiper>
