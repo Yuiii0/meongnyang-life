@@ -18,3 +18,9 @@ export type PostFormData = {
   content: string;
   images: { original: string; small: string; large: string }[];
 };
+
+export type PostImage = {
+  original: string;
+  small: string;
+  large: string;
+};
