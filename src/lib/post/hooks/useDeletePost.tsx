@@ -17,7 +17,7 @@ export const useDeletePost = () => {
 
       return { previousPost };
     },
-    onError: (err, { postId }, context) => {
+    onError: (_err, { postId }, context) => {
       queryClient.setQueryData([POST, postId], context?.previousPost);
     },
     onSettled: (postId) => {

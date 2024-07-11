@@ -1,30 +1,32 @@
 import { uploadImagesAndGetUrls } from "@/lib/post/api";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { Image } from "lucide-react";
-import Loader from "../Loader";
+import toast from "react-hot-toast";
 
 interface ImageUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   maxImages?: number;
   onchangeImages: (files: string[]) => void;
-  isImgUploading: boolean;
-  onIsImgUploading: (status: boolean) => void;
 }
 
 function ImageUpload({
   maxImages = 1,
   onchangeImages,
-  isImgUploading,
-  onIsImgUploading,
   ...props
 }: ImageUploadProps) {
   const { user } = useAuthStore();
 
   const handleChangeImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    onIsImgUploading(true);
     const files = Array.from(e.target.files || []);
-    const imageUrls = await uploadImagesAndGetUrls(user?.uid || "", files);
-    onchangeImages(imageUrls);
-    onIsImgUploading(false);
+
+    toast
+      .promise(uploadImagesAndGetUrls(user?.uid || "", files), {
+        loading: "이미지를 업로드 중입니다",
+        success: "이미지 업로드 성공!",
+        error: "이미지 업로드 실패.",
+      })
+      .then((imageUrls) => {
+        onchangeImages(imageUrls);
+      });
   };
 
   return (
@@ -40,11 +42,7 @@ function ImageUpload({
       />
       <label htmlFor="fileImg">
         <div className="flex items-center justify-center text-center text-gray-500 rounded-sm cursor-pointer h-[96px] w-[96px]">
-          {isImgUploading ? (
-            <Loader loading={isImgUploading} />
-          ) : (
-            <Image size={28} />
-          )}
+          <Image size={28} />
         </div>
       </label>
     </div>

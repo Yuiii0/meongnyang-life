@@ -6,6 +6,7 @@ import { removeImageFromStorage } from "@/lib/post/api";
 import { PostFormData } from "@/lib/post/type";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import ImageCarousel from "./ImageCarousel";
 
 interface PostFormProps {
@@ -37,7 +38,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
     const newSelectedFiles = [...selectedFiles, ...imageUrls];
 
     if (newSelectedFiles.length > MAX_IMAGE) {
-      alert("최대 5장까지 업로드 가능합니다");
+      toast.error("최대 5장까지 업로드 가능합니다");
       return;
     }
     setSelectedFiles(newSelectedFiles);
@@ -56,7 +57,9 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
   //form 제출 (create/update)
   const onValid = (data: PostFormData) => {
     if (isImgUploading) {
-      alert("이미지가 업로드 중입니다. 잠시만 기다려주세요.");
+      toast("아직 이미지가 업로드 중입니다. 잠시만 기다려주세요.", {
+        icon: "🙏🏻",
+      });
       return;
     }
     try {
@@ -65,7 +68,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         images: [...selectedFiles],
       });
     } catch (error) {
-      alert("에러가 발생하였습니다. 다시 시도해주세요");
+      toast.error("에러가 발생하였습니다. 다시 시도해주세요");
     }
   };
 
