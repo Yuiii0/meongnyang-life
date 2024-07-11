@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { createPostLikeReaction } from "../api";
 import { POST_LIKE_COUNT, POST_LIKE_STATUS, POST_LIKED_BY_USER } from "../key";
 
@@ -27,6 +28,7 @@ export const useCreatePostLikeReaction = (postId: string, userId: string) => {
           context.previousLikeCount
         );
       }
+      toast.error("오류가 발생했습니다. 다시 시도해주세요");
     },
     onSettled: () => {
       queryClient.invalidateQueries({
