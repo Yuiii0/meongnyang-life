@@ -3,8 +3,8 @@ import NoResults from "@/components/pages/search/NoResults";
 import UserProfileCard from "@/components/pages/user/profiles/UserProfileCard";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
-import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
 import { useGetPostsByUserId } from "@/lib/post/hooks/useGetPostsByUserId";
+import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
 import { useParams } from "react-router-dom";
 
 function UserPage() {

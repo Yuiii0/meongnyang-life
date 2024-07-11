@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateReply } from "../api";
 import { COMMENT } from "../key";
 import { ReplyDto } from "../type";
+import toast from 'react-hot-toast';
 
 export const useUpdateReply = (postId: string) => {
   const queryClient = useQueryClient();
@@ -38,13 +39,15 @@ export const useUpdateReply = (postId: string) => {
       );
       return { previousReplies };
     },
-    onError: (_err, { commentId }, context) => {
+    onError: (err, { commentId }, context) => {
       if (context?.previousReplies) {
         queryClient.setQueryData(
           [COMMENT, postId, commentId],
           context.previousReplies
         );
       }
+      toast.error("오류가 발생하였습니다. 다시 시도해주세요");
+      console.warn(err.message);
     },
     onSettled: (_data, _error, { commentId }) => {
       queryClient.invalidateQueries({ queryKey: [COMMENT, postId, commentId] });

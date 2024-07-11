@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { updatePost } from "../api";
 import { POST } from "../key";
 import { postDto } from "../type";
@@ -24,13 +25,15 @@ export const useUpdatePost = () => {
       queryClient.setQueryData([POST, postId], postDto);
       return { previousPost };
     },
-    onError: (_err, _data, context?: MutationContext) => {
+    onError: (err, _data, context?: MutationContext) => {
       if (context) {
         queryClient.setQueryData(
           [POST, context.previousPost.id],
           context.previousPost
         );
       }
+      toast.error("포스트 업데이트에 실패하였습니다.");
+      console.warn(err.message);
     },
     onSettled: (_data, _error, { postId }) => {
       queryClient.invalidateQueries({

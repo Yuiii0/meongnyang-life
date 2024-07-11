@@ -1,4 +1,4 @@
-import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
+import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useModalStore } from "@/stores/modal/useModalStore";
 import { useNavigate } from "react-router-dom";
@@ -21,11 +21,12 @@ function UserCard({ userId, isDate }: UserCardProps) {
 
   return (
     <div onClick={handleClickUserCard}>
-      <div className="flex items-center py-3">
+      <div className="flex items-center py-3 overflow-hidden ">
         <div className="h-14 w-14">
           <img
             src={userProfile?.profileImg || DEFAULT_PROFILE_IMG_CAT}
             alt="profile"
+            className="object-cover w-full h-full rounded-full"
             height={56}
             width={56}
           />

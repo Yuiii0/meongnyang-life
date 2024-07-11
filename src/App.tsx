@@ -8,6 +8,7 @@ import LogInPage from "./pages/LogIn";
 import MainPage from "./pages/Main";
 import { PATHS } from "./pages/route";
 import { initializeAuth } from "./stores/auth/useAuthStore";
+import { Toaster } from "react-hot-toast";
 
 const BookmarkPage = lazy(() => import("./pages/Bookmark"));
 const FindPasswordPage = lazy(() => import("./pages/FindPassword"));
@@ -60,6 +61,7 @@ function App() {
       <Suspense fallback={<Fallback />}>
         <RouterProvider router={router} />
       </Suspense>
+      <Toaster position="top-center" reverseOrder={false} />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

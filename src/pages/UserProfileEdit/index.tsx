@@ -7,10 +7,11 @@ import PrevButton from "@/components/ui/Button/PrevButton";
 import Page from "@/components/ui/Page";
 import Success from "@/components/ui/Success";
 import { useAuth } from "@/hooks/Auth/useAuth";
-import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
-import { useUpdateUserProfile } from "@/hooks/User/useUpdateUserProfile";
+import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
+import { useUpdateUserProfile } from "@/lib/user/hooks/useUpdateUserProfile";
 
 import { ChangeEvent, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 function UserEditPage() {
@@ -99,11 +100,12 @@ function UserEditPage() {
   const handleSubmitProfile = async () => {
     const user = auth.currentUser;
     if (!user) {
-      alert("접근 권한이 없습니다");
+      toast.error("접근 권한이 없습니다");
       return;
     }
-    try {
-      updateUserData({
+
+    updateUserData(
+      {
         userId: user.uid,
         userName: user.displayName || "Anonymous",
         profileImg,
@@ -114,11 +116,13 @@ function UserEditPage() {
         breed,
         gender,
         updatedAt: Date.now(),
-      });
-      handleClickNextStep();
-    } catch (error) {
-      alert("오류가 발생했습니다. 다시 시도해주세요");
-    }
+      },
+      {
+        onSuccess: () => {
+          handleClickNextStep();
+        },
+      }
+    );
   };
 
   // 다음 단계로 넘어가기 전에 validation 검사

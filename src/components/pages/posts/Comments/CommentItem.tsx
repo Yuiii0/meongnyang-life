@@ -1,6 +1,6 @@
-import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
 import useDeleteComment from "@/lib/comment/hooks/useDeleteComment";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
+import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
 
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
@@ -43,11 +43,7 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
     );
 
     const handleDeleteComment = () => {
-      try {
-        deleteComment();
-      } catch (error) {
-        alert("오류가 발생하였습니다. 다시 시도해주세요");
-      }
+      deleteComment();
     };
 
     const handleEditComment = () => {
@@ -77,12 +73,15 @@ const CommentItem: React.FC<CommentItemProps> = React.memo(
         <div className="flex py-3">
           <div className="flex flex-1 gap-x-3">
             <Link to={`/profiles/${comment.userId}`}>
-              <img
-                src={userInfo?.profileImg || DEFAULT_PROFILE_IMG_CAT}
-                alt="profile-img"
-                width={38}
-                height={38}
-              />
+              <div className="w-[38px] h-[38px] ">
+                <img
+                  src={userInfo?.profileImg || DEFAULT_PROFILE_IMG_CAT}
+                  alt="profile-img"
+                  width={38}
+                  height={38}
+                  className="object-cover w-full h-full rounded-full"
+                />
+              </div>
             </Link>
             <div className="w-full">
               <div className="flex items-center gap-x-2">

@@ -11,6 +11,7 @@ import {
   UserRound,
   X,
 } from "lucide-react";
+import toast from "react-hot-toast";
 import Modal from "react-modal";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -28,7 +29,7 @@ function Navbar() {
       await logOut();
       navigate(PATHS.logIn);
     } catch (error) {
-      alert("오류가 발생했습니다. 다시 시도해주세요");
+      toast.error("오류가 발생했습니다. 다시 시도해주세요");
     }
   };
   const handleClickDeleteAccount = async (user: User) => {

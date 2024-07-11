@@ -6,6 +6,7 @@ import { removeImageFromStorage } from "@/lib/post/api";
 import { PostFormData } from "@/lib/post/type";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import ImageCarousel from "./ImageCarousel";
 
 interface PostFormProps {
@@ -14,7 +15,9 @@ interface PostFormProps {
 }
 
 function PostForm({ onSubmit, initialData }: PostFormProps) {
-  const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<
+    { original: string; small: string; large: string }[]
+  >([]);
   const [isImgUploading, setIsImgUploading] = useState(false);
   const MAX_IMAGE = 5;
 
@@ -32,31 +35,32 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
     }
   }, [initialData]);
 
-  // 이미지 업로드 함수
-  const handleChangeImageUpload = (imageUrls: string[]) => {
+  const handleChangeImages = (
+    imageUrls: { original: string; small: string; large: string }[]
+  ) => {
     const newSelectedFiles = [...selectedFiles, ...imageUrls];
 
     if (newSelectedFiles.length > MAX_IMAGE) {
-      alert("최대 5장까지 업로드 가능합니다");
+      toast.error("최대 5장까지 업로드 가능합니다");
       return;
     }
+
     setSelectedFiles(newSelectedFiles);
   };
 
-  // 첨부 이미지 삭제 함수
   const handleRemoveImage = (imgURL: string) => {
-    //storage에서 이미지 삭제
     removeImageFromStorage(imgURL);
-
-    //post 이미지 삭제
-    const newSelectedFiles = selectedFiles.filter((image) => image !== imgURL);
+    const newSelectedFiles = selectedFiles.filter(
+      (image) => image.original !== imgURL
+    );
     setSelectedFiles(newSelectedFiles);
   };
 
-  //form 제출 (create/update)
   const onValid = (data: PostFormData) => {
     if (isImgUploading) {
-      alert("이미지가 업로드 중입니다. 잠시만 기다려주세요.");
+      toast("아직 이미지가 업로드 중입니다", {
+        icon: "🙏🏻",
+      });
       return;
     }
     try {
@@ -65,7 +69,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         images: [...selectedFiles],
       });
     } catch (error) {
-      alert("에러가 발생하였습니다. 다시 시도해주세요");
+      toast.error("에러가 발생하였습니다. 다시 시도해주세요");
     }
   };
 
@@ -103,18 +107,18 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
       <div className="fixed bottom-0 left-0 w-full px-8 py-8">
         <div className="flex items-center pt-6 gap-x-4">
           <ImageUpload
-            maxImages={5}
-            onchangeImages={handleChangeImageUpload}
-            isImgUploading={isImgUploading}
+            maxImages={MAX_IMAGE}
+            onchangeImages={handleChangeImages}
             onIsImgUploading={setIsImgUploading}
+            currentImagesCount={selectedFiles.length}
           />
           <ImageCarousel
-            images={selectedFiles}
+            images={selectedFiles.map((file) => file.original)}
             onRemoveImage={handleRemoveImage}
           />
         </div>
         <p className="pt-3 pb-5 pr-4 text-sm text-gray-500 text-end">
-          {selectedFiles.length}/5
+          {selectedFiles.length}/{MAX_IMAGE}
         </p>
         <Button>작성 완료</Button>
       </div>

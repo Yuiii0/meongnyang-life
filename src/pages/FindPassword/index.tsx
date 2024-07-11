@@ -6,6 +6,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { Mail } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 interface FindPWForm {
   email: string;
@@ -24,9 +25,9 @@ function FindPasswordPage() {
       setLoading(true);
       const email = data.email;
       await sendPasswordResetEmail(auth, email);
-      alert("메일을 확인해주세요");
+      toast("메일을 확인해주세요", { icon: "✉️" });
     } catch (error) {
-      alert("에러가 발생했습니다. 다시 시도해주세요.");
+      toast.error("에러가 발생했습니다. 다시 시도해주세요.");
     } finally {
       setLoading(false);
     }
