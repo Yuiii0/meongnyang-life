@@ -42,12 +42,10 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
 
     if (newSelectedFiles.length > MAX_IMAGE) {
       toast.error("최대 5장까지 업로드 가능합니다");
-      setIsImgUploading(false);
       return;
     }
 
     setSelectedFiles(newSelectedFiles);
-    setIsImgUploading(false);
   };
 
   const handleRemoveImage = (imgURL: string) => {

@@ -9,19 +9,27 @@ interface ImageUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
     files: { original: string; small: string; large: string }[]
   ) => void;
   onIsImgUploading: (status: boolean) => void;
+  currentImagesCount: number;
 }
 
 function ImageUpload({
   maxImages = 1,
   onchangeImages,
   onIsImgUploading,
+  currentImagesCount,
   ...props
 }: ImageUploadProps) {
   const { user } = useAuthStore();
 
   const handleChangeImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    onIsImgUploading(true);
     const files = Array.from(e.target.files || []);
+
+    if (currentImagesCount + files.length > maxImages) {
+      toast.error(`최대 ${maxImages}장까지 업로드 가능합니다`);
+      return;
+    }
+
+    onIsImgUploading(true);
 
     try {
       const imageUrls = await toast.promise(
