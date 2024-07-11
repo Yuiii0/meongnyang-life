@@ -55,24 +55,31 @@ function RequiredProfileForm({
       alert("접근 권한이 없습니다");
       return;
     }
-    if (files && files.length == 1) {
+    if (files && files.length === 1) {
       const file = files[0];
       if (file) {
-        const profileUrls = await uploadImagesAndGetUrls(
-          user?.uid,
-          [file],
-          "users",
-          {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 300,
-            useWebWorker: true,
-            fileType: "image/webp",
-          }
-        );
-        const profileUrl = profileUrls[0];
-        handleChangeProfileImg(profileUrl);
-
         try {
+          const profileUrls = await uploadImagesAndGetUrls(
+            user?.uid,
+            [file],
+            "users",
+            {
+              maxSizeMB: 1,
+              maxWidthOrHeight: 300,
+              useWebWorker: true,
+              fileType: "image/webp",
+            }
+          );
+
+          let profileUrl;
+          if (typeof profileUrls[0] === "string") {
+            profileUrl = profileUrls[0];
+          } else {
+            profileUrl = profileUrls[0].original;
+          }
+
+          handleChangeProfileImg(profileUrl);
+
           await updateProfile(user, {
             photoURL: profileUrl,
           });
