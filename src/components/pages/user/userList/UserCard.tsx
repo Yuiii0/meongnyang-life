@@ -22,7 +22,7 @@ function UserCard({ userId, isDate }: UserCardProps) {
   };
 
   return (
-    <div className="flex items-center ">
+    <div className="flex items-center w-full ">
       <div
         onClick={handleClickUserCard}
         className="flex items-center flex-grow py-3 overflow-hidden cursor-pointer "
@@ -45,7 +45,7 @@ function UserCard({ userId, isDate }: UserCardProps) {
           </div>
         </div>
       </div>
-      <div className="pl-5 ml-auto">
+      <div className="pl-5 ml-auto ">
         <FollowToggleButton userId={userId || ""} />
       </div>
     </div>
