@@ -58,7 +58,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
 
   const onValid = (data: PostFormData) => {
     if (isImgUploading) {
-      toast("아직 이미지가 업로드 중입니다", {
+      toast("아직 이미지가 업로드 중입니다.", {
         icon: "🙏🏻",
       });
       return;
