@@ -7,5 +7,6 @@ export const useGetPostByPostId = (postId: string) => {
     queryKey: [POST, postId],
     queryFn: () => getPostByPostId(postId),
     staleTime: 1000 * 60 * 1,
+    enabled: !!postId,
   });
 };
