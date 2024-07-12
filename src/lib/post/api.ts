@@ -240,7 +240,11 @@ export const getPostByPostId = async (postId: string) => {
 };
 
 export const getPostsByUserId = async (userId: string) => {
-  const q = query(collection(db, "posts"), where("userId", "==", userId));
+  const q = query(
+    collection(db, "posts"),
+    where("userId", "==", userId),
+    orderBy("createdAt", "desc")
+  );
   const querySnapshot = await getDocs(q);
   const posts: postDto[] = [];
   querySnapshot.forEach((doc) => {
