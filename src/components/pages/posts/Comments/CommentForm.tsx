@@ -6,6 +6,7 @@ import { useUpdateReply } from "@/lib/comment/hooks/useUpdateReply";
 import EmojiPicker from "emoji-picker-react";
 import { Smile } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 interface CommentFormProps {
   postId: string;
@@ -52,12 +53,12 @@ const CommentForm: React.FC<CommentFormProps> = ({
       const inputValue = inputRef.current.value.trim();
 
       if (!inputValue) {
-        alert("댓글을 입력해주세요");
+        toast.error("댓글을 입력해주세요");
         return;
       }
 
       if (inputValue.length > MAX_COMMENT_LENGTH) {
-        alert(`댓글은 ${MAX_COMMENT_LENGTH}자 이하로 입력해주세요.`);
+        toast.error(`댓글은 ${MAX_COMMENT_LENGTH}자 이하로 입력해주세요.`);
         return;
       }
 
@@ -71,11 +72,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
           }
         } else {
           if (isReply && commentId) {
-            try {
-              createReply({ commentId, content: inputValue });
-            } catch (error) {
-              alert("오류가 발생하였습니다. 다시 시도해주세요");
-            }
+            createReply({ commentId, content: inputValue });
           } else {
             createComment(inputValue);
           }
@@ -84,7 +81,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
         inputRef.current.value = "";
         onSubmitComment();
       } catch (error) {
-        alert("오류가 발생했습니다. 다시 시도해주세요");
+        console.warn(error);
       }
     }
   };

@@ -1,6 +1,6 @@
-import { useGetUserProfile } from "@/hooks/User/useGetUserProfile";
 import { useDeleteReply } from "@/lib/comment/hooks/useDeleteReply";
 import { ReplyDto } from "@/lib/comment/type";
+import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
 import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatTimestamp } from "@/utils/formatTimestamp";
@@ -37,11 +37,7 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
   };
 
   const handleDeleteReply = () => {
-    try {
-      deleteReply();
-    } catch (error) {
-      alert("오류가 발생하였습니다. 다시 시도해주세요");
-    }
+    deleteReply();
   };
 
   const timeStamp = new Timestamp(

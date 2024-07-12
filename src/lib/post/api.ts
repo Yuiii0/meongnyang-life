@@ -109,7 +109,7 @@ export const uploadImagesAndGetUrls = async (
           throw new Error("잘못된 접근입니다.");
         }
       } catch (error) {
-        alert(error);
+        console.warn(error);
         throw error;
       }
     })

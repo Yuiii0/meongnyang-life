@@ -33,12 +33,15 @@ function PostUpdatePage() {
       likeCount: post.likeCount,
       commentCount: post.commentCount,
     };
-    try {
-      updatePost({ postDto, postId });
-      navigate(`/posts/${postId}`);
-    } catch (error) {
-      alert("포스트 업데이트에 실패하였습니다. 다시 시도해주세요");
-    }
+
+    updatePost(
+      { postDto, postId },
+      {
+        onSuccess: () => {
+          navigate(`/posts/${postId}`);
+        },
+      }
+    );
   };
 
   return (

@@ -9,6 +9,7 @@ import { DEFAULT_PROFILE_IMG_DOG } from "@/shared/const/UserprofileImgPath";
 import { updateProfile } from "firebase/auth";
 import { Pencil } from "lucide-react";
 import { ChangeEvent, useEffect, useRef } from "react";
+import toast from "react-hot-toast";
 
 interface RequiredProfileFormProps {
   nickName: string;
@@ -52,7 +53,7 @@ function RequiredProfileForm({
     const { files } = e.target;
 
     if (!user) {
-      alert("접근 권한이 없습니다");
+      toast.error("접근 권한이 없습니다");
       return;
     }
     if (files && files.length === 1) {
@@ -84,7 +85,7 @@ function RequiredProfileForm({
             photoURL: profileUrl,
           });
         } catch (error) {
-          alert("오류가 발생했습니다. 다시 시도해주세요");
+          toast.error("오류가 발생했습니다. 다시 시도해주세요");
         }
       }
     }

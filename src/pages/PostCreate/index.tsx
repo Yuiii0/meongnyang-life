@@ -4,11 +4,13 @@ import useCreatePost from "@/lib/post/hooks/useCreatePost";
 import { PostFormData } from "@/lib/post/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { Timestamp } from "firebase/firestore";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 function PostCreatePage() {
   const { user } = useAuthStore();
-  const { mutateAsync: create } = useCreatePost();
+
+  const { mutateAsync: createPost } = useCreatePost();
   const navigate = useNavigate();
 
   const handleCreatePost = async (data: PostFormData) => {
@@ -22,10 +24,10 @@ function PostCreatePage() {
       commentCount: 0,
     };
     try {
-      const postId = await create(postDto);
+      const postId = await createPost(postDto);
       navigate(`/posts/${postId}`);
     } catch (error) {
-      alert("포스트 작성해 실패하였습니다. 다시 시도해주세요");
+      toast.error("포스트 작성에 실패하였습니다.");
     }
   };
 

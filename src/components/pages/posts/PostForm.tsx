@@ -6,6 +6,7 @@ import { removeImageFromStorage } from "@/lib/post/api";
 import { PostFormData } from "@/lib/post/type";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import ImageCarousel from "./ImageCarousel";
 
 interface PostFormProps {
@@ -40,13 +41,11 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
     const newSelectedFiles = [...selectedFiles, ...imageUrls];
 
     if (newSelectedFiles.length > MAX_IMAGE) {
-      alert("최대 5장까지 업로드 가능합니다");
-      setIsImgUploading(false);
+      toast.error("최대 5장까지 업로드 가능합니다");
       return;
     }
 
     setSelectedFiles(newSelectedFiles);
-    setIsImgUploading(false);
   };
 
   const handleRemoveImage = (imgURL: string) => {
@@ -59,7 +58,9 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
 
   const onValid = (data: PostFormData) => {
     if (isImgUploading) {
-      alert("이미지가 업로드 중입니다. 잠시만 기다려주세요.");
+      toast("아직 이미지가 업로드 중입니다", {
+        icon: "🙏🏻",
+      });
       return;
     }
     try {
@@ -68,7 +69,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         images: [...selectedFiles],
       });
     } catch (error) {
-      alert("에러가 발생하였습니다. 다시 시도해주세요");
+      toast.error("에러가 발생하였습니다. 다시 시도해주세요");
     }
   };
 
@@ -106,10 +107,10 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
       <div className="fixed bottom-0 left-0 w-full px-8 py-8">
         <div className="flex items-center pt-6 gap-x-4">
           <ImageUpload
-            maxImages={5}
+            maxImages={MAX_IMAGE}
             onchangeImages={handleChangeImages}
-            isImgUploading={isImgUploading}
             onIsImgUploading={setIsImgUploading}
+            currentImagesCount={selectedFiles.length}
           />
           <ImageCarousel
             images={selectedFiles.map((file) => file.original)}
@@ -117,7 +118,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
           />
         </div>
         <p className="pt-3 pb-5 pr-4 text-sm text-gray-500 text-end">
-          {selectedFiles.length}/5
+          {selectedFiles.length}/{MAX_IMAGE}
         </p>
         <Button>작성 완료</Button>
       </div>

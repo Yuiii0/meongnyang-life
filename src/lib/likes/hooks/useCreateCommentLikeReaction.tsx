@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { createCommentLikeReaction } from "../api";
 import {
   COMMENT_LIKE_COUNT,
@@ -32,13 +33,15 @@ export const useCreateCommentLikeReaction = (
 
       return { previousLikeCount };
     },
-    onError: (_err, _variables, context) => {
+    onError: (err, _variables, context) => {
       if (context?.previousLikeCount) {
         queryClient.setQueryData(
           [COMMENT_LIKE_COUNT, commentId, replyId],
           context.previousLikeCount
         );
       }
+      toast.error("오류가 발생했습니다. 다시 시도해주세요");
+      console.warn(err.message);
     },
     onSettled: () => {
       queryClient.invalidateQueries({

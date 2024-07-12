@@ -20,6 +20,7 @@ import { formatTimestamp } from "@/utils/formatTimestamp";
 import { Timestamp } from "firebase/firestore";
 import { FilePenLine, MessageSquare, Trash2 } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../route";
 
@@ -105,10 +106,10 @@ const PostDetailPage = () => {
         );
       }
       deletePost({ postId });
-      alert("성공적으로 삭제되었습니다");
+      toast.success("성공적으로 삭제되었습니다");
       navigate(PATHS.main);
     } catch (error) {
-      alert("포스트 삭제 실패하였습니다. 다시 시도해주세요");
+      toast.error("포스트 삭제에 실패하였습니다.");
     }
   };
 
