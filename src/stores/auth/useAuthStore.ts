@@ -1,4 +1,4 @@
-import { auth } from "@/api/auth/auth.api";
+import { auth } from "@/shared/firebase";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { create } from "zustand";
 

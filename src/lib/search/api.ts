@@ -1,4 +1,4 @@
-import { db } from "@/api/database";
+import { db } from "@/shared/firebase";
 import { cleaningText } from "@/utils/cleaningText";
 import { createKeyWords } from "@/utils/createKeywords";
 import { collection, getDocs, query, where } from "firebase/firestore";
