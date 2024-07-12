@@ -4,7 +4,6 @@ interface ModalState {
   isOpen: boolean;
   openModal: () => void;
   closeModal: () => void;
-  resetModal: () => void;
 }
 
 export const useModalStore = create<ModalState>((set) => ({
@@ -13,9 +12,6 @@ export const useModalStore = create<ModalState>((set) => ({
     set({ isOpen: true });
   },
   closeModal: () => {
-    set({ isOpen: false });
-  },
-  resetModal: () => {
     set({ isOpen: false });
   },
 }));
