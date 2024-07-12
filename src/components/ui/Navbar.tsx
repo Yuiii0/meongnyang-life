@@ -1,8 +1,7 @@
-import { logOut, withdrawalUser } from "@/api/auth/auth.api";
+import useLogOut from "@/lib/auth/hooks/useLogOut";
+import useWithdrawUser from "@/lib/auth/hooks/useWithDraw";
 import { PATHS } from "@/pages/route";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
-import { useModalStore } from "@/stores/modal/useModalStore";
-import { User } from "firebase/auth";
 import {
   Bookmark,
   ChevronRight,
@@ -12,41 +11,47 @@ import {
   X,
 } from "lucide-react";
 import toast from "react-hot-toast";
-import Modal from "react-modal";
 import { Link, useNavigate } from "react-router-dom";
 
-function Navbar() {
-  const { user } = useAuthStore();
-  const { resetModal } = useModalStore();
+interface NavbarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+function Navbar({ isOpen, onClose }: NavbarProps) {
+  const { user, setUser } = useAuthStore();
   const navigate = useNavigate();
-  const { isOpen, closeModal } = useModalStore();
+  const { mutate: logOut } = useLogOut();
+  const { mutate: deleteAccount } = useWithdrawUser();
 
-  if (!user) return null;
-
-  const handleClickLogOut = async () => {
+  const handleClickLogOut = () => {
     try {
-      resetModal();
-      await logOut();
+      logOut();
+      onClose();
       navigate(PATHS.logIn);
     } catch (error) {
       toast.error("오류가 발생했습니다. 다시 시도해주세요");
     }
   };
-  const handleClickDeleteAccount = async (user: User) => {
+
+  const handleClickDeleteAccount = () => {
     if (user) {
-      await withdrawalUser(user);
-      navigate(PATHS.logIn);
+      deleteAccount(user, {
+        onSuccess: () => {
+          setUser(null);
+          navigate(PATHS.logIn);
+        },
+      });
     }
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={closeModal}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white"
-      overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-50"
+    <div
+      className={`fixed inset-0 z-50 flex flex-col duration-500 items-center justify-center bg-white transition-transform transform ${
+        isOpen ? "translate-x-0" : "translate-x-full"
+      }`}
     >
-      <div className="w-full max-w-md px-12 ">
+      <div className="w-full max-w-md px-12">
         <div className="pb-6">
           <img
             src="/images/dog_cat.webp"
@@ -55,9 +60,7 @@ function Navbar() {
             className="mx-auto"
           />
         </div>
-        <button onClick={closeModal} className="fixed mb-4 top-24 left-6 z-110">
-          {" "}
-          {/* 여기에도 z-110 추가 */}
+        <button onClick={onClose} className="fixed z-50 mb-4 top-10 left-6">
           <X size={20} />
         </button>
         <nav>
@@ -65,7 +68,7 @@ function Navbar() {
             <li className="w-full">
               <Link
                 to={`/profiles/${user?.uid}`}
-                onClick={closeModal}
+                onClick={onClose}
                 className="flex items-center w-full gap-x-2"
               >
                 <UserRound />
@@ -76,7 +79,7 @@ function Navbar() {
             <li className="w-full">
               <Link
                 to={PATHS.posts.create}
-                onClick={closeModal}
+                onClick={onClose}
                 className="flex items-center w-full gap-x-2"
               >
                 <PencilLine />
@@ -87,7 +90,7 @@ function Navbar() {
             <li className="w-full">
               <Link
                 to={`/likes/${user?.uid}`}
-                onClick={closeModal}
+                onClick={onClose}
                 className="flex items-center w-full gap-x-2"
               >
                 <Heart />
@@ -98,7 +101,7 @@ function Navbar() {
             <li className="w-full">
               <Link
                 to={`/bookmarks/${user?.uid}`}
-                onClick={closeModal}
+                onClick={onClose}
                 className="flex items-center w-full gap-x-2"
               >
                 <Bookmark />
@@ -117,7 +120,7 @@ function Navbar() {
               </div>
               <div className="w-full">
                 <button
-                  onClick={() => handleClickDeleteAccount(user)}
+                  onClick={handleClickDeleteAccount}
                   className="flex items-center w-full text-left gap-x-2"
                 >
                   회원 탈퇴
@@ -127,7 +130,7 @@ function Navbar() {
           </ul>
         </nav>
       </div>
-    </Modal>
+    </div>
   );
 }
 

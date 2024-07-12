@@ -1,13 +1,12 @@
-import { emailLogin } from "@/api/auth/auth.api";
-import { authErrorMessages } from "@/api/auth/authErrorMessages";
 import Button from "@/components/ui/Button/Button";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import AuthInput from "@/components/ui/Input/AuthInput";
 import NavigationLink from "@/components/ui/NavigationLink";
+import useLogInByEmail from "@/lib/auth/hooks/useLogInByEmail";
+
 import { PATHS } from "@/pages/route";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 
-import { FirebaseError } from "firebase/app";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -17,35 +16,28 @@ interface LogInForm {
 }
 
 function LogInForm() {
-  const navigate = useNavigate();
-  // const [isLoading, setLoading] = useState(false);
   const { setUser } = useAuthStore();
+  const { mutate: logInByEmail, isPending } = useLogInByEmail();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LogInForm>();
 
-  const onValid = async (data: LogInForm) => {
-    try {
-      // setLoading(true);
-      const email = data.email;
-      const password = data.password;
+  const onValid = (data: LogInForm) => {
+    const email = data.email;
+    const password = data.password;
 
-      const user = await emailLogin(email, password);
-      if (user) {
-        setUser(user);
-        navigate(PATHS.main);
+    logInByEmail(
+      { email, password },
+      {
+        onSuccess: (user) => {
+          setUser(user || null);
+          navigate(PATHS.main);
+        },
       }
-    } catch (error) {
-      if (error instanceof FirebaseError) {
-        alert(authErrorMessages[error.code] || "로그인에 실패하였습니다.");
-      } else {
-        alert("로그인 중 오류가 발생했습니다. 다시 시도해주세요");
-      }
-    } finally {
-      // setLoading(false);
-    }
+    );
   };
 
   return (
@@ -101,7 +93,7 @@ function LogInForm() {
         </NavigationLink>
       </div>
 
-      <Button>로그인</Button>
+      <Button disabled={isPending}>로그인</Button>
     </form>
   );
 }

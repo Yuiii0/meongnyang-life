@@ -1,10 +1,10 @@
-import { auth } from "@/api/auth/auth.api";
 import NextButton from "@/components/ui/Button/NextButton";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import Input from "@/components/ui/Input/Input";
 import TextArea from "@/components/ui/Input/TextArea";
 import { uploadImagesAndGetUrls } from "@/lib/post/api";
 import { DEFAULT_PROFILE_IMG_DOG } from "@/shared/const/UserprofileImgPath";
+import { auth } from "@/shared/firebase";
 
 import { updateProfile } from "firebase/auth";
 import { Pencil } from "lucide-react";

@@ -1,5 +1,4 @@
-import { db } from "@/api/database";
-import { storage } from "@/api/store/store.api";
+import { db, storage } from "@/shared/firebase";
 import { cleaningText } from "@/utils/cleaningText";
 import { createKeyWords } from "@/utils/createKeywords";
 import imageCompression from "browser-image-compression";

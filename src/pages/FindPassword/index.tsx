@@ -1,19 +1,17 @@
-import { auth } from "@/api/auth/auth.api";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import Heading from "@/components/ui/Heading";
 import Page from "@/components/ui/Page";
-import { sendPasswordResetEmail } from "firebase/auth";
+import useResetPw from "@/lib/auth/hooks/useResetPW";
+import { auth } from "@/shared/firebase";
 import { Mail } from "lucide-react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 
 interface FindPWForm {
   email: string;
 }
 
 function FindPasswordPage() {
-  const [isLoading, setLoading] = useState(false);
+  const { mutate: resetPassword, isPending } = useResetPw();
   const {
     register,
     handleSubmit,
@@ -21,16 +19,8 @@ function FindPasswordPage() {
   } = useForm<FindPWForm>();
 
   const onValid = async (data: FindPWForm) => {
-    try {
-      setLoading(true);
-      const email = data.email;
-      await sendPasswordResetEmail(auth, email);
-      toast("메일을 확인해주세요", { icon: "✉️" });
-    } catch (error) {
-      toast.error("에러가 발생했습니다. 다시 시도해주세요.");
-    } finally {
-      setLoading(false);
-    }
+    const email = data.email;
+    resetPassword({ auth, email });
   };
 
   return (
@@ -76,11 +66,11 @@ function FindPasswordPage() {
             <button
               type="submit"
               className={`inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm hover:opacity-90 active:text-brand-100 bg-brand-100 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm ${
-                isLoading ? "opacity-50 cursor-not-allowed" : ""
+                isPending ? "opacity-50 cursor-not-allowed" : ""
               }`}
-              disabled={isLoading}
+              disabled={isPending}
             >
-              {isLoading ? "로딩 중..." : "이메일 전송"}
+              이메일 전송
             </button>
           </div>
         </form>

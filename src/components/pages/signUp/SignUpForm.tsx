@@ -1,7 +1,7 @@
-import { emailSignUp } from "@/api/auth/auth.api";
 import Button from "@/components/ui/Button/Button";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import AuthInput from "@/components/ui/Input/AuthInput";
+import useSignUpByEmail from "@/lib/auth/hooks/useSignUpByEmail";
 import { PATHS } from "@/pages/route";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useForm } from "react-hook-form";
@@ -17,6 +17,7 @@ interface SignUpForm {
 function SignUpForm() {
   const navigate = useNavigate();
   const { setUser } = useAuthStore();
+  const { mutate: signUpByEmail, isPending } = useSignUpByEmail();
   const {
     register,
     handleSubmit,
@@ -33,15 +34,15 @@ function SignUpForm() {
       );
     } else {
       const { email, password, name } = data;
-      try {
-        const user = await emailSignUp(email, password, name);
-        if (user) {
-          setUser(user);
-          navigate(PATHS.profiles.create);
+      signUpByEmail(
+        { email, password, name },
+        {
+          onSuccess: (user) => {
+            setUser(user || null);
+            navigate(PATHS.profiles.create);
+          },
         }
-      } catch (error) {
-        alert("회원가입에 실패하였습니다");
-      }
+      );
     }
   };
 
@@ -126,7 +127,7 @@ function SignUpForm() {
         />
         <ErrorMessage>{errors?.passwordConfirm?.message || " "}</ErrorMessage>
       </div>
-      <Button>회원가입</Button>
+      <Button disabled={isPending}>회원가입</Button>
     </form>
   );
 }

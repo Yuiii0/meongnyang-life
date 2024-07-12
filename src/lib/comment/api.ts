@@ -1,5 +1,4 @@
-import { db } from "@/api/database";
-
+import { db } from "@/shared/firebase";
 import {
   DocumentData,
   Timestamp,
