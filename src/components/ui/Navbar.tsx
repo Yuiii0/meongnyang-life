@@ -1,8 +1,8 @@
-import { logOut, withdrawalUser } from "@/api/auth/auth.api";
+import useLogOut from "@/lib/auth/hooks/useLogOut";
+import useWithdrawUser from "@/lib/auth/hooks/useWithDraw";
 import { PATHS } from "@/pages/route";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useModalStore } from "@/stores/modal/useModalStore";
-import { User } from "firebase/auth";
 import {
   Bookmark,
   ChevronRight,
@@ -16,26 +16,29 @@ import Modal from "react-modal";
 import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
-  const { user } = useAuthStore();
-  const { resetModal } = useModalStore();
+  const { user, setUser } = useAuthStore();
   const navigate = useNavigate();
-  const { isOpen, closeModal } = useModalStore();
+  const { isOpen, closeModal, resetModal } = useModalStore();
+  const { mutate: logOut } = useLogOut();
+  const { mutate: deleteAccount } = useWithdrawUser();
 
-  if (!user) return null;
-
-  const handleClickLogOut = async () => {
+  const handleClickLogOut = () => {
     try {
+      logOut();
       resetModal();
-      await logOut();
       navigate(PATHS.logIn);
     } catch (error) {
       toast.error("오류가 발생했습니다. 다시 시도해주세요");
     }
   };
-  const handleClickDeleteAccount = async (user: User) => {
+  const handleClickDeleteAccount = () => {
     if (user) {
-      await withdrawalUser(user);
-      navigate(PATHS.logIn);
+      deleteAccount(user, {
+        onSuccess: () => {
+          setUser(null);
+          navigate(PATHS.logIn);
+        },
+      });
     }
   };
 
@@ -56,8 +59,6 @@ function Navbar() {
           />
         </div>
         <button onClick={closeModal} className="fixed mb-4 top-24 left-6 z-110">
-          {" "}
-          {/* 여기에도 z-110 추가 */}
           <X size={20} />
         </button>
         <nav>
@@ -117,7 +118,7 @@ function Navbar() {
               </div>
               <div className="w-full">
                 <button
-                  onClick={() => handleClickDeleteAccount(user)}
+                  onClick={handleClickDeleteAccount}
                   className="flex items-center w-full text-left gap-x-2"
                 >
                   회원 탈퇴
