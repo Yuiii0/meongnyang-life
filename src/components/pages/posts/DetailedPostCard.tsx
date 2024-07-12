@@ -1,5 +1,4 @@
 import { postDto } from "@/lib/post/type";
-import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { truncateString } from "@/utils/truncateString";
@@ -12,7 +11,6 @@ import { getPostByPostId } from "@/lib/post/api";
 import { POST } from "@/lib/post/key";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import FollowToggleButton from "../user/follow/FollowButton/FollowToggleButton";
 import UserCard from "../user/userList/UserCard";
 import PostLikeToggleButton from "./LikeButton/PostLikeToggleButton";
 
@@ -21,8 +19,6 @@ interface PostCardProps {
 }
 
 const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
-  const { user } = useAuthStore();
-  const isMyPost = user?.uid === post.userId;
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -41,9 +37,8 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
 
   return (
     <div>
-      <div className="z-10 flex items-center justify-between px-7">
+      <div className="z-10 w-full px-7 ">
         <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
-        {!isMyPost && <FollowToggleButton userId={post.userId} />}
       </div>
 
       <div
