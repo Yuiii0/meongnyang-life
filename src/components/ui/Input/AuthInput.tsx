@@ -30,7 +30,7 @@ const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
             type={inputType}
             className={`w-full px-2 text-gray-700 placeholder-transparent bg-transparent rounded-lg h-11 peer ring-1 ring-gray-300 focus:ring-gray-700 focus:outline-none ${
               error
-                ? "focus:border-red-500 focus:ring-warning"
+                ? "focus:border-red-600 focus:ring-red-600"
                 : "focus:border-black focus:ring-gray-700"
             }`}
             {...props}
@@ -48,7 +48,7 @@ const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
             htmlFor={id}
             className={`absolute left-0 px-1 mx-1 text-sm transition-all cursor-text -top-3 bg-inherit peer-placeholder-shown:text-base peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sm ${
               error
-                ? "text-warning peer-placeholder-shown:text-warning"
+                ? "text-red-600 peer-placeholder-shown:text-red-600"
                 : "text-gray-800 peer-placeholder-shown:text-gray-700"
             }`}
           >

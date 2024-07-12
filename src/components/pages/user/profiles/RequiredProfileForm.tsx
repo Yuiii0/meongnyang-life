@@ -128,7 +128,7 @@ function RequiredProfileForm({
             error={!!nickNameErrorMessage}
             ref={nickNameRef}
           />
-          <div className="flex items-center">
+          <div className="flex items-center justify-center h-6 ">
             <ErrorMessage>{nickNameErrorMessage}</ErrorMessage>
             <div className="text-[10px] text-gray-500 font-semibold ml-auto flex items-center pt-1">
               {nickName.length}/16
