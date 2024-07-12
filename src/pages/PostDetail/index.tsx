@@ -89,7 +89,9 @@ const PostDetailPage = () => {
   );
 
   if (isError) {
-    return <NoResults title="삭제된 포스트입니다" />;
+    return (
+      <NoResults title="삭제된 포스트입니다" imageName="cats_in_box.webp" />
+    );
   }
   if (!post || !postId || isLoading) {
     return <LoadingSpinner text="포스트를 가져오는 중 입니다" />;

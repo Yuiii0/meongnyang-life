@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CommentItem from "../posts/Comments/CommentItem";
 import SimplePostCardsList from "../posts/SimplePostCardsList";
+import NoResults from "../search/NoResults";
 
 interface LikedPostAndCommentTabProps {
   initialTab: string;
@@ -51,21 +52,37 @@ function LikedPostAndCommentTab({ initialTab }: LikedPostAndCommentTabProps) {
       </TabsList>
       <TabsContent value="posts" className="h-full overflow-auto">
         <section className="px-8 pt-6">
-          <SimplePostCardsList posts={likedPosts || []} />
+          {likedPosts && likedPosts.length > 0 ? (
+            <SimplePostCardsList posts={likedPosts || []} />
+          ) : (
+            <NoResults
+              title="좋아요한 포스트가 없습니다."
+              imageName="flying_cat.webp"
+            />
+          )}
         </section>
       </TabsContent>
       <TabsContent value="comments" className="h-full overflow-auto">
         <section className="px-8 pt-6">
           <ul>
-            {likedComments?.map((comment) => (
-              <li
-                key={comment.id}
-                onClick={() => navigate(`/posts/${comment.postId}`)}
-                className="pb-1"
-              >
-                <CommentItem comment={comment} isShowReply={false} />
-              </li>
-            ))}
+            {likedComments && likedComments.length > 0 ? (
+              <ul>
+                {likedComments.map((comment) => (
+                  <li
+                    key={comment.id}
+                    onClick={() => navigate(`/posts/${comment.postId}`)}
+                    className="pb-1"
+                  >
+                    <CommentItem comment={comment} isShowReply={false} />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <NoResults
+                title="좋아요한 댓글이 없습니다."
+                imageName="flying_cat.webp"
+              />
+            )}
           </ul>
         </section>
       </TabsContent>

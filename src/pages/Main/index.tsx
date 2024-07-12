@@ -38,7 +38,10 @@ function MainPage() {
               })}
             </div>
           ) : (
-            <NoResults title="포스트가 존재하지 않습니다." />
+            <NoResults
+              title="포스트가 존재하지 않습니다."
+              imageName="cats_in_box.webp"
+            />
           )}
         </div>
       ))}

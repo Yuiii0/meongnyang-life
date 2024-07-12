@@ -19,14 +19,26 @@ function UserPage() {
 
   if (isLoading) return <LoadingSpinner />;
   if (isError || !userProfile) {
-    return <NoResults title="유저 정보가 없습니다." />;
+    return (
+      <NoResults
+        title="유저 정보가 없습니다."
+        imageName="Category_samsaegi_adopt.webp"
+      />
+    );
   }
 
   return (
     <Page>
       <UserProfileCard userProfile={userProfile} />
       <section className="pt-4">
-        <SimplePostCardsList posts={posts || []} />
+        {posts && posts.length > 0 ? (
+          <SimplePostCardsList posts={posts} />
+        ) : (
+          <NoResults
+            title="아직 작성한 포스트가 없습니다."
+            imageName="cats_in_box.webp"
+          />
+        )}
       </section>
     </Page>
   );
