@@ -1,17 +1,15 @@
-import UserCard from "@/components/pages/user/userList/UserCard";
-import LoadingSpinner from "@/components/ui/LoadingSpinner";
-import Page from "@/components/ui/Page";
-import { removeImageFromStorage } from "@/lib/post/api";
-
-import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
-import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
-
 import CommentForm from "@/components/pages/posts/Comments/CommentForm";
 import CommentList from "@/components/pages/posts/Comments/CommentList";
 import PostLikeToggleButton from "@/components/pages/posts/LikeButton/PostLikeToggleButton";
 import NoResults from "@/components/pages/search/NoResults";
+import UserCard from "@/components/pages/user/userList/UserCard";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import Page from "@/components/ui/Page";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
+import { removeImageFromStorage } from "@/lib/post/api";
+import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
+import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 import { PostImage } from "@/lib/post/type";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatCount } from "@/utils/formatCount";
@@ -90,19 +88,23 @@ const PostDetailPage = () => {
 
   if (isError) {
     return (
-      <NoResults title="삭제된 포스트입니다" imageName="cats_in_box.webp" />
+      <NoResults
+        title="삭제된 포스트입니다"
+        imageName="/images/cats_in_box.webp"
+      />
     );
   }
   if (!post || !postId || isLoading) {
     return <LoadingSpinner text="포스트를 가져오는 중 입니다" />;
   }
+
   const handleDeletePost = async () => {
     try {
       // storage 이미지 삭제
       if (post.images && post.images.length > 0) {
         await Promise.all(
-          post.images.map((imageUrl: string) =>
-            removeImageFromStorage(imageUrl)
+          post.images.map((image: PostImage) =>
+            removeImageFromStorage(image.original)
           )
         );
       }
@@ -136,12 +138,6 @@ const PostDetailPage = () => {
             <div className="flex flex-col overflow-auto gap-y-4">
               {post.images.map((image: PostImage, index: number) => (
                 <div key={index} className="overflow-hidden rounded-sm">
-                  {/* <img
-                    src={image}
-                    alt={`Post image ${index + 1}`}
-                    claspsName="object-cover w-full h-auto"
-                    loading={index === 0 ? "eager" : "lazy"}
-                  /> */}
                   <PlaceholderImage
                     key={index}
                     src={image.original}
