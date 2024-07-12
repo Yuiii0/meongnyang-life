@@ -1,6 +1,7 @@
 import SearchBar from "@/components/pages/search/SearchBar";
 import SearchResultTab from "@/components/pages/search/SearchResultTab";
 import PrevButton from "@/components/ui/Button/PrevButton";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
 import { useGetPostsByTitle } from "@/lib/search/hooks/useGetPostsByTitle";
 import { useGetUsersByNickname } from "@/lib/search/hooks/useGetUsersByNickname";
@@ -13,10 +14,16 @@ function SearchPage() {
   const [activeTab, setActiveTab] = useState("users");
   const [recentSearches, setRecentSearches] = useState([]);
 
-  const { data: userIds, refetch: refetchUsers } =
-    useGetUsersByNickname(searchTerm);
-  const { data: postData, refetch: refetchPosts } =
-    useGetPostsByTitle(searchTerm);
+  const {
+    data: userIds,
+    refetch: refetchUsers,
+    isLoading: isLoadingUsers,
+  } = useGetUsersByNickname(searchTerm);
+  const {
+    data: postData,
+    refetch: refetchPosts,
+    isLoading: isLoadingPosts,
+  } = useGetPostsByTitle(searchTerm);
 
   useEffect(() => {
     loadRecentSearches();
@@ -70,8 +77,11 @@ function SearchPage() {
     loadRecentSearches();
   };
 
+  const isLoading = isLoadingUsers || isLoadingPosts;
+
   return (
     <Page fullWidth>
+      {isLoading && <LoadingSpinner text="검색 중 입니다." />}
       <div className="flex items-center w-full pb-4">
         <div
           className="px-3"
