@@ -13,7 +13,7 @@ function SearchPage() {
   const [activeTab, setActiveTab] = useState("users");
   const [recentSearches, setRecentSearches] = useState([]);
 
-  const { data: userData, refetch: refetchUsers } =
+  const { data: userIds, refetch: refetchUsers } =
     useGetUsersByNickname(searchTerm);
   const { data: postData, refetch: refetchPosts } =
     useGetPostsByTitle(searchTerm);
@@ -106,7 +106,7 @@ function SearchPage() {
             initialTab="users"
             activeTab={activeTab}
             onTabChange={handleChangeTab}
-            userData={userData || []}
+            userIds={userIds || []}
             postData={postData || []}
           />
         </section>

@@ -3,7 +3,6 @@ import { cleaningText } from "@/utils/cleaningText";
 import { createKeyWords } from "@/utils/createKeywords";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { postDto } from "../post/type";
-import { UserProfile } from "../user/type";
 
 export const searchUsersByNickname = async (nickname: string) => {
   try {
@@ -18,12 +17,12 @@ export const searchUsersByNickname = async (nickname: string) => {
       return [];
     }
 
-    const users: UserProfile[] = [];
+    const userIds: string[] = [];
     querySnapshot.forEach((doc) => {
-      users.push(doc.data() as UserProfile);
+      userIds.push(doc.id);
     });
 
-    return users;
+    return userIds;
   } catch (error) {
     console.warn("유저 검색에 실패하였습니다.");
     throw error;
