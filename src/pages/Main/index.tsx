@@ -1,4 +1,5 @@
 import DetailedPostCard from "@/components/pages/posts/DetailedPostCard";
+import NoResults from "@/components/pages/search/NoResults";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
 import { useGetAllPosts } from "@/lib/post/hooks/useGetAllPosts";
@@ -37,7 +38,7 @@ function MainPage() {
               })}
             </div>
           ) : (
-            <div>포스트가 존재하지 않습니다.</div>
+            <NoResults title="포스트가 존재하지 않습니다." />
           )}
         </div>
       ))}

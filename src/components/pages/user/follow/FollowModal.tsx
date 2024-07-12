@@ -37,9 +37,9 @@ function FollowModal({
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
       ariaHideApp={false}
     >
-      <div className="relative w-full h-full p-4">
+      <div className="relative w-full h-full pt-16 ">
         <div className="flex items-center justify-between">
-          <button onClick={closeModal}>
+          <button onClick={closeModal} className="pl-6 text-gray-700">
             <ChevronLeft />
           </button>
           <h5 className="flex-grow py-5 text-lg font-semibold text-center">
@@ -70,10 +70,16 @@ function FollowModal({
               }`}
             >{`팔로워 ${followers.length}`}</TabsTrigger>
           </TabsList>
-          <TabsContent value="following" className="h-full overflow-auto">
+          <TabsContent
+            value="following"
+            className="h-full px-6 py-4 overflow-auto"
+          >
             <UserCardsList userIdList={followings} />
           </TabsContent>
-          <TabsContent value="follower" className="h-full overflow-auto">
+          <TabsContent
+            value="follower"
+            className="h-full px-6 py-4 overflow-auto "
+          >
             <UserCardsList userIdList={followers} />
           </TabsContent>
         </Tabs>

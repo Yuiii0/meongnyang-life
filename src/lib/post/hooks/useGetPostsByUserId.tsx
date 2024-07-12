@@ -6,6 +6,6 @@ export const useGetPostsByUserId = (userId: string) => {
   return useQuery({
     queryKey: [POST, userId],
     queryFn: () => getPostsByUserId(userId),
-    staleTime: 1000 * 60 * 1,
+    enabled: !!userId,
   });
 };

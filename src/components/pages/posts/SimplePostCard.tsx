@@ -33,11 +33,9 @@ function SimplePostCard({ post }: SimplePostCardProps) {
             <button onClick={handleButtonClick}>
               <PostLikeToggleButton postId={post.id || ""} />
             </button>
-            <div className="flex items-center gap-x-2">
-              <MessageSquare strokeWidth={1} />
-              <span className="text-gray-600">
-                {formatCount(post.commentCount || 0)}
-              </span>
+            <div className="flex items-center text-gray-600 gap-x-2">
+              <MessageSquare strokeWidth={1.5} />
+              <span>{formatCount(post.commentCount || 0)}</span>
             </div>
           </div>
         </div>

@@ -1,4 +1,3 @@
-import FollowToggleButton from "@/components/pages/user/follow/FollowButton/FollowToggleButton";
 import UserCard from "@/components/pages/user/userList/UserCard";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
@@ -118,7 +117,7 @@ const PostDetailPage = () => {
       <section>
         <div className="flex items-center justify-between pb-4">
           <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
-          {isMyPost ? (
+          {isMyPost && (
             <div className="flex text-brand-100 gap-x-4">
               <Link to={`/posts/update/${postId}`}>
                 <FilePenLine size={20} />
@@ -127,8 +126,6 @@ const PostDetailPage = () => {
                 <Trash2 size={20} />
               </button>
             </div>
-          ) : (
-            <FollowToggleButton userId={post.userId} />
           )}
         </div>
         <h1 className="text-xl font-semibold">{post.title}</h1>

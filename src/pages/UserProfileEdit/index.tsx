@@ -2,6 +2,7 @@ import OptionalProfileForm from "@/components/pages/user/profiles/OptionalProfil
 import RequiredProfileForm from "@/components/pages/user/profiles/RequiredProfileForm";
 import NextButton from "@/components/ui/Button/NextButton";
 import PrevButton from "@/components/ui/Button/PrevButton";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
 import Success from "@/components/ui/Success";
 import { useAuth } from "@/hooks/Auth/useAuth";
@@ -18,7 +19,7 @@ function UserEditPage() {
   const navigate = useNavigate();
 
   const { mutateAsync: updateUserData } = useUpdateUserProfile(user?.uid || "");
-  const { data: userProfile } = useGetUserProfile(user?.uid || "");
+  const { data: userProfile, isLoading } = useGetUserProfile(user?.uid || "");
 
   const [step, setStep] = useState(1);
   const [nickName, setNickName] = useState("");
@@ -149,6 +150,10 @@ function UserEditPage() {
       handleClickNextStep();
     }
   };
+
+  if (isLoading) {
+    return <LoadingSpinner text="유저 정보를 가져오는 중 입니다." />;
+  }
 
   return (
     <Page>

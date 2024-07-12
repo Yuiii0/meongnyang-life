@@ -1,15 +1,16 @@
 import { postDto } from "@/lib/post/type";
-import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { truncateString } from "@/utils/truncateString";
 import { Timestamp } from "firebase/firestore";
 import { MessageSquare } from "lucide-react";
 import React from "react";
-import { Link } from "react-router-dom";
 
 import ImageSwiper from "@/components/ui/ImageSwiper";
-import FollowToggleButton from "../user/follow/FollowButton/FollowToggleButton";
+import { getPostByPostId } from "@/lib/post/api";
+import { POST } from "@/lib/post/key";
+import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import UserCard from "../user/userList/UserCard";
 import PostLikeToggleButton from "./LikeButton/PostLikeToggleButton";
 
@@ -18,23 +19,30 @@ interface PostCardProps {
 }
 
 const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
-  const { user } = useAuthStore();
-  const isMyPost = user?.uid === post.userId;
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const timeStamp = new Timestamp(
     post.createdAt.seconds,
     post.createdAt.nanoseconds
   );
 
+  const handleClickPostCard = async () => {
+    await queryClient.prefetchQuery({
+      queryKey: [POST, post.id],
+      queryFn: () => getPostByPostId(post.id || ""),
+    });
+    navigate(`/posts/${post.id}`);
+  };
+
   return (
     <div>
-      <div className="z-10 flex items-center justify-between px-7">
+      <div className="z-10 w-full px-7 ">
         <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
-        {!isMyPost && <FollowToggleButton userId={post.userId} />}
       </div>
 
-      <Link
-        to={`/posts/${post.id}`}
+      <div
+        onClick={handleClickPostCard}
         key={post.id}
         className="flex flex-col pt-6 pb-8 mx-8 gap-y-4"
       >
@@ -51,7 +59,7 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
         <div className="text-gray-600 whitespace-pre-wrap">
           {truncateString(post.content, 50)}
         </div>
-      </Link>
+      </div>
       <div className="flex items-center pb-5 mx-8 border-b gap-x-4">
         <PostLikeToggleButton postId={post.id || ""} />
         <div className="flex items-center text-gray-600 gap-x-2">

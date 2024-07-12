@@ -32,13 +32,13 @@ function FollowToggleButton({ userId }: FollowButtonProps) {
   };
 
   return (
-    <div>
+    <span>
       {isFollowing ? (
         <UnFollowButton handleToggleFollowButton={handleToggleFollowButton} />
       ) : (
         <FollowButton handleToggleFollowButton={handleToggleFollowButton} />
       )}
-    </div>
+    </span>
   );
 }
 

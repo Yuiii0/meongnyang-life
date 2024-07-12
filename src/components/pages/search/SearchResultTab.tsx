@@ -1,9 +1,7 @@
 import { postDto } from "@/lib/post/type";
-import { UserProfile } from "@/lib/user/type";
 import { formatCount } from "@/utils/formatCount";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import SimplePostCardsList from "../posts/SimplePostCardsList";
-import FollowToggleButton from "../user/follow/FollowButton/FollowToggleButton";
 import UserCard from "../user/userList/UserCard";
 import NoResults from "./NoResults";
 
@@ -11,7 +9,7 @@ interface SearchResultTabProps {
   initialTab: string;
   activeTab: string;
   onTabChange: (tab: string) => void;
-  userData: UserProfile[];
+  userIds: string[];
   postData: postDto[];
 }
 
@@ -19,7 +17,7 @@ function SearchResultTab({
   initialTab,
   activeTab,
   onTabChange,
-  userData,
+  userIds: userIds,
   postData,
 }: SearchResultTabProps) {
   return (
@@ -37,7 +35,7 @@ function SearchResultTab({
               : ""
           }`}
         >
-          {`유저 ${formatCount(userData.length || 0)}`}
+          {`유저 ${formatCount(userIds.length || 0)}`}
         </TabsTrigger>
         <TabsTrigger
           value="posts"
@@ -49,15 +47,14 @@ function SearchResultTab({
         >{`게시글 ${formatCount(postData.length || 0)}`}</TabsTrigger>
       </TabsList>
       <TabsContent value="users" className="h-full overflow-auto">
-        {userData && userData.length > 0 ? (
+        {userIds && userIds.length > 0 ? (
           <ul className="px-8 py-6">
-            {userData.map((user) => (
+            {userIds.map((userId) => (
               <li
-                key={user.userId}
+                key={userId}
                 className="flex items-center justify-between pb-1"
               >
-                <UserCard userId={user.userId} />
-                <FollowToggleButton userId={user.userId} />
+                <UserCard userId={userId} />
               </li>
             ))}
           </ul>
