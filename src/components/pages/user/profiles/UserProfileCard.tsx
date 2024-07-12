@@ -55,8 +55,10 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
         <div className="flex-grow ml-6">
           <div className="flex flex-col gap-y-1">
             <div className="flex items-center justify-between">
-              <div className="font-semibold text-gray-800 ">{nickName}</div>
-              <div className="">
+              <div className="font-semibold text-gray-800  max-w-[120px] flex-grow">
+                {nickName}
+              </div>
+              <div className="flex-0">
                 {isMyProfile ? (
                   <div className="ml-auto">
                     <Link
