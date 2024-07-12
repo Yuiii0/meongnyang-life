@@ -43,7 +43,6 @@ export const logOut = async () => {
 export const withdrawalUser = async (user: User) => {
   if (user) {
     await deleteUser(user);
-    alert("그동안 멍냥생활을 이용해주셔서 감사합니다.");
     return true;
   }
 };
