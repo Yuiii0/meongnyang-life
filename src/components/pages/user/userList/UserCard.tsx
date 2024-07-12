@@ -22,8 +22,11 @@ function UserCard({ userId, isDate }: UserCardProps) {
   };
 
   return (
-    <div onClick={handleClickUserCard}>
-      <div className="flex items-center py-3 overflow-hidden ">
+    <div className="flex items-center ">
+      <div
+        onClick={handleClickUserCard}
+        className="flex items-center flex-grow py-3 overflow-hidden cursor-pointer "
+      >
         <div className="h-14 w-14">
           <img
             src={userProfile?.profileImg || DEFAULT_PROFILE_IMG_CAT}
@@ -33,7 +36,7 @@ function UserCard({ userId, isDate }: UserCardProps) {
             width={56}
           />
         </div>
-        <div className="flex flex-col pl-4 gap-y-1.5">
+        <div className="flex flex-col pl-4 gap-y-1.5 ">
           <div className="text-[15px] font-semibold text-start text-gray-700">
             {truncateString(userProfile?.nickName || "", 10)}
           </div>
@@ -41,9 +44,9 @@ function UserCard({ userId, isDate }: UserCardProps) {
             {isDate ? isDate : userProfile?.breed}
           </div>
         </div>
-        <div className="pl-5 ml-auto">
-          <FollowToggleButton userId={userId || ""} />
-        </div>
+      </div>
+      <div className="pl-5 ml-auto">
+        <FollowToggleButton userId={userId || ""} />
       </div>
     </div>
   );
