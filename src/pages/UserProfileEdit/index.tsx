@@ -1,5 +1,3 @@
-import { auth } from "@/api/auth/auth.api";
-
 import OptionalProfileForm from "@/components/pages/user/profiles/OptionalProfileForm";
 import RequiredProfileForm from "@/components/pages/user/profiles/RequiredProfileForm";
 import NextButton from "@/components/ui/Button/NextButton";
@@ -9,6 +7,7 @@ import Success from "@/components/ui/Success";
 import { useAuth } from "@/hooks/Auth/useAuth";
 import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
 import { useUpdateUserProfile } from "@/lib/user/hooks/useUpdateUserProfile";
+import { auth } from "@/shared/firebase";
 
 import { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
