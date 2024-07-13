@@ -5,50 +5,30 @@ import TextArea from "@/components/ui/Input/TextArea";
 import { uploadImagesAndGetUrls } from "@/lib/post/api";
 import { DEFAULT_PROFILE_IMG_DOG } from "@/shared/const/UserprofileImgPath";
 import { auth } from "@/shared/firebase";
-
 import { updateProfile } from "firebase/auth";
 import { Pencil } from "lucide-react";
-import { ChangeEvent, useEffect, useRef } from "react";
+import { ChangeEvent } from "react";
+import { useFormContext } from "react-hook-form";
 import toast from "react-hot-toast";
 
 interface RequiredProfileFormProps {
-  nickName: string;
-  introduction: string;
-  nickNameErrorMessage: string;
-  introErrorMessage: string;
-  profileImg?: string | null;
-  handleChangeNickName: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleChangeProfileImg: (profileImg: string) => void;
-  handleChangeIntro: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-  handleNextButtonClick: (e: React.FormEvent) => void;
+  handleNextStep: () => void;
 }
 
-function RequiredProfileForm({
-  nickName,
-  introduction,
-  nickNameErrorMessage,
-  introErrorMessage,
-  profileImg,
-  handleChangeNickName,
-  handleChangeIntro,
-  handleChangeProfileImg,
-  handleNextButtonClick,
-}: RequiredProfileFormProps) {
-  const nickNameRef = useRef<HTMLInputElement>(null);
-  const introRef = useRef<HTMLTextAreaElement>(null);
+function RequiredProfileForm({ handleNextStep }: RequiredProfileFormProps) {
+  const {
+    register,
+    setValue,
+    formState: { errors },
+    watch,
+    trigger,
+  } = useFormContext();
+  const profileImg = watch("profileImg");
 
   const user = auth.currentUser;
 
-  useEffect(() => {
-    if (nickNameErrorMessage && nickNameRef.current) {
-      nickNameRef.current.focus();
-    } else if (introErrorMessage && introRef.current) {
-      introRef.current.focus();
-    }
-  }, [nickNameErrorMessage, introErrorMessage]);
-
   const handleClickEditProfileImg = async (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: ChangeEvent<HTMLInputElement>
   ) => {
     const { files } = e.target;
 
@@ -79,7 +59,7 @@ function RequiredProfileForm({
             profileUrl = profileUrls[0].original;
           }
 
-          handleChangeProfileImg(profileUrl);
+          setValue("profileImg", profileUrl);
 
           await updateProfile(user, {
             photoURL: profileUrl,
@@ -91,8 +71,15 @@ function RequiredProfileForm({
     }
   };
 
+  const handleNextClick = async () => {
+    const result = await trigger(["nickName", "introduction"]);
+    if (result) {
+      handleNextStep();
+    }
+  };
+
   return (
-    <form className="flex flex-col gap-y-8" onSubmit={handleNextButtonClick}>
+    <div className="flex flex-col gap-y-8">
       <label
         htmlFor="profileImg"
         className="relative flex items-center justify-center w-24 h-24 mx-auto overflow-hidden cursor-pointer"
@@ -123,15 +110,16 @@ function RequiredProfileForm({
           <Input
             label="닉네임 *"
             placeholder="닉네임을 입력해주세요"
-            value={nickName}
-            onChange={handleChangeNickName}
-            error={!!nickNameErrorMessage}
-            ref={nickNameRef}
+            {...register("nickName", {
+              required: "닉네임을 입력해주세요",
+              maxLength: { value: 16, message: "16글자 이내로 작성해주세요" },
+            })}
+            error={!!errors.nickName}
           />
-          <div className="flex items-center">
-            <ErrorMessage>{nickNameErrorMessage}</ErrorMessage>
+          <div className="flex items-center h-6 ">
+            <ErrorMessage>{errors.nickName?.message as string}</ErrorMessage>
             <div className="text-[10px] text-gray-500 font-semibold ml-auto flex items-center pt-1">
-              {nickName.length}/16
+              {watch("nickName").length}/16
             </div>
           </div>
         </div>
@@ -139,21 +127,24 @@ function RequiredProfileForm({
           <TextArea
             label="자기 소개 *"
             placeholder="자기소개를 작성해주세요"
-            value={introduction}
-            onChange={handleChangeIntro}
-            error={!!introErrorMessage}
-            ref={introRef}
+            {...register("introduction", {
+              required: "자기소개를 입력해주세요",
+              maxLength: { value: 150, message: "150글자 이내로 작성해주세요" },
+            })}
+            error={!!errors.introduction}
           />
           <div className="flex items-center -translate-y-1">
-            <ErrorMessage>{introErrorMessage}</ErrorMessage>
+            <ErrorMessage>
+              {errors.introduction?.message as string}
+            </ErrorMessage>
             <div className="text-[10px] text-gray-500 font-semibold ml-auto flex items-center pt-1">
-              {introduction.length}/150
+              {watch("introduction").length}/150
             </div>
           </div>
         </div>
       </div>
-      <NextButton onClick={handleNextButtonClick} />
-    </form>
+      <NextButton onClick={handleNextClick} />
+    </div>
   );
 }
 
