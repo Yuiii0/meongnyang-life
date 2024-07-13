@@ -1,19 +1,19 @@
-import UserCard from "@/components/pages/user/userList/UserCard";
-import LoadingSpinner from "@/components/ui/LoadingSpinner";
-import Page from "@/components/ui/Page";
-import { removeImageFromStorage } from "@/lib/post/api";
-
-import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
-import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
-
 import CommentForm from "@/components/pages/posts/Comments/CommentForm";
 import CommentList from "@/components/pages/posts/Comments/CommentList";
 import PostLikeToggleButton from "@/components/pages/posts/LikeButton/PostLikeToggleButton";
 import NoResults from "@/components/pages/search/NoResults";
+import UserCard from "@/components/pages/user/userList/UserCard";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import Page from "@/components/ui/Page";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
-import { CommentDto, ReplyDto } from "@/lib/comment/type";
-import { PostImage } from "@/lib/post/type";
+import { removeImageFromStorage } from "@/lib/post/api";
+
 import { useAuthStore } from "@/stores/auth/useAuthStore";
+
+import { CommentDto, ReplyDto } from "@/lib/comment/type";
+import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
+import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
+import { PostImage } from "@/lib/post/type";
 import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { Timestamp } from "firebase/firestore";
@@ -28,7 +28,6 @@ const PostDetailPage = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const { data: post, isError, isLoading } = useGetPostByPostId(postId || "");
-
   const { mutate: deletePost } = useDeletePost();
 
   const commentFormRef = useRef<HTMLInputElement>(null);
@@ -37,7 +36,7 @@ const PostDetailPage = () => {
   const [replyId, setReplyId] = useState<string | null>(null);
   const [isReplying, setIsReplying] = useState(false);
 
-  const focusCommentForm = () => {
+  const focusCommentForm = useCallback(() => {
     if (commentFormRef.current) {
       commentFormRef.current.scrollIntoView({
         behavior: "smooth",
@@ -45,44 +44,53 @@ const PostDetailPage = () => {
       });
       commentFormRef.current.focus();
     }
-  };
-
-  const handleEditComment = useCallback((comment: CommentDto) => {
-    if (commentFormRef.current) {
-      commentFormRef.current.value = comment.content;
-    }
-    setCommentId(comment.id || "");
-    setReplyId(null);
-    setIsEdit(true);
-    setIsReplying(false);
-    focusCommentForm();
   }, []);
 
-  const handleEditReply = useCallback((reply: ReplyDto) => {
-    if (commentFormRef.current) {
-      commentFormRef.current.value = reply.content;
-    }
-    setReplyId(reply.id || "");
-    setCommentId(reply.commentId || "");
-    setIsEdit(true);
-    setIsReplying(true);
-    focusCommentForm();
-  }, []);
+  const handleEditComment = useCallback(
+    (comment: CommentDto) => {
+      if (commentFormRef.current) {
+        commentFormRef.current.value = comment.content;
+      }
+      setCommentId(comment.id || "");
+      setReplyId(null);
+      setIsEdit(true);
+      setIsReplying(false);
+      focusCommentForm();
+    },
+    [focusCommentForm]
+  );
+
+  const handleEditReply = useCallback(
+    (reply: ReplyDto) => {
+      if (commentFormRef.current) {
+        commentFormRef.current.value = reply.content;
+      }
+      setReplyId(reply.id || "");
+      setCommentId(reply.commentId || "");
+      setIsEdit(true);
+      setIsReplying(true);
+      focusCommentForm();
+    },
+    [focusCommentForm]
+  );
 
   const handleSubmitComment = useCallback(() => {
     setCommentId(null);
     setIsEdit(false);
   }, []);
 
-  const handleSubmitReply = useCallback((commentId: string) => {
-    setReplyId(null);
-    setCommentId(commentId);
-    setIsEdit(false);
-    setIsReplying(true);
-    focusCommentForm();
-  }, []);
+  const handleSubmitReply = useCallback(
+    (commentId: string) => {
+      setReplyId(null);
+      setCommentId(commentId);
+      setIsEdit(false);
+      setIsReplying(true);
+      focusCommentForm();
+    },
+    [focusCommentForm]
+  );
 
-  const isMyPost = user?.uid == post?.userId;
+  const isMyPost = user?.uid === post?.userId;
   const timeStamp = new Timestamp(
     post?.createdAt.seconds,
     post?.createdAt.nanoseconds
@@ -91,12 +99,13 @@ const PostDetailPage = () => {
   if (isError) {
     return <NoResults title="삭제된 포스트입니다" />;
   }
+
   if (!post || !postId || isLoading) {
     return <LoadingSpinner text="포스트를 가져오는 중 입니다" />;
   }
+
   const handleDeletePost = async () => {
     try {
-      // storage 이미지 삭제
       if (post.images && post.images.length > 0) {
         await Promise.all(
           post.images.map((imageUrl: string) =>
@@ -134,12 +143,6 @@ const PostDetailPage = () => {
             <div className="flex flex-col overflow-auto gap-y-4">
               {post.images.map((image: PostImage, index: number) => (
                 <div key={index} className="overflow-hidden rounded-sm">
-                  {/* <img
-                    src={image}
-                    alt={`Post image ${index + 1}`}
-                    claspsName="object-cover w-full h-auto"
-                    loading={index === 0 ? "eager" : "lazy"}
-                  /> */}
                   <PlaceholderImage
                     key={index}
                     src={image.original}
