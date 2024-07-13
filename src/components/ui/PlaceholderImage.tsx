@@ -5,8 +5,6 @@ interface PlaceholderImageProps {
   alt: string;
   loading?: "eager" | "lazy";
   className?: string;
-  width: number;
-  height: number;
   srcSet?: string;
   sizes?: string;
 }
@@ -16,8 +14,6 @@ const PlaceholderImage: React.FC<PlaceholderImageProps> = ({
   alt,
   loading = "lazy",
   className = "",
-  width,
-  height,
   srcSet,
   sizes,
 }) => {
@@ -27,22 +23,12 @@ const PlaceholderImage: React.FC<PlaceholderImageProps> = ({
     setLoaded(true);
   };
 
-  const paddingBottom = (height / width) * 100;
-
   return (
-    <div
-      className={`relative ${className}`}
-      style={{
-        width: "100%",
-        paddingBottom: loaded ? "0" : `${paddingBottom}%`,
-        transition: "padding-bottom 0.3s ease",
-      }}
-    >
+    <div className={`relative ${className} aspect-w-1 aspect-h-1`}>
       <div
-        className={`absolute top-0 left-0 w-full h-full bg-gray-100 transition-opacity duration-300  rounded-md ${
+        className={`absolute top-0 left-0 w-full h-full bg-gray-100 transition-opacity duration-300 rounded-md ${
           loaded ? "opacity-0" : "opacity-100"
         }`}
-        style={{ width: `${width}px`, height: `${height}px` }}
       ></div>
       <img
         src={src}
@@ -50,7 +36,7 @@ const PlaceholderImage: React.FC<PlaceholderImageProps> = ({
         sizes={sizes}
         alt={alt}
         onLoad={handleLoad}
-        className={`relative w-full h-full object-contain transition-opacity duration-300 rounded-md ${
+        className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-300 rounded-md ${
           loaded ? "opacity-100" : "opacity-0"
         }`}
         loading={loading}
