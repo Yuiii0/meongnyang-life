@@ -8,7 +8,10 @@ import Success from "@/components/ui/Success";
 import { useAuth } from "@/hooks/Auth/useAuth";
 import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
 import { useUpdateUserProfile } from "@/lib/user/hooks/useUpdateUserProfile";
-import { DEFAULT_PROFILE_IMG_DOG } from "@/shared/const/UserprofileImgPath";
+import {
+  DEFAULT_PROFILE_IMG_CAT,
+  DEFAULT_PROFILE_IMG_DOG,
+} from "@/shared/const/UserprofileImgPath";
 import { auth } from "@/shared/firebase";
 import { User } from "firebase/auth";
 import { useEffect, useState } from "react";
@@ -76,12 +79,19 @@ function UserEditPage() {
       toast.error("접근 권한이 없습니다");
       return;
     }
+    let profileImg = data.profileImg;
+    if (!profileImg) {
+      profileImg =
+        data.petType === "dog"
+          ? DEFAULT_PROFILE_IMG_DOG
+          : DEFAULT_PROFILE_IMG_CAT;
+    }
 
     updateUserData(
       {
         userId: user.uid,
         userName: user.displayName || "Anonymous",
-        profileImg: data.profileImg,
+        profileImg: profileImg,
         email: user.email,
         nickName: data.nickName,
         introduction: data.introduction,

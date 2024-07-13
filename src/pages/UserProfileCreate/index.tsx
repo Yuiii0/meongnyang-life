@@ -5,6 +5,10 @@ import PrevButton from "@/components/ui/Button/PrevButton";
 import Page from "@/components/ui/Page";
 import Success from "@/components/ui/Success";
 import { useCreateUserProfile } from "@/lib/user/hooks/useCreateUserProfile";
+import {
+  DEFAULT_PROFILE_IMG_CAT,
+  DEFAULT_PROFILE_IMG_DOG,
+} from "@/shared/const/UserprofileImgPath";
 import { auth } from "@/shared/firebase";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -43,12 +47,19 @@ function UserProfileCreatePage() {
       toast.error("접근 권한이 없습니다");
       return;
     }
+    let profileImg = data.profileImg;
+    if (!profileImg) {
+      profileImg =
+        data.petType === "dog"
+          ? DEFAULT_PROFILE_IMG_DOG
+          : DEFAULT_PROFILE_IMG_CAT;
+    }
 
     createUserData(
       {
         userId: user.uid,
         userName: user.displayName || "Anonymous",
-        profileImg: data.profileImg,
+        profileImg: profileImg,
         email: user.email,
         nickName: data.nickName,
         introduction: data.introduction,
