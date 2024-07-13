@@ -75,12 +75,14 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
             </div>
             <div className="flex items-center gap-x-2">
               <span className="text-sm text-gray-500">{breed}</span>
-              <img
-                src={gender == "female" ? FEMALE_ICON_IMG : MALE_ICON_IMG}
-                alt="gender_icon"
-                width={14}
-                height={14}
-              />
+              {gender && (
+                <img
+                  src={gender == "female" ? FEMALE_ICON_IMG : MALE_ICON_IMG}
+                  alt="gender_icon"
+                  width={14}
+                  height={14}
+                />
+              )}
             </div>
             <div className="flex pt-1 text-[15px] font-medium text-gray-700 gap-x-6">
               <div

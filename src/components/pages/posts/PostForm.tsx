@@ -1,4 +1,5 @@
 import Button from "@/components/ui/Button/Button";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import ImageUpload from "@/components/ui/Input/ImageUpload";
 import Input from "@/components/ui/Input/Input";
 import TextArea from "@/components/ui/Input/TextArea";
@@ -86,7 +87,9 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
           maxLength: { value: 40, message: "40글자 이하로 작성해주세요" },
         })}
       />
-      <p>{errors.title?.message}</p>
+      <div className="h-3">
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
+      </div>
       <TextArea
         placeholder="반려동물의 일상을 함께 공유해보세요"
         error={!!errors.content}
@@ -103,7 +106,8 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
           },
         })}
       />
-      <p>{errors.content?.message}</p>
+      <ErrorMessage>{errors.content?.message}</ErrorMessage>
+
       <div className="fixed bottom-0 left-0 w-full px-8 py-8">
         <div className="flex items-center pt-6 gap-x-4">
           <ImageUpload

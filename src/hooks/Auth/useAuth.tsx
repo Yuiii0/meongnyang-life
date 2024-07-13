@@ -1,23 +1,26 @@
 import { PATHS } from "@/pages/route";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
+import { User } from "firebase/auth";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-export const useAuth = () => {
+type CheckPermission = (user: User) => boolean;
+
+export const useAuth = (checkPermission: CheckPermission) => {
   const { user, loading } = useAuthStore();
   const navigate = useNavigate();
-  const { userId } = useParams();
 
   useEffect(() => {
     if (!loading) {
       if (!user) {
         navigate(PATHS.logIn);
-      }
-      if (user?.uid !== userId) {
+      } else if (checkPermission && !checkPermission(user)) {
+        toast.error("접근 권한이 없습니다.");
         navigate(-1);
       }
     }
-  }, [loading, user, userId, navigate]);
+  }, [loading, user, navigate, checkPermission]);
 
   return { user, loading };
 };

@@ -1,13 +1,18 @@
 interface NoResultsProps {
   title: string;
   description?: string;
+  imageName?: string;
 }
 
-function NoResults({ title, description }: NoResultsProps) {
+function NoResults({
+  title,
+  description,
+  imageName = "dog_cute.webp",
+}: NoResultsProps) {
   return (
     <div className="relative flex flex-col items-center justify-center w-full h-screen -translate-y-1/4 gap-y-4 ">
       <img
-        src="/images/dog_cute.webp"
+        src={`/images/${imageName}`}
         alt="dog_img"
         width={130}
         className="mx-auto"

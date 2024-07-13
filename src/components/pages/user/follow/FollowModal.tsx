@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
+import NoResults from "../../search/NoResults";
 import UserCardsList from "../userList/UserCardsList";
 
 interface FollowModalProps {
@@ -74,13 +75,27 @@ function FollowModal({
             value="following"
             className="h-full px-6 py-4 overflow-auto"
           >
-            <UserCardsList userIdList={followings} />
+            {followings && followings.length > 0 ? (
+              <UserCardsList userIdList={followings} />
+            ) : (
+              <NoResults
+                title="팔로잉 유저가 없습니다"
+                imageName="Category_samsaegi_adopt.webp"
+              />
+            )}
           </TabsContent>
           <TabsContent
             value="follower"
             className="h-full px-6 py-4 overflow-auto "
           >
-            <UserCardsList userIdList={followers} />
+            {followers && followers.length > 0 ? (
+              <UserCardsList userIdList={followers} />
+            ) : (
+              <NoResults
+                title="팔로워 유저가 없습니다"
+                imageName="Category_samsaegi_adopt.webp"
+              />
+            )}
           </TabsContent>
         </Tabs>
       </div>

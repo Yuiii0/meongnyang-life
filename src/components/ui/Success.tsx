@@ -1,3 +1,4 @@
+import { PATHS } from "@/pages/route";
 import { PropsWithChildren } from "react";
 import NavigationLink from "./NavigationLink";
 
@@ -26,7 +27,7 @@ function Success({
         <div className="text-lg text-gray-400">{text}</div>
         <div className="text-4xl font-bold">{children}</div>
       </div>
-      <NavigationLink to="/main">{linkText}</NavigationLink>
+      <NavigationLink to={PATHS.main}>{linkText}</NavigationLink>
     </div>
   );
 }

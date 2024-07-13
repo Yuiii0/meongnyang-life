@@ -12,15 +12,15 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const id = useId();
 
     return (
-      <div>
+      <div className="flex flex-col">
         {label && id && (
-          <label htmlFor={id} className="px-1 font-bold text-gray-800">
+          <label htmlFor={id} className="px-1 mb-2 font-bold text-gray-800">
             {label}
           </label>
         )}
         <textarea
           id={id}
-          className={`mt-2 border w-full text-sm px-2 py-2 h-28 border-gray-300 outline-none resize-none transition rounded-md ${
+          className={` border w-full text-sm px-2 py-2 h-28 border-gray-300 outline-none resize-none transition rounded-md ${
             error ? "focus:border-red-500" : "focus:border-black"
           } ${isBorder ? "border" : "border-none h-64 pt-4"}`}
           {...props}

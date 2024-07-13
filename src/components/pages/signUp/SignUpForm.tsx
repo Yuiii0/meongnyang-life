@@ -47,7 +47,10 @@ function SignUpForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onValid)} className="flex flex-col gap-y-8">
+    <form
+      onSubmit={handleSubmit(onValid)}
+      className="flex flex-col mt-6 gap-y-8"
+    >
       <div>
         <AuthInput
           label="이름"
@@ -62,7 +65,9 @@ function SignUpForm() {
             },
           })}
         />
-        <ErrorMessage>{errors?.name?.message || " "}</ErrorMessage>
+        <div className="h-4">
+          <ErrorMessage>{errors?.name?.message}</ErrorMessage>
+        </div>
       </div>
       <div>
         <AuthInput
@@ -78,11 +83,9 @@ function SignUpForm() {
             },
           })}
         />
-        {errors?.email ? (
-          <ErrorMessage>{errors?.email?.message || " "}</ErrorMessage>
-        ) : (
-          <p className="px-1 pt-2 text-xs text-gray-600 text-start">{""}</p>
-        )}
+        <div className="h-4">
+          <ErrorMessage>{errors?.email?.message}</ErrorMessage>
+        </div>
       </div>
       <div>
         <AuthInput
@@ -103,13 +106,15 @@ function SignUpForm() {
             },
           })}
         />
-        {errors?.password ? (
-          <ErrorMessage>{errors?.password?.message || " "}</ErrorMessage>
-        ) : (
-          <p className="px-1 pt-2 text-sm text-gray-600 text-start">
-            대소문자, 특수문자 포함 8글자 이상 입력해주세요
-          </p>
-        )}
+        <div className="h-4">
+          {errors?.password ? (
+            <ErrorMessage>{errors?.password?.message}</ErrorMessage>
+          ) : (
+            <p className="px-1 pt-2 text-sm text-gray-600 text-start">
+              대소문자, 특수문자 포함 8글자 이상 입력해주세요
+            </p>
+          )}
+        </div>
       </div>
       <div className="mb-4">
         <AuthInput
@@ -125,7 +130,9 @@ function SignUpForm() {
             },
           })}
         />
-        <ErrorMessage>{errors?.passwordConfirm?.message || " "}</ErrorMessage>
+        <div className="h-4">
+          <ErrorMessage>{errors?.passwordConfirm?.message}</ErrorMessage>
+        </div>
       </div>
       <Button disabled={isPending}>회원가입</Button>
     </form>

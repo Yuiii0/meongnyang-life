@@ -42,7 +42,7 @@ function LogInForm() {
 
   return (
     <form onSubmit={handleSubmit(onValid)}>
-      <div className="flex flex-col gap-y-10">
+      <div className="flex flex-col gap-y-8">
         <div>
           <AuthInput
             label="이메일"
@@ -57,7 +57,9 @@ function LogInForm() {
               },
             })}
           />
-          <ErrorMessage>{errors?.email?.message || " "}</ErrorMessage>
+          <div className="h-6 ">
+            <ErrorMessage>{errors?.email?.message}</ErrorMessage>
+          </div>
         </div>
         <div>
           <AuthInput
@@ -79,7 +81,7 @@ function LogInForm() {
             })}
           />
           {errors?.password ? (
-            <ErrorMessage>{errors?.password?.message || " "}</ErrorMessage>
+            <ErrorMessage>{errors?.password?.message}</ErrorMessage>
           ) : (
             <p className="px-1 pt-2 text-sm text-gray-600 text-start">
               대소문자, 특수문자 포함 8글자 이상 입력해주세요
