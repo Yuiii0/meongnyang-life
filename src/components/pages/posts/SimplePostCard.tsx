@@ -1,3 +1,4 @@
+import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import { postDto } from "@/lib/post/type";
 import { formatCount } from "@/utils/formatCount";
 import { truncateString } from "@/utils/truncateString";
@@ -42,13 +43,13 @@ function SimplePostCard({ post }: SimplePostCardProps) {
       </div>
       {post.images && post.images.length > 0 && (
         <div className="flex-shrink-0 ml-2 overflow-hidden rounded-md h-28 w-28">
-          <img
-            src={post.images[0].original}
+          <PlaceholderImage
+            src={post.images[0].small}
             srcSet={`${post.images[0].small} 400w, ${post.images[0].large} 1080w`}
             sizes="(max-width: 600px) 480px, 1080px"
             className="object-cover w-full h-full"
-            width={112}
-            height={112}
+            alt={`${post.title} img`}
+            loading="lazy"
           />
         </div>
       )}
