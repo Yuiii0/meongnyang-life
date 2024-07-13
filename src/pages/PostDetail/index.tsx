@@ -109,7 +109,6 @@ const PostDetailPage = () => {
     return <LoadingSpinner text="포스트를 가져오는 중 입니다" />;
   }
 
-
   const handleDeletePost = async () => {
     try {
       if (post.images && post.images.length > 0) {
@@ -146,7 +145,7 @@ const PostDetailPage = () => {
         <h1 className="text-xl font-semibold">{post.title}</h1>
         <div className="pt-6">
           {post.images && post.images.length > 0 && (
-            <div className="flex flex-col overflow-auto gap-y-4">
+            <div className="flex flex-col overflow-auto gap-y-8">
               {post.images.map((image: PostImage, index: number) => (
                 <div key={index} className="overflow-hidden rounded-sm">
                   <PlaceholderImage
@@ -155,9 +154,6 @@ const PostDetailPage = () => {
                     srcSet={`${image.small} 400w, ${image.large} 1080w`}
                     sizes="(max-width: 600px) 480px, 1080px"
                     alt={`Post image ${index + 1}`}
-                    width={600}
-                    height={400}
-                    loading={index === 0 ? "eager" : "lazy"}
                   />
                 </div>
               ))}
