@@ -1,41 +1,38 @@
+import { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 import { SelectedBreed } from "./SelectedBreed";
 import SelectedGender from "./SelectedGender";
 
-interface OptionalProfileFormProps {
-  petType: string;
-  breed: string;
-  gender: string;
-  isNoPet: boolean;
-  setIsNoPet: (isNoPet: boolean) => void;
-  handleChangePetType: (selectedPet: "dog" | "cat" | "") => void;
-  handleChangeBreed: (breed: string) => void;
-  handleChangeGender: (gender: string) => void;
-}
+function OptionalProfileForm() {
+  const { register, setValue, watch } = useFormContext();
+  const petType = watch("petType");
+  const breed = watch("breed");
+  const gender = watch("gender");
+  const isNoPet = watch("isNoPet");
 
-function OptionalProfileForm({
-  petType,
-  breed,
-  gender,
-  isNoPet,
-  setIsNoPet,
-  handleChangePetType,
-  handleChangeBreed,
-  handleChangeGender,
-}: OptionalProfileFormProps) {
+  useEffect(() => {
+    if (isNoPet) {
+      setValue("petType", "");
+      setValue("breed", "");
+      setValue("gender", "");
+    }
+  }, [isNoPet, setValue]);
+
   return (
     <div className="flex flex-col mb-2 gap-y-6">
       <h4 className="px-1 py-2 text-sm font-semibold">반려동물 종류</h4>
       <div className="flex flex-col items-start gap-y-4">
         <div className="flex justify-center w-full gap-x-6">
           <button
+            type="button"
             className={`p-4 rounded-lg border-2 w-28 h-28 min-w-28 min-h-28 flex justify-center items-center flex-col ${
               petType === "dog"
                 ? "border-orange-200 bg-orange-200 "
                 : "border-orange-200"
             } transition-all duration-200`}
             onClick={() => {
-              handleChangePetType("dog");
-              setIsNoPet(false);
+              setValue("petType", "dog");
+              setValue("isNoPet", false);
             }}
           >
             <img
@@ -48,14 +45,15 @@ function OptionalProfileForm({
             <p className="pt-1 text-xs font-semibold text-gray-700">강아지</p>
           </button>
           <button
+            type="button"
             className={`p-4 rounded-lg border-2 w-28 h-28 min-w-28 min-h-28 flex justify-center items-center flex-col ${
               petType === "cat"
                 ? "border-orange-200 bg-orange-200 "
                 : "border-orange-200"
             } transition-all duration-200`}
             onClick={() => {
-              handleChangePetType("cat");
-              setIsNoPet(false);
+              setValue("petType", "cat");
+              setValue("isNoPet", false);
             }}
           >
             <img
@@ -74,13 +72,7 @@ function OptionalProfileForm({
               id="yellowCheckBox"
               type="checkbox"
               className="w-4 h-4 accent-orange-400"
-              checked={isNoPet}
-              onChange={() => {
-                handleChangePetType("");
-                handleChangeBreed("");
-                handleChangeGender("");
-                setIsNoPet(true);
-              }}
+              {...register("isNoPet")}
             />
             <span className="pl-2 text-sm text-gray-400">
               반려동물이 없어요
@@ -92,16 +84,15 @@ function OptionalProfileForm({
       <SelectedBreed
         petType={petType}
         breed={breed}
-        handleChangeBreed={handleChangeBreed}
+        handleChangeBreed={(value) => setValue("breed", value)}
         disabled={isNoPet}
       />
       <SelectedGender
         gender={gender}
-        handleChangeGender={handleChangeGender}
+        handleChangeGender={(value) => setValue("gender", value)}
         disabled={isNoPet}
       />
     </div>
   );
 }
-
 export default OptionalProfileForm;

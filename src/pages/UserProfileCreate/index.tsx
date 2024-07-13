@@ -6,28 +6,29 @@ import Page from "@/components/ui/Page";
 import Success from "@/components/ui/Success";
 import { useCreateUserProfile } from "@/lib/user/hooks/useCreateUserProfile";
 import { auth } from "@/shared/firebase";
-
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 function UserProfileCreatePage() {
   const user = auth.currentUser;
   const { mutateAsync: createUserData } = useCreateUserProfile(user?.uid || "");
 
+  const methods = useForm({
+    defaultValues: {
+      nickName: "",
+      introduction: "",
+      profileImg: user?.photoURL || "",
+      petType: "",
+      breed: "",
+      gender: "",
+      isNoPet: false,
+    },
+  });
+
   const [step, setStep] = useState(1);
-  const [nickName, setNickName] = useState("");
-  const [nickNameErrorMessage, setNickNameErrorMessage] = useState("");
-  const [introduction, setIntroduction] = useState("");
-  const [introErrorMessage, setIntroErrorMessage] = useState("");
 
-  const [profileImg, setProfileImg] = useState(user?.photoURL);
-
-  const [petType, setPetType] = useState("");
-  const [breed, setBreed] = useState("");
-  const [gender, setGender] = useState("");
-  const [isNoPet, setIsNoPet] = useState(false);
-
-  //Step 이동 함수
+  // Step 이동 함수
   const handleClickPrevStep = () => {
     setStep((prev) => prev - 1);
   };
@@ -36,39 +37,7 @@ function UserProfileCreatePage() {
     setStep((prev) => prev + 1);
   };
 
-  //RequiredForm handler 함수
-  const handleChangeNickName = (e: ChangeEvent<HTMLInputElement>) => {
-    const text = e.target.value;
-
-    if (text.length > 16) {
-      setNickNameErrorMessage("16글자 이내로 작성해주세요");
-    } else {
-      setNickName(text);
-      setNickNameErrorMessage("");
-    }
-  };
-
-  const handleChangeIntro = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const text = e.target.value;
-
-    if (text.length > 150) {
-      setIntroErrorMessage("150글자 이내로 작성해주세요");
-    } else {
-      setIntroduction(text);
-      setIntroErrorMessage("");
-    }
-  };
-
-  const handleChangeProfileImg = (profileImg: string) =>
-    setProfileImg(profileImg);
-
-  //OptionalForm handler 함수
-  const handleChangePetType = (selectedPet: "dog" | "cat" | "") =>
-    setPetType(selectedPet);
-  const handleChangeBreed = (breed: string) => setBreed(breed);
-  const handleChangeGender = (gender: string) => setGender(gender);
-
-  const handleSubmitProfile = async () => {
+  const handleSubmitProfile = async (data: any) => {
     const user = auth.currentUser;
     if (!user) {
       toast.error("접근 권한이 없습니다");
@@ -79,13 +48,13 @@ function UserProfileCreatePage() {
       {
         userId: user.uid,
         userName: user.displayName || "Anonymous",
-        profileImg,
+        profileImg: data.profileImg,
         email: user.email,
-        nickName,
-        introduction,
-        petType,
-        breed,
-        gender,
+        nickName: data.nickName,
+        introduction: data.introduction,
+        petType: data.petType,
+        breed: data.breed,
+        gender: data.gender,
         createdAt: Date.now(),
         updatedAt: Date.now(),
       },
@@ -97,72 +66,32 @@ function UserProfileCreatePage() {
     );
   };
 
-  // 다음 단계로 넘어가기 전에 validation 검사
-  const handleNextButtonClick = async (e: React.FormEvent) => {
-    e.preventDefault();
-    let localHasError = false;
-
-    if (nickName.trim().length === 0 && introduction.trim().length === 0) {
-      setNickNameErrorMessage("닉네임을 입력해주세요");
-      setIntroErrorMessage("자기소개를 입력해주세요");
-      localHasError = true;
-    } else {
-      if (nickName.trim().length === 0) {
-        setNickNameErrorMessage("닉네임을 입력해주세요");
-        localHasError = true;
-      }
-
-      if (introduction.trim().length === 0) {
-        setIntroErrorMessage("자기소개를 입력해주세요");
-        localHasError = true;
-      }
-    }
-
-    if (!localHasError && !nickNameErrorMessage && !introErrorMessage) {
-      handleClickNextStep();
-    }
-  };
-
   return (
     <Page>
-      {step == 1 && (
-        <>
-          <RequiredProfileForm
-            nickName={nickName}
-            introduction={introduction}
-            nickNameErrorMessage={nickNameErrorMessage}
-            introErrorMessage={introErrorMessage}
-            profileImg={profileImg}
-            handleChangeNickName={handleChangeNickName}
-            handleChangeIntro={handleChangeIntro}
-            handleChangeProfileImg={handleChangeProfileImg}
-            handleNextButtonClick={handleNextButtonClick}
-          />
-        </>
-      )}
-      {step == 2 && (
-        <>
-          <OptionalProfileForm
-            petType={petType}
-            breed={breed}
-            gender={gender}
-            isNoPet={isNoPet}
-            setIsNoPet={setIsNoPet}
-            handleChangePetType={handleChangePetType}
-            handleChangeBreed={handleChangeBreed}
-            handleChangeGender={handleChangeGender}
-          />
-          <PrevButton onClick={handleClickPrevStep} />
-          <NextButton onClick={handleSubmitProfile} />
-        </>
-      )}
-      {step == 3 && (
-        <div className="fixed flex flex-col items-center justify-center gap-y-8 ">
-          <Success linkText="멍냥생활 이용하기" text="멍냥생활 회원이 되신것을">
-            환영합니다
-          </Success>
-        </div>
-      )}
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(handleSubmitProfile)}>
+          {step === 1 && (
+            <RequiredProfileForm handleNextStep={handleClickNextStep} />
+          )}
+          {step === 2 && (
+            <>
+              <OptionalProfileForm />
+              <PrevButton onClick={handleClickPrevStep} />
+              <NextButton onClick={methods.handleSubmit(handleSubmitProfile)} />
+            </>
+          )}
+          {step === 3 && (
+            <div className="fixed flex flex-col items-center justify-center gap-y-8 ">
+              <Success
+                linkText="멍냥생활 이용하기"
+                text="멍냥생활 회원이 되신것을"
+              >
+                환영합니다
+              </Success>
+            </div>
+          )}
+        </form>
+      </FormProvider>
     </Page>
   );
 }

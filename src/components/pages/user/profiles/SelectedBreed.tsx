@@ -35,8 +35,8 @@ export function SelectedBreed({
   const breedData = petType === "cat" ? catBreedData : dogBreedData;
   const petTypeKr = petType === "cat" ? "묘종" : "견종";
 
-  const handleSelectBreed = (currentValue: string) => {
-    handleChangeBreed(currentValue);
+  const handleSelectBreed = (breed: string) => {
+    handleChangeBreed(breed);
     setOpen(false);
   };
 
@@ -46,13 +46,13 @@ export function SelectedBreed({
 
   useEffect(() => {
     if (breed) {
-      handleSelectBreed(breed);
+      handleChangeBreed(breed);
     }
   }, []);
 
   return (
     <div>
-      <h4 className="py-3 text-sm font-semibold ">견종/묘종</h4>
+      <h4 className="py-3 text-sm font-semibold">견종/묘종</h4>
       <div className="flex justify-center">
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
@@ -69,7 +69,7 @@ export function SelectedBreed({
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0 ">
+          <PopoverContent className="w-[200px] p-0">
             <Command>
               <CommandInput placeholder={`${petTypeKr}을 검색해보세요`} />
               <CommandList className="overflow-y-auto max-h-32">

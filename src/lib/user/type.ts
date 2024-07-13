@@ -11,3 +11,13 @@ export type UserProfile = {
   createdAt?: number;
   updatedAt?: number;
 };
+
+export type UserFormData = {
+  nickName: string;
+  introduction: string;
+  profileImg: string;
+  petType: string;
+  breed: string;
+  gender: string;
+  isNoPet: boolean;
+};

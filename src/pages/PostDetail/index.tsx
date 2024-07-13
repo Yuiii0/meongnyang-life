@@ -6,12 +6,14 @@ import UserCard from "@/components/pages/user/userList/UserCard";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
-import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { removeImageFromStorage } from "@/lib/post/api";
+
+import { useAuthStore } from "@/stores/auth/useAuthStore";
+
+import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 import { PostImage } from "@/lib/post/type";
-import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { Timestamp } from "firebase/firestore";
@@ -26,7 +28,6 @@ const PostDetailPage = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const { data: post, isError, isLoading } = useGetPostByPostId(postId || "");
-
   const { mutate: deletePost } = useDeletePost();
 
   const commentFormRef = useRef<HTMLInputElement>(null);
@@ -35,7 +36,7 @@ const PostDetailPage = () => {
   const [replyId, setReplyId] = useState<string | null>(null);
   const [isReplying, setIsReplying] = useState(false);
 
-  const focusCommentForm = () => {
+  const focusCommentForm = useCallback(() => {
     if (commentFormRef.current) {
       commentFormRef.current.scrollIntoView({
         behavior: "smooth",
@@ -43,44 +44,53 @@ const PostDetailPage = () => {
       });
       commentFormRef.current.focus();
     }
-  };
-
-  const handleEditComment = useCallback((comment: CommentDto) => {
-    if (commentFormRef.current) {
-      commentFormRef.current.value = comment.content;
-    }
-    setCommentId(comment.id || "");
-    setReplyId(null);
-    setIsEdit(true);
-    setIsReplying(false);
-    focusCommentForm();
   }, []);
 
-  const handleEditReply = useCallback((reply: ReplyDto) => {
-    if (commentFormRef.current) {
-      commentFormRef.current.value = reply.content;
-    }
-    setReplyId(reply.id || "");
-    setCommentId(reply.commentId || "");
-    setIsEdit(true);
-    setIsReplying(true);
-    focusCommentForm();
-  }, []);
+  const handleEditComment = useCallback(
+    (comment: CommentDto) => {
+      if (commentFormRef.current) {
+        commentFormRef.current.value = comment.content;
+      }
+      setCommentId(comment.id || "");
+      setReplyId(null);
+      setIsEdit(true);
+      setIsReplying(false);
+      focusCommentForm();
+    },
+    [focusCommentForm]
+  );
+
+  const handleEditReply = useCallback(
+    (reply: ReplyDto) => {
+      if (commentFormRef.current) {
+        commentFormRef.current.value = reply.content;
+      }
+      setReplyId(reply.id || "");
+      setCommentId(reply.commentId || "");
+      setIsEdit(true);
+      setIsReplying(true);
+      focusCommentForm();
+    },
+    [focusCommentForm]
+  );
 
   const handleSubmitComment = useCallback(() => {
     setCommentId(null);
     setIsEdit(false);
   }, []);
 
-  const handleSubmitReply = useCallback((commentId: string) => {
-    setReplyId(null);
-    setCommentId(commentId);
-    setIsEdit(false);
-    setIsReplying(true);
-    focusCommentForm();
-  }, []);
+  const handleSubmitReply = useCallback(
+    (commentId: string) => {
+      setReplyId(null);
+      setCommentId(commentId);
+      setIsEdit(false);
+      setIsReplying(true);
+      focusCommentForm();
+    },
+    [focusCommentForm]
+  );
 
-  const isMyPost = user?.uid == post?.userId;
+  const isMyPost = user?.uid === post?.userId;
   const timeStamp = new Timestamp(
     post?.createdAt.seconds,
     post?.createdAt.nanoseconds
@@ -94,13 +104,14 @@ const PostDetailPage = () => {
       />
     );
   }
+
   if (!post || !postId || isLoading) {
     return <LoadingSpinner text="포스트를 가져오는 중 입니다" />;
   }
 
+
   const handleDeletePost = async () => {
     try {
-      // storage 이미지 삭제
       if (post.images && post.images.length > 0) {
         await Promise.all(
           post.images.map((image: PostImage) =>
