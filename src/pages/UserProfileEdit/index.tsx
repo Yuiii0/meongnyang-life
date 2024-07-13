@@ -10,13 +10,15 @@ import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
 import { useUpdateUserProfile } from "@/lib/user/hooks/useUpdateUserProfile";
 import { DEFAULT_PROFILE_IMG_DOG } from "@/shared/const/UserprofileImgPath";
 import { auth } from "@/shared/firebase";
+import { User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function UserEditPage() {
-  const { user } = useAuth();
+  const { userId } = useParams();
+  const { user } = useAuth((user: User) => user.uid === userId);
   const navigate = useNavigate();
   const { mutateAsync: updateUserData } = useUpdateUserProfile(user?.uid || "");
   const { data: userProfile, isLoading } = useGetUserProfile(user?.uid || "");
