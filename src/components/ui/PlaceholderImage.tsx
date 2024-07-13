@@ -28,6 +28,7 @@ const PlaceholderImage: React.FC<PlaceholderImageProps> = ({
   const handleLoad = () => {
     setLoaded(true);
   };
+  const LoadedImage = loading === "eager" || inView;
 
   return (
     <div ref={ref} className={`relative ${className} aspect-w-1 aspect-h-1`}>
@@ -36,7 +37,7 @@ const PlaceholderImage: React.FC<PlaceholderImageProps> = ({
           loaded ? "opacity-0" : "opacity-100"
         }`}
       ></div>
-      {inView && (
+      {LoadedImage && (
         <img
           src={src}
           srcSet={srcSet}
