@@ -46,7 +46,7 @@ function UserEditPage() {
     if (userProfile) {
       setValue("nickName", userProfile.nickName);
       setValue("introduction", userProfile.introduction);
-      setValue("profileImg", userProfile.profileImg || DEFAULT_PROFILE_IMG_DOG);
+      setValue("profileImg", userProfile.profileImg || "");
       setValue("petType", userProfile.petType || "");
       setValue("breed", userProfile.breed || "");
       setValue("gender", userProfile.gender || "");

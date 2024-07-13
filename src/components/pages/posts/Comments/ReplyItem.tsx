@@ -1,7 +1,6 @@
 import { useDeleteReply } from "@/lib/comment/hooks/useDeleteReply";
 import { ReplyDto } from "@/lib/comment/type";
 import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
-import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { truncateString } from "@/utils/truncateString";
@@ -52,7 +51,7 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
         <Link to={`/profiles/${reply.userId}`}>
           <div className="w-[36px] h-[36px] ">
             <img
-              src={userInfo?.profileImg || DEFAULT_PROFILE_IMG_CAT}
+              src={userInfo?.profileImg || ""}
               alt="profile-img"
               width={36}
               height={36}

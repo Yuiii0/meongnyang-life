@@ -1,5 +1,4 @@
 import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
-import { DEFAULT_PROFILE_IMG_CAT } from "@/shared/const/UserprofileImgPath";
 import { useModalStore } from "@/stores/modal/useModalStore";
 import { truncateString } from "@/utils/truncateString";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +28,7 @@ function UserCard({ userId, isDate }: UserCardProps) {
       >
         <div className="h-14 w-14">
           <img
-            src={userProfile?.profileImg || DEFAULT_PROFILE_IMG_CAT}
+            src={userProfile?.profileImg || ""}
             alt="profile"
             className="object-cover w-full h-full rounded-full"
             height={56}
