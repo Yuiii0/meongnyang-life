@@ -1,32 +1,24 @@
 import NextButton from "@/components/ui/Button/NextButton";
-import ErrorMessage from "@/components/ui/ErrorMessage";
-import Input from "@/components/ui/Input/Input";
-import TextArea from "@/components/ui/Input/TextArea";
 import { uploadImagesAndGetUrls } from "@/lib/post/api";
 import { DEFAULT_PROFILE_IMG_DOG } from "@/shared/const/UserprofileImgPath";
 import { auth } from "@/shared/firebase";
 import { updateProfile } from "firebase/auth";
 import { Pencil } from "lucide-react";
 import { ChangeEvent } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import toast from "react-hot-toast";
+import IntroductionInput from "./IntroductionInput";
+import NicknameInput from "./NickNameInput";
 
 interface RequiredProfileFormProps {
   handleNextStep: () => void;
 }
 
 function RequiredProfileForm({ handleNextStep }: RequiredProfileFormProps) {
-  const {
-    register,
-    setValue,
-    formState: { errors },
-    watch,
-    trigger,
-  } = useFormContext();
-  const profileImg = watch("profileImg");
+  const { setValue, trigger } = useFormContext();
+  const profileImg = useWatch({ name: "profileImg" });
 
   const user = auth.currentUser;
-
   const handleClickEditProfileImg = async (
     e: ChangeEvent<HTMLInputElement>
   ) => {
@@ -71,7 +63,7 @@ function RequiredProfileForm({ handleNextStep }: RequiredProfileFormProps) {
     }
   };
 
-  const handleNextClick = async () => {
+  const onNextClick = async () => {
     const result = await trigger(["nickName", "introduction"]);
     if (result) {
       handleNextStep();
@@ -106,44 +98,10 @@ function RequiredProfileForm({ handleNextStep }: RequiredProfileFormProps) {
       />
       <label />
       <div className="flex flex-col gap-y-10">
-        <div>
-          <Input
-            label="닉네임 *"
-            placeholder="닉네임을 입력해주세요"
-            {...register("nickName", {
-              required: "닉네임을 입력해주세요",
-              maxLength: { value: 16, message: "16글자 이내로 작성해주세요" },
-            })}
-            error={!!errors.nickName}
-          />
-          <div className="flex items-center h-6 ">
-            <ErrorMessage>{errors.nickName?.message as string}</ErrorMessage>
-            <div className="text-[10px] text-gray-500 font-semibold ml-auto flex items-center pt-1">
-              {watch("nickName").length}/16
-            </div>
-          </div>
-        </div>
-        <div>
-          <TextArea
-            label="자기 소개 *"
-            placeholder="자기소개를 작성해주세요"
-            {...register("introduction", {
-              required: "자기소개를 입력해주세요",
-              maxLength: { value: 150, message: "150글자 이내로 작성해주세요" },
-            })}
-            error={!!errors.introduction}
-          />
-          <div className="flex items-center -translate-y-1">
-            <ErrorMessage>
-              {errors.introduction?.message as string}
-            </ErrorMessage>
-            <div className="text-[10px] text-gray-500 font-semibold ml-auto flex items-center pt-1">
-              {watch("introduction").length}/150
-            </div>
-          </div>
-        </div>
+        <NicknameInput />
+        <IntroductionInput />
       </div>
-      <NextButton onClick={handleNextClick} />
+      <NextButton onClick={onNextClick} />
     </div>
   );
 }
