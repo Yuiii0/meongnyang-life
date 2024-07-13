@@ -74,7 +74,6 @@ function UserEditPage() {
       toast.error("접근 권한이 없습니다");
       return;
     }
-    console.log("왜 성별", data.gender, data.breed, data.petType);
 
     updateUserData(
       {
