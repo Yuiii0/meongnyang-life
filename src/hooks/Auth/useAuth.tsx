@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 type CheckPermission = (user: User) => boolean;
 
-export const useAuth = (checkPermission: CheckPermission) => {
+export const useAuth = (checkPermission?: CheckPermission) => {
   const { user, loading } = useAuthStore();
   const navigate = useNavigate();
 

@@ -1,4 +1,6 @@
 import PostForm from "@/components/pages/posts/PostForm";
+import NoResults from "@/components/pages/search/NoResults";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
 import { useAuth } from "@/hooks/Auth/useAuth";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
@@ -11,15 +13,29 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function PostUpdatePage() {
   const { postId } = useParams();
-  const { data: post } = useGetPostByPostId(postId || "");
+  const { data: post, isLoading: isPostLoading } = useGetPostByPostId(
+    postId || ""
+  );
   const navigate = useNavigate();
+
   const checkPermission = (user: User) => {
     return post ? post.userId === user.uid : false;
   };
-  const { user } = useAuth(checkPermission);
-  const { mutate: updatePost } = useUpdatePost();
 
-  if (!post || !postId) return <div>존재하지 않는 포스트입니다</div>;
+  const { user, loading: isAuthLoading } = useAuth(
+    post ? checkPermission : undefined
+  );
+  const { mutate: updatePost, isError } = useUpdatePost();
+
+  if (isAuthLoading || isPostLoading) return <LoadingSpinner />;
+  if (isError || !post || !postId) {
+    return (
+      <NoResults
+        title="존재하지 않는 포스트입니다"
+        imageName="cats_in_box.webp"
+      />
+    );
+  }
 
   const initialData = {
     title: post.title,
