@@ -20,7 +20,7 @@ function ConfirmModal({
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="fixed inset-0 z-50 flex items-center justify-center w-full h-full overflow-hidden rounded-md"
+      className="fixed inset-0 flex items-center justify-center w-full h-full overflow-hidden rounded-md "
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
       ariaHideApp={false}
     >
