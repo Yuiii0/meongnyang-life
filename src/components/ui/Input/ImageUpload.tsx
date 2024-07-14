@@ -186,7 +186,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               <button
                 type="button"
                 onClick={handleCancelCrop}
-                className="flex items-center px-4 py-2 text-sm text-gray-600 rounded hover:bg-gray-300"
+                className="flex items-center px-4 py-2 text-sm text-gray-600 rounded"
               >
                 <X className="w-4 h-4 mr-2" />
                 취소
@@ -194,7 +194,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               <button
                 type="button"
                 onClick={handleCropImage}
-                className="flex items-center px-4 py-2 text-sm text-gray-600 rounded hover:bg-gray-300"
+                className="flex items-center px-4 py-2 text-sm text-gray-600 rounded "
               >
                 <Scissors className="w-4 h-4 mr-2" />
                 완료
