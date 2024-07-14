@@ -8,7 +8,7 @@ import { PostFormData } from "@/lib/post/type";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import ImageCarousel from "./ImageCarousel";
+import ImageCarousel from "./Image/ImageCarousel";
 
 interface PostFormProps {
   initialData?: PostFormData;
@@ -87,7 +87,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
           maxLength: { value: 40, message: "40글자 이하로 작성해주세요" },
         })}
       />
-      <div className="h-3">
+      <div className="h-5">
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
       </div>
       <TextArea
@@ -121,7 +121,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
             onRemoveImage={handleRemoveImage}
           />
         </div>
-        <p className="pt-3 pb-5 pr-4 text-sm text-gray-500 text-end">
+        <p className="pt-1.5 pb-4 pr-4 text-sm text-gray-500 text-end">
           {selectedFiles.length}/{MAX_IMAGE}
         </p>
         <Button>작성 완료</Button>
