@@ -8,7 +8,7 @@ import { PostFormData } from "@/lib/post/type";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import ImageCarousel from "./ImageCarousel";
+import ImageCarousel from "./Image/ImageCarousel";
 
 interface PostFormProps {
   initialData?: PostFormData;
