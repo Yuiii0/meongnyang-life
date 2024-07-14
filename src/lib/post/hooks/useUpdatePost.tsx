@@ -20,7 +20,7 @@ export const useUpdatePost = () => {
       });
       const previousPost = queryClient.getQueryData<PostDto>([POST, postId]);
       if (!postDto || !previousPost) {
-        throw new Error("포스트 정보가 없습니다");
+        throw new Error("게시글 정보가 없습니다");
       }
       queryClient.setQueryData([POST, postId], postDto);
       return { previousPost };
@@ -32,7 +32,7 @@ export const useUpdatePost = () => {
           context.previousPost
         );
       }
-      toast.error("포스트 업데이트에 실패하였습니다.");
+      toast.error("게시물 업데이트에 실패하였습니다.");
       console.warn(err.message);
     },
     onSettled: (_data, _error, { postId }) => {

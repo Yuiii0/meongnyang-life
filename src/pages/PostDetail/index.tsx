@@ -125,7 +125,7 @@ const PostDetailPage = () => {
       toast.success("성공적으로 삭제되었습니다");
       navigate(PATHS.main);
     } catch (error) {
-      toast.error("포스트 삭제에 실패하였습니다.");
+      toast.error("게시물 삭제에 실패하였습니다.");
     }
   };
 
@@ -146,8 +146,8 @@ const PostDetailPage = () => {
                 isOpen={isOpen}
                 onRequestClose={closeModal}
                 onConfirm={onDeletePost}
-                title="포스트 삭제"
-                content="정말로 이 포스트를 삭제하시겠습니까?"
+                title="게시물 삭제"
+                content="정말로 이 게시물을 삭제하시겠습니까?"
               />
             </div>
           )}

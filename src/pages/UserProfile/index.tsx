@@ -35,7 +35,7 @@ function UserPage() {
           <SimplePostCardsList posts={posts} />
         ) : (
           <NoResults
-            title="아직 작성한 포스트가 없습니다."
+            title="아직 작성한 게시물이 없습니다."
             imageName="cats_in_box.webp"
           />
         )}

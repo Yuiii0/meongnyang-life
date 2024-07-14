@@ -31,7 +31,7 @@ function PostUpdatePage() {
   if (isError || !post || !postId) {
     return (
       <NoResults
-        title="존재하지 않는 포스트입니다"
+        title="존재하지 않는 게시물입니다"
         imageName="cats_in_box.webp"
       />
     );
