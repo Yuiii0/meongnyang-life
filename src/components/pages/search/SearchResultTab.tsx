@@ -1,4 +1,4 @@
-import { postDto } from "@/lib/post/type";
+import { PostDto } from "@/lib/post/type";
 import { formatCount } from "@/utils/formatCount";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import SimplePostCardsList from "../posts/SimplePostCardsList";
@@ -10,7 +10,7 @@ interface SearchResultTabProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   userIds: string[];
-  postData: postDto[];
+  postData: PostDto[];
 }
 
 function SearchResultTab({

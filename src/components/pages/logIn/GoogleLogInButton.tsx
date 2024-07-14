@@ -5,15 +5,21 @@ import { useNavigate } from "react-router-dom";
 
 function GoogleLogInButton() {
   const { setUser } = useAuthStore();
-  const { mutate: logInByGoogle, isPending } = useLogInByGoogle();
   const navigate = useNavigate();
+
+  const { mutate: logInByGoogle, isPending } = useLogInByGoogle((data) => {
+    const { user, isNewUser } = data;
+    setUser(user || null);
+
+    if (isNewUser) {
+      navigate(PATHS.profiles.create);
+    } else {
+      navigate(PATHS.main);
+    }
+  });
+
   const handleClickGoogleLogIn = () => {
-    logInByGoogle(undefined, {
-      onSuccess: (user) => {
-        setUser(user || null);
-        navigate(PATHS.main);
-      },
-    });
+    logInByGoogle();
   };
 
   return (

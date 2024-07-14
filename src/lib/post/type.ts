@@ -1,8 +1,9 @@
 import { Timestamp } from "firebase/firestore";
 
-export type postDto = {
+export type PostDto = {
   id?: string;
   userId: string;
+  nickname: string;
   title: string;
   content: string;
   images?: { original: string; small: string; large: string }[] | null;
