@@ -48,7 +48,7 @@ function IntroSwiper() {
         {texts.map((text, index) => (
           <div
             key={index}
-            className="flex items-center justify-center h-64 text-3xl font-semibold swiper-slide"
+            className="flex items-center justify-center h-64 text-3xl font-extrabold swiper-slide"
           >
             {`# ${text}`}
           </div>
