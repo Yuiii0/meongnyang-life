@@ -1,5 +1,5 @@
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
-import { postDto } from "@/lib/post/type";
+import { PostDto } from "@/lib/post/type";
 import { formatCount } from "@/utils/formatCount";
 import { truncateString } from "@/utils/truncateString";
 import { MessageSquare } from "lucide-react";
@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import PostLikeToggleButton from "./LikeButton/PostLikeToggleButton";
 
 interface SimplePostCardProps {
-  post: postDto;
+  post: PostDto;
 }
 
 function SimplePostCard({ post }: SimplePostCardProps) {
@@ -29,7 +29,7 @@ function SimplePostCard({ post }: SimplePostCardProps) {
           {truncateString(post.content, 90)}
         </div>
         <div className="flex justify-between">
-          <p className="text-sm font-semibold text-gray-500">{"nickname"}</p>
+          <p className="text-sm font-semibold text-gray-500">{post.nickname}</p>
           <div className="flex items-center gap-x-4">
             <button onClick={handleButtonClick}>
               <PostLikeToggleButton postId={post.id || ""} />

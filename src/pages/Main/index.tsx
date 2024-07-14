@@ -3,7 +3,7 @@ import NoResults from "@/components/pages/search/NoResults";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
 import { useGetAllPosts } from "@/lib/post/hooks/useGetAllPosts";
-import { postDto } from "@/lib/post/type";
+import { PostDto } from "@/lib/post/type";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
@@ -33,7 +33,7 @@ function MainPage() {
             <div>
               {page.map((post) => {
                 return (
-                  <DetailedPostCard post={post as postDto} key={post.id} />
+                  <DetailedPostCard post={post as PostDto} key={post.id} />
                 );
               })}
             </div>

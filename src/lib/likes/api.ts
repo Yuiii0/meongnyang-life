@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 import { getCommentById, getReplyById } from "../comment/api";
 import { getPostByPostId } from "../post/api";
-import { postDto } from "../post/type";
+import { PostDto } from "../post/type";
 
 // Posts
 export const getPostLikeStatus = async (postId: string, userId: string) => {
@@ -54,7 +54,7 @@ export const getPostLikeCount = async (postId: string) => {
   const postRef = doc(db, "posts", postId);
   const docSnap = await getDoc(postRef);
   if (docSnap.exists()) {
-    const postData = docSnap.data() as postDto;
+    const postData = docSnap.data() as PostDto;
     return postData.likeCount;
   } else {
     throw new Error("포스트를 찾을 수 없습니다.");
@@ -71,12 +71,12 @@ export const getLikedPostsByUserId = async (userId: string) => {
       likedPostIds.push(doc.id);
     });
 
-    const posts: postDto[] = [];
+    const posts: PostDto[] = [];
     for (const postId of likedPostIds) {
       try {
         const post = await getPostByPostId(postId);
         if (post) {
-          posts.push(post as postDto);
+          posts.push(post as PostDto);
         }
       } catch (error) {
         console.warn(`포스트를 찾을 수 없습니다. 포스트 ID: ${postId}`);

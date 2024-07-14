@@ -2,7 +2,7 @@ import { db } from "@/shared/firebase";
 import { cleaningText } from "@/utils/cleaningText";
 import { createKeyWords } from "@/utils/createKeywords";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
-import { postDto } from "../post/type";
+import { PostDto } from "../post/type";
 
 export const searchUsersByNickname = async (nickname: string) => {
   try {
@@ -47,9 +47,9 @@ export const searchPostsByTitle = async (title: string) => {
       return null;
     }
 
-    const posts: postDto[] = [];
+    const posts: PostDto[] = [];
     querySnapshot.forEach((doc) => {
-      posts.push(doc.data() as postDto);
+      posts.push(doc.data() as PostDto);
     });
 
     return posts;

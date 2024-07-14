@@ -46,6 +46,7 @@ function PostUpdatePage() {
   const handleUpdatePost = async (data: PostFormData) => {
     const postDto = {
       userId: user?.uid || "",
+      nickname: user?.displayName || "",
       title: data.title,
       content: data.content,
       images: data.images || null,
