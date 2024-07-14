@@ -1,7 +1,12 @@
 import { uploadImagesAndGetUrls } from "@/lib/post/api";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
-import { Image } from "lucide-react";
+import { useModalStore } from "@/stores/modal/useModalStore";
+import { getCroppedImg } from "@/utils/image/getCroppedImg";
+import { Image, Scissors, X } from "lucide-react";
+import React, { useCallback, useEffect, useState } from "react";
+import Cropper from "react-easy-crop";
 import toast from "react-hot-toast";
+import Modal from "react-modal";
 
 interface ImageUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   maxImages?: number;
@@ -12,28 +17,87 @@ interface ImageUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   currentImagesCount: number;
 }
 
-function ImageUpload({
+const ImageUpload: React.FC<ImageUploadProps> = ({
   maxImages = 1,
   onchangeImages,
   onIsImgUploading,
   currentImagesCount,
   ...props
-}: ImageUploadProps) {
+}) => {
   const { user } = useAuthStore();
+  const { openModal, closeModal, isOpen } = useModalStore();
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [cropSize, setCropSize] = useState<
+    { width: number; height: number } | undefined
+  >(undefined);
+  const [imageSize, setImageSize] = useState<{ width: number; height: number }>(
+    { width: 0, height: 0 }
+  );
 
-  const handleChangeImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onCropComplete = useCallback((_: any, croppedAreaPixels: any) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const size = Math.min(window.innerWidth * 0.8, window.innerHeight * 0.8);
+      setCropSize({ width: size, height: size });
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const handleChangeImages = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-
     if (currentImagesCount + files.length > maxImages) {
       toast.error(`최대 ${maxImages}장까지 업로드 가능합니다`);
       return;
     }
 
-    onIsImgUploading(true);
+    const readers = files.map((file) => {
+      return new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.readAsDataURL(file);
+      });
+    });
+
+    Promise.all(readers).then((images) => {
+      setSelectedImages(images);
+      setCurrentImageIndex(0);
+      openModal();
+    });
+  };
+
+  const handleCropImage = async () => {
+    if (!selectedImages.length || !croppedAreaPixels) return;
 
     try {
+      const croppedBlob = await getCroppedImg(
+        selectedImages[currentImageIndex],
+        croppedAreaPixels
+      );
+      const croppedFile = new File(
+        [croppedBlob],
+        `cropped_${Date.now()}.jpeg`,
+        {
+          type: croppedBlob.type,
+        }
+      );
+
+      onIsImgUploading(true);
+
       const imageUrls = await toast.promise(
-        uploadImagesAndGetUrls(user?.uid || "", files, "posts"),
+        uploadImagesAndGetUrls(user?.uid || "", [croppedFile], "posts"),
         {
           loading: "이미지를 업로드 중입니다...",
           success: "이미지 업로드 성공!",
@@ -46,11 +110,56 @@ function ImageUpload({
           typeof url !== "string"
       );
       onchangeImages(filteredImageUrls);
+
+      if (currentImageIndex < selectedImages.length - 1) {
+        setCurrentImageIndex(currentImageIndex + 1);
+      } else {
+        setSelectedImages([]);
+        closeModal();
+      }
     } catch (error) {
-      console.warn("이미지 업로드에 실패하였습니다", error);
+      console.warn("이미지 자르기에 실패하였습니다", error);
     } finally {
       onIsImgUploading(false);
     }
+  };
+
+  const handleCancelCrop = () => {
+    setSelectedImages([]);
+    closeModal();
+  };
+
+  const onMediaLoaded = (mediaSize: { width: number; height: number }) => {
+    setImageSize(mediaSize);
+  };
+
+  const flexiblePositionCoord = (
+    position: number,
+    imageSize: number,
+    mediaSize: number,
+    zoom: number
+  ): number => {
+    const maxPosition = (mediaSize * zoom) / 2 - imageSize / 2;
+    if (position > maxPosition)
+      return maxPosition + (position - maxPosition) ** 0.7;
+    if (position < -maxPosition)
+      return -maxPosition - (-(position + maxPosition)) ** 0.7;
+    return position;
+  };
+
+  const transformStyle = {
+    transform: `translate(${flexiblePositionCoord(
+      crop.x,
+      imageSize.width,
+      cropSize?.width || 0,
+      zoom
+    )}px, ${flexiblePositionCoord(
+      crop.y,
+      imageSize.height,
+      cropSize?.height || 0,
+      zoom
+    )}px)`,
+    transition: "transform 0.2s ease-out",
   };
 
   return (
@@ -69,8 +178,67 @@ function ImageUpload({
           <Image size={28} />
         </div>
       </label>
+
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={closeModal}
+        className="fixed inset-0 z-50 flex items-center justify-center"
+        overlayClassName="fixed inset-0 bg-white"
+        ariaHideApp={false}
+      >
+        {selectedImages.length > 0 && (
+          <div className="relative w-full max-w-3xl bg-white rounded-lg">
+            <div className="relative w-full h-[80vh] rounded-lg bg-white">
+              <Cropper
+                image={selectedImages[currentImageIndex]}
+                crop={crop}
+                zoom={zoom}
+                aspect={1}
+                onCropChange={setCrop}
+                onZoomChange={setZoom}
+                onCropComplete={onCropComplete}
+                onMediaLoaded={onMediaLoaded}
+                style={{
+                  containerStyle: {
+                    width: "100%",
+                    height: "100%",
+                    position: "relative",
+                    background: "lightgray",
+                  },
+                  mediaStyle: {
+                    objectFit: "cover",
+                    ...transformStyle,
+                  },
+                  cropAreaStyle: {
+                    objectFit: "cover",
+                  },
+                }}
+                cropSize={cropSize}
+              />
+            </div>
+            <div className="flex justify-end mt-6 mr-6 gap-x-2">
+              <button
+                type="button"
+                onClick={handleCancelCrop}
+                className="flex items-center py-2 text-sm text-gray-600 rounded hover:bg-gray-300"
+              >
+                <X className="w-4 h-4 mr-2" />
+                취소
+              </button>
+              <button
+                type="button"
+                onClick={handleCropImage}
+                className="flex items-center py-2 text-sm text-gray-600 rounded hover:bg-gray-300"
+              >
+                <Scissors className="w-4 h-4 mr-2" />
+                완료
+              </button>
+            </div>
+          </div>
+        )}
+      </Modal>
     </div>
   );
-}
+};
 
 export default ImageUpload;
