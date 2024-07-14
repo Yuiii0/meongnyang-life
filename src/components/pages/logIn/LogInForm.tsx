@@ -42,7 +42,7 @@ function LogInForm() {
 
   return (
     <form onSubmit={handleSubmit(onValid)}>
-      <div className="flex flex-col pb-2 gap-y-2">
+      <div className="flex flex-col pb-2 gap-y-2.5">
         <div>
           <AuthInput
             label="이메일"
