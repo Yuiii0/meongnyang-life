@@ -3,7 +3,7 @@ import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useModalStore } from "@/stores/modal/useModalStore";
 import { getCroppedImg } from "@/utils/image/getCroppedImg";
 import { Image, Scissors, X } from "lucide-react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import Cropper from "react-easy-crop";
 import toast from "react-hot-toast";
 import Modal from "react-modal";
@@ -31,29 +31,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
-  const [cropSize, setCropSize] = useState<
-    { width: number; height: number } | undefined
-  >(undefined);
-  const [imageSize, setImageSize] = useState<{ width: number; height: number }>(
-    { width: 0, height: 0 }
-  );
 
   const onCropComplete = useCallback((_: any, croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const size = Math.min(window.innerWidth * 0.8, window.innerHeight * 0.8);
-      setCropSize({ width: size, height: size });
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
   }, []);
 
   const handleChangeImages = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,10 +109,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     closeModal();
   };
 
-  const onMediaLoaded = (mediaSize: { width: number; height: number }) => {
-    setImageSize(mediaSize);
-  };
-
   const flexiblePositionCoord = (
     position: number,
     imageSize: number,
@@ -147,19 +123,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     return position;
   };
 
-  const transformStyle = {
-    transform: `translate(${flexiblePositionCoord(
-      crop.x,
-      imageSize.width,
-      cropSize?.width || 0,
-      zoom
-    )}px, ${flexiblePositionCoord(
-      crop.y,
-      imageSize.height,
-      cropSize?.height || 0,
-      zoom
-    )}px)`,
-    transition: "transform 0.2s ease-out",
+  const handleCropChange = (newCrop: { x: number; y: number }) => {
+    setCrop((prevCrop) => ({
+      x: flexiblePositionCoord(newCrop.x, 350, 350, zoom),
+      y: flexiblePositionCoord(newCrop.y, 350, 350, zoom),
+    }));
   };
 
   return (
@@ -188,39 +156,37 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       >
         {selectedImages.length > 0 && (
           <div className="relative w-full max-w-3xl bg-white rounded-lg">
-            <div className="relative w-full h-[80vh] rounded-lg bg-white">
+            <div className="relative w-full h-[400px]  rounded-lg bg-white">
               <Cropper
                 image={selectedImages[currentImageIndex]}
                 crop={crop}
                 zoom={zoom}
                 aspect={1}
-                onCropChange={setCrop}
+                onCropChange={handleCropChange}
                 onZoomChange={setZoom}
                 onCropComplete={onCropComplete}
-                onMediaLoaded={onMediaLoaded}
                 style={{
                   containerStyle: {
                     width: "100%",
                     height: "100%",
-                    position: "relative",
-                    background: "lightgray",
+                    objectFit: "cover",
+                    background: "gray",
                   },
                   mediaStyle: {
                     objectFit: "cover",
-                    ...transformStyle,
                   },
                   cropAreaStyle: {
                     objectFit: "cover",
                   },
                 }}
-                cropSize={cropSize}
+                cropSize={{ width: 380, height: 380 }}
               />
             </div>
-            <div className="flex justify-end mt-6 mr-6 gap-x-2">
+            <div className="flex justify-end mt-6 mr-4">
               <button
                 type="button"
                 onClick={handleCancelCrop}
-                className="flex items-center py-2 text-sm text-gray-600 rounded hover:bg-gray-300"
+                className="flex items-center px-4 py-2 text-sm text-gray-600 rounded hover:bg-gray-300"
               >
                 <X className="w-4 h-4 mr-2" />
                 취소
@@ -228,7 +194,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               <button
                 type="button"
                 onClick={handleCropImage}
-                className="flex items-center py-2 text-sm text-gray-600 rounded hover:bg-gray-300"
+                className="flex items-center px-4 py-2 text-sm text-gray-600 rounded hover:bg-gray-300"
               >
                 <Scissors className="w-4 h-4 mr-2" />
                 완료
