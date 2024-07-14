@@ -124,10 +124,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   };
 
   const handleCropChange = (newCrop: { x: number; y: number }) => {
-    setCrop((prevCrop) => ({
+    setCrop({
       x: flexiblePositionCoord(newCrop.x, 350, 350, zoom),
       y: flexiblePositionCoord(newCrop.y, 350, 350, zoom),
-    }));
+    });
   };
 
   return (
@@ -182,7 +182,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 cropSize={{ width: 380, height: 380 }}
               />
             </div>
-            <div className="flex justify-end mt-6 mr-4">
+            <div className="flex justify-end mt-4 space-x-2">
               <button
                 type="button"
                 onClick={handleCancelCrop}
@@ -194,7 +194,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               <button
                 type="button"
                 onClick={handleCropImage}
-                className="flex items-center px-4 py-2 text-sm text-gray-600 rounded "
+                className="flex items-center px-4 py-2 text-sm text-gray-600 rounded"
               >
                 <Scissors className="w-4 h-4 mr-2" />
                 완료
