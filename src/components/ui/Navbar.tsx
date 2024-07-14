@@ -32,6 +32,7 @@ function Navbar({ isOpen, onClose }: NavbarProps) {
       logOut();
       onClose();
       navigate(PATHS.logIn);
+      closeModal();
     } catch (error) {
       toast.error("오류가 발생했습니다. 다시 시도해주세요");
     }
@@ -40,6 +41,7 @@ function Navbar({ isOpen, onClose }: NavbarProps) {
   const handleClickDeleteAccount = () => {
     openModal();
     onClose();
+    closeModal();
   };
 
   const onDeleteAccount = () => {
