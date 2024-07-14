@@ -2,8 +2,10 @@ import { auth } from "@/shared/firebase";
 import {
   GoogleAuthProvider,
   User,
+  UserCredential,
   createUserWithEmailAndPassword,
   deleteUser,
+  getAdditionalUserInfo,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -31,9 +33,11 @@ export const emailLogin = async (email: string, password: string) => {
 };
 
 export const googleLogin = async () => {
-  const result = await signInWithPopup(auth, provider);
+  const result: UserCredential = await signInWithPopup(auth, provider);
   const user = result.user;
-  return user;
+  const additionalUserInfo = getAdditionalUserInfo(result);
+  const isNewUser = additionalUserInfo?.isNewUser || false;
+  return { user, isNewUser };
 };
 
 export const logOut = async () => {
