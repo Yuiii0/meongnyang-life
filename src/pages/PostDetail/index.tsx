@@ -10,10 +10,12 @@ import { removeImageFromStorage } from "@/lib/post/api";
 
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 
+import ConfirmModal from "@/components/ui/ConfirmModal";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 import { PostImage } from "@/lib/post/type";
+import { useModalStore } from "@/stores/modal/useModalStore";
 import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { Timestamp } from "firebase/firestore";
@@ -35,6 +37,7 @@ const PostDetailPage = () => {
   const [commentId, setCommentId] = useState<string | null>(null);
   const [replyId, setReplyId] = useState<string | null>(null);
   const [isReplying, setIsReplying] = useState(false);
+  const { isOpen, openModal, closeModal } = useModalStore();
 
   const focusCommentForm = useCallback(() => {
     if (commentFormRef.current) {
@@ -109,7 +112,7 @@ const PostDetailPage = () => {
     return <LoadingSpinner text="포스트를 가져오는 중 입니다" />;
   }
 
-  const handleDeletePost = async () => {
+  const onDeletePost = async () => {
     try {
       if (post.images && post.images.length > 0) {
         await Promise.all(
@@ -136,9 +139,16 @@ const PostDetailPage = () => {
               <Link to={`/posts/update/${postId}`}>
                 <FilePenLine size={20} />
               </Link>
-              <button onClick={handleDeletePost}>
+              <button onClick={openModal}>
                 <Trash2 size={20} />
               </button>
+              <ConfirmModal
+                isOpen={isOpen}
+                onRequestClose={closeModal}
+                onConfirm={onDeletePost}
+                title="포스트 삭제"
+                content="정말로 이 포스트를 삭제하시겠습니까?"
+              />
             </div>
           )}
         </div>

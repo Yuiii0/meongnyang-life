@@ -38,7 +38,7 @@ function ImageSwiper({ images }: ImageSwiperProps) {
   }, []);
 
   return (
-    <div className="relative z-10 w-full h-full swiper" ref={swiperRef}>
+    <div className="relative z-0 w-full h-full swiper" ref={swiperRef}>
       <div className="swiper-wrapper">
         {images.map((image: PostImage, index) => (
           <div className="swiper-slide" key={index}>
