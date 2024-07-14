@@ -2,23 +2,23 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { updatePost } from "../api";
 import { POST } from "../key";
-import { postDto } from "../type";
+import { PostDto } from "../type";
 
 interface MutationContext {
-  previousPost: postDto;
+  previousPost: PostDto;
 }
 
 export const useUpdatePost = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ postId, postDto }: { postId: string; postDto: postDto }) =>
+    mutationFn: ({ postId, postDto }: { postId: string; postDto: PostDto }) =>
       updatePost(postId, postDto),
     onMutate: async ({ postId, postDto }): Promise<MutationContext> => {
       await queryClient.cancelQueries({
         queryKey: [POST, postId],
       });
-      const previousPost = queryClient.getQueryData<postDto>([POST, postId]);
+      const previousPost = queryClient.getQueryData<PostDto>([POST, postId]);
       if (!postDto || !previousPost) {
         throw new Error("포스트 정보가 없습니다");
       }

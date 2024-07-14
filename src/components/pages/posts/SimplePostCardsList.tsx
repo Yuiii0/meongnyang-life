@@ -1,8 +1,8 @@
-import { postDto } from "@/lib/post/type";
+import { PostDto } from "@/lib/post/type";
 import SimplePostCard from "./SimplePostCard";
 
 interface SimplePostCardsListProps {
-  posts: postDto[];
+  posts: PostDto[];
 }
 
 function SimplePostCardsList({ posts }: SimplePostCardsListProps) {

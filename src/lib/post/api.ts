@@ -26,7 +26,7 @@ import {
   StorageReference,
   uploadBytes,
 } from "firebase/storage";
-import { postDto } from "./type";
+import { PostDto } from "./type";
 
 interface UploadOptions {
   maxSizeMB: number;
@@ -126,13 +126,14 @@ export const removeImageFromStorage = async (url: string) => {
   }
 };
 
-export const createPost = async (postDto: postDto) => {
+export const createPost = async (postDto: PostDto) => {
   try {
     const cleanedTitle = cleaningText(postDto.title);
     const keywords = createKeyWords([cleanedTitle]);
 
     const postRef = await addDoc(collection(db, "posts"), {
       userId: postDto.userId,
+      nickname: postDto.nickname,
       title: postDto.title,
       images: postDto.images,
       content: postDto.content,
@@ -150,7 +151,7 @@ export const createPost = async (postDto: postDto) => {
   }
 };
 
-export const updatePost = async (postId: string, postDto: postDto) => {
+export const updatePost = async (postId: string, postDto: PostDto) => {
   const cleanedTitle = cleaningText(postDto.title);
   const keywords = createKeyWords([cleanedTitle]);
 
@@ -246,9 +247,9 @@ export const getPostsByUserId = async (userId: string) => {
     orderBy("createdAt", "desc")
   );
   const querySnapshot = await getDocs(q);
-  const posts: postDto[] = [];
+  const posts: PostDto[] = [];
   querySnapshot.forEach((doc) => {
-    posts.push(doc.data() as postDto);
+    posts.push(doc.data() as PostDto);
   });
   return posts;
 };

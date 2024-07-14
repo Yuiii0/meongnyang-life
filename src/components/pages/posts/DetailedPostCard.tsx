@@ -1,4 +1,4 @@
-import { postDto } from "@/lib/post/type";
+import { PostDto } from "@/lib/post/type";
 import { formatCount } from "@/utils/formatCount";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { truncateString } from "@/utils/truncateString";
@@ -15,7 +15,7 @@ import UserCard from "../user/userList/UserCard";
 import PostLikeToggleButton from "./LikeButton/PostLikeToggleButton";
 
 interface PostCardProps {
-  post: postDto;
+  post: PostDto;
 }
 
 const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
