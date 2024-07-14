@@ -99,8 +99,8 @@ const PostDetailPage = () => {
   if (isError) {
     return (
       <NoResults
-        title="삭제된 포스트입니다"
-        imageName="/images/cats_in_box.webp"
+        title="존재하지 않는 포스트입니다"
+        imageName="cats_in_box.webp"
       />
     );
   }
