@@ -11,9 +11,13 @@ import PostUnLikeButton from "./PostUnLikeButton";
 
 interface LikeToggleButtonProps {
   postId: string;
+  size?: "normal" | "small";
 }
 
-function PostLikeToggleButton({ postId }: LikeToggleButtonProps) {
+function PostLikeToggleButton({
+  postId,
+  size = "normal",
+}: LikeToggleButtonProps) {
   const { user } = useAuthStore();
   const userId = user?.uid;
 
@@ -39,9 +43,9 @@ function PostLikeToggleButton({ postId }: LikeToggleButtonProps) {
   return (
     <div className="flex items-center text-gray-600 gap-x-2">
       {isLike ? (
-        <PostUnLikeButton onToggleButton={handleToggleLikeButton} />
+        <PostUnLikeButton onToggleButton={handleToggleLikeButton} size={size} />
       ) : (
-        <PostLikeButton onToggleButton={handleToggleLikeButton} />
+        <PostLikeButton onToggleButton={handleToggleLikeButton} size={size} />
       )}
       <span>{formatCount(likeCount || 0)}</span>
     </div>
