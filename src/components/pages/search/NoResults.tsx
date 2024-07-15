@@ -10,7 +10,7 @@ function NoResults({
   imageName = "dog_cute.webp",
 }: NoResultsProps) {
   return (
-    <div className="relative flex flex-col items-center justify-center w-full h-screen pt-24 -translate-y-1/4 gap-y-4">
+    <div className="relative flex flex-col items-center justify-center w-full h-screen -translate-y-1/4 gap-y-4">
       <img
         src={`/images/${imageName}`}
         alt="dog_img"
