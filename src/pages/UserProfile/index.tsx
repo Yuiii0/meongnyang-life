@@ -30,6 +30,9 @@ function UserPage() {
   return (
     <Page>
       <UserProfileCard userProfile={userProfile} />
+      <h2 className="pb-3 text-center border-b-2 text-brand-100 border-brand-100">
+        게시물 {posts?.length}
+      </h2>
       <section className="pt-4">
         {posts && posts.length > 0 ? (
           <SimplePostCardsList posts={posts} />

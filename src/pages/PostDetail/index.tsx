@@ -155,7 +155,7 @@ const PostDetailPage = () => {
         <h1 className="text-xl font-semibold">{post.title}</h1>
         <div className="pt-6">
           {post.images && post.images.length > 0 && (
-            <div className="flex flex-col overflow-auto gap-y-8">
+            <div className="flex flex-col overflow-auto gap-y-4">
               {post.images.map((image: PostImage, index: number) => (
                 <div key={index} className="overflow-hidden rounded-sm">
                   <PlaceholderImage
