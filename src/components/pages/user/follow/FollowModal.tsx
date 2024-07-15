@@ -38,7 +38,7 @@ function FollowModal({
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
       ariaHideApp={false}
     >
-      <div className="relative w-full h-full pt-16 ">
+      <div className="relative w-full h-full pt-20">
         <div className="flex items-center justify-between">
           <button onClick={closeModal} className="pl-6 text-gray-700">
             <ChevronLeft />

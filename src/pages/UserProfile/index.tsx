@@ -28,12 +28,14 @@ function UserPage() {
   }
 
   return (
-    <Page>
+    <Page fullWidth>
       <UserProfileCard userProfile={userProfile} />
-      <h2 className="pb-3 text-center border-b-2 text-brand-100 border-brand-100">
-        게시물 {posts?.length}
-      </h2>
-      <section className="pt-4">
+      <div className="px-6">
+        <h2 className="pt-6 pb-3 text-center border-b text-brand-100 border-brand-100">
+          게시물 {posts?.length}
+        </h2>
+      </div>
+      <section className="px-6 pt-4">
         {posts && posts.length > 0 ? (
           <SimplePostCardsList posts={posts} />
         ) : (
