@@ -56,7 +56,7 @@ function LikedPostAndCommentTab({ initialTab }: LikedPostAndCommentTabProps) {
             <SimplePostCardsList posts={likedPosts || []} />
           ) : (
             <NoResults
-              title="좋아요한 포스트가 없습니다."
+              title="좋아요한 게시물이 없습니다."
               imageName="flying_cat.webp"
             />
           )}

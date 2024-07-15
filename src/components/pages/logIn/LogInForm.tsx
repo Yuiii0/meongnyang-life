@@ -42,7 +42,7 @@ function LogInForm() {
 
   return (
     <form onSubmit={handleSubmit(onValid)}>
-      <div className="flex flex-col gap-y-8">
+      <div className="flex flex-col pb-2 gap-y-2.5">
         <div>
           <AuthInput
             label="이메일"
@@ -57,7 +57,7 @@ function LogInForm() {
               },
             })}
           />
-          <div className="h-6 ">
+          <div className="h-6">
             <ErrorMessage>{errors?.email?.message}</ErrorMessage>
           </div>
         </div>

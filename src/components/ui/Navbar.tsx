@@ -2,6 +2,7 @@ import useLogOut from "@/lib/auth/hooks/useLogOut";
 import useWithdrawUser from "@/lib/auth/hooks/useWithDraw";
 import { PATHS } from "@/pages/route";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
+import { useModalStore } from "@/stores/modal/useModalStore";
 import {
   Bookmark,
   ChevronRight,
@@ -12,6 +13,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import ConfirmModal from "./ConfirmModal";
 
 interface NavbarProps {
   isOpen: boolean;
@@ -22,6 +24,7 @@ function Navbar({ isOpen, onClose }: NavbarProps) {
   const { user, setUser } = useAuthStore();
   const navigate = useNavigate();
   const { mutate: logOut } = useLogOut();
+  const { isOpen: isModalOpen, openModal, closeModal } = useModalStore();
   const { mutate: deleteAccount } = useWithdrawUser();
 
   const handleClickLogOut = () => {
@@ -29,12 +32,19 @@ function Navbar({ isOpen, onClose }: NavbarProps) {
       logOut();
       onClose();
       navigate(PATHS.logIn);
+      closeModal();
     } catch (error) {
       toast.error("오류가 발생했습니다. 다시 시도해주세요");
     }
   };
 
   const handleClickDeleteAccount = () => {
+    openModal();
+    onClose();
+    closeModal();
+  };
+
+  const onDeleteAccount = () => {
     if (user) {
       deleteAccount(user, {
         onSuccess: () => {
@@ -125,6 +135,13 @@ function Navbar({ isOpen, onClose }: NavbarProps) {
                 >
                   회원 탈퇴
                 </button>
+                <ConfirmModal
+                  isOpen={isModalOpen}
+                  onRequestClose={closeModal}
+                  onConfirm={onDeleteAccount}
+                  title="회원 탈퇴"
+                  content="더 이상 멍냥생활을 이용하지 않으시겠습니까?"
+                />
               </div>
             </div>
           </ul>

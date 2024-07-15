@@ -147,7 +147,7 @@ export const createPost = async (postDto: PostDto) => {
 
     return postRef.id;
   } catch (error) {
-    throw new Error("포스트 작성에 실패하였습니다");
+    throw new Error("게시글 작성에 실패하였습니다");
   }
 };
 
@@ -188,7 +188,7 @@ const deleteAllPostLikes = async (postId: string) => {
 
     await Promise.all(deletePromises);
   } catch (error) {
-    throw new Error("포스트 좋아요 정보를 삭제하는 데 실패하였습니다.");
+    throw new Error("게시글 좋아요 정보를 삭제하는 데 실패하였습니다.");
   }
 };
 
@@ -206,7 +206,7 @@ export const deletePost = async (postId: string) => {
     // 포스트 삭제
     await deleteDoc(postRef);
   } catch (error) {
-    throw new Error("포스트 삭제에 실패하였습니다.");
+    throw new Error("게시물 삭제에 실패하였습니다.");
   }
 };
 

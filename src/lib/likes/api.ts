@@ -57,7 +57,7 @@ export const getPostLikeCount = async (postId: string) => {
     const postData = docSnap.data() as PostDto;
     return postData.likeCount;
   } else {
-    throw new Error("포스트를 찾을 수 없습니다.");
+    throw new Error("게시물을 찾을 수 없습니다.");
   }
 };
 
@@ -79,7 +79,7 @@ export const getLikedPostsByUserId = async (userId: string) => {
           posts.push(post as PostDto);
         }
       } catch (error) {
-        console.warn(`포스트를 찾을 수 없습니다. 포스트 ID: ${postId}`);
+        console.warn(`게시글를 찾을 수 없습니다. 게시글 ID: ${postId}`);
       }
     }
 

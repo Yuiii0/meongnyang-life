@@ -28,7 +28,7 @@ function PostCreatePage() {
       const postId = await createPost(postDto);
       navigate(`/posts/${postId}`);
     } catch (error) {
-      toast.error("포스트 작성에 실패하였습니다.");
+      toast.error("게시물 작성에 실패하였습니다.");
     }
   };
 
