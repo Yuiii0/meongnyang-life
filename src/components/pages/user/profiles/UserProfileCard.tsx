@@ -52,7 +52,7 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
             height={80}
           />
         </div>
-        <div className="flex-grow ml-6">
+        <div className="flex-grow px-2 ml-6">
           <div className="flex flex-col gap-y-1">
             <div className="flex items-center justify-between">
               <div className="font-semibold text-gray-800  max-w-[120px] flex-grow">

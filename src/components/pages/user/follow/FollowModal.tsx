@@ -43,7 +43,7 @@ function FollowModal({
           <button onClick={closeModal} className="pl-6 text-gray-700">
             <ChevronLeft />
           </button>
-          <h5 className="flex-grow py-5 text-lg font-semibold text-center">
+          <h5 className="flex-grow py-5 pl-6 text-lg font-semibold">
             {nickname}
           </h5>
           <div className="w-6"></div>
