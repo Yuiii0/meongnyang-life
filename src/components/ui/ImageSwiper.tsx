@@ -50,7 +50,7 @@ function ImageSwiper({ images }: ImageSwiperProps) {
               className="object-cover w-full h-full overflow-hidden rounded-md"
               loading="lazy"
             />
-            <div className="swiper-lazy-preloader"></div>
+            <div className="swiper-lazy-swiper-lazy-preloader-black"></div>
           </div>
         ))}
       </div>
