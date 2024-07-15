@@ -31,9 +31,9 @@ function SimplePostCard({ post }: SimplePostCardProps) {
         <div className="flex justify-between">
           <p className="text-sm font-semibold text-gray-500">{post.nickname}</p>
           <div className="flex items-center gap-x-4">
-            <button onClick={handleButtonClick}>
+            <div onClick={handleButtonClick}>
               <PostLikeToggleButton postId={post.id || ""} />
-            </button>
+            </div>
             <div className="flex items-center text-gray-600 gap-x-2">
               <MessageSquare strokeWidth={1.5} />
               <span>{formatCount(post.commentCount || 0)}</span>
