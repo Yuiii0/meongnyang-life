@@ -6,13 +6,13 @@ import Page from "@/components/ui/Page";
 import { useGetPostsByTitle } from "@/lib/search/hooks/useGetPostsByTitle";
 import { useGetUsersByNickname } from "@/lib/search/hooks/useGetUsersByNickname";
 import { X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 function SearchPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchStarted, setSearchStarted] = useState(false);
   const [activeTab, setActiveTab] = useState("users");
-  const [recentSearches, setRecentSearches] = useState([]);
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
   const {
     data: userIds,
@@ -29,6 +29,13 @@ function SearchPage() {
     loadRecentSearches();
   }, []);
 
+  const loadRecentSearches = useCallback(() => {
+    const storedSearches = JSON.parse(
+      localStorage.getItem("recentSearches") || "[]"
+    );
+    setRecentSearches(storedSearches.reverse());
+  }, []);
+
   useEffect(() => {
     if (searchStarted && searchTerm) {
       if (activeTab === "users") {
@@ -39,40 +46,40 @@ function SearchPage() {
     }
   }, [searchTerm, searchStarted, activeTab, refetchUsers, refetchPosts]);
 
-  const loadRecentSearches = () => {
-    const storedSearches = JSON.parse(
-      localStorage.getItem("recentSearches") || "[]"
-    );
-    setRecentSearches(storedSearches.reverse());
-  };
-
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
-    setSearchStarted(true);
-    if (activeTab === "users") {
-      refetchUsers();
-    } else {
-      refetchPosts();
-    }
-  };
-
-  const handleChangeTab = (tab: string) => {
-    setActiveTab(tab);
-    if (searchStarted && searchTerm) {
-      if (tab === "users") {
+  const onSearch = useCallback(
+    (term: string) => {
+      setSearchTerm(term);
+      setSearchStarted(true);
+      if (activeTab === "users") {
         refetchUsers();
       } else {
         refetchPosts();
       }
-    }
-  };
+    },
+    [refetchUsers, refetchPosts]
+  );
+
+  const onChangeTab = useCallback(
+    (tab: string) => {
+      setActiveTab(tab);
+      if (searchStarted && searchTerm) {
+        if (tab === "users") {
+          refetchUsers();
+        } else {
+          refetchPosts();
+        }
+      }
+    },
+    [searchStarted, searchTerm, refetchUsers, refetchPosts]
+  );
+
   const handleRemoveRecentSearch = (index: number) => {
     const updatedSearches = recentSearches.filter((_, idx) => index !== idx);
     setRecentSearches(updatedSearches);
     localStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
   };
 
-  const handleGoBack = () => {
+  const onGoBack = () => {
     setSearchStarted(false);
     loadRecentSearches();
   };
@@ -83,13 +90,10 @@ function SearchPage() {
     <Page fullWidth>
       {isLoading && <LoadingSpinner text="검색 중 입니다." />}
       <div className="flex items-center w-full pb-4">
-        <div
-          className="px-3"
-          onClick={searchStarted ? handleGoBack : undefined}
-        >
+        <div className="px-3" onClick={searchStarted ? onGoBack : undefined}>
           <PrevButton isNavigate={!searchStarted} />
         </div>
-        <SearchBar onSearch={handleSearch} />
+        <SearchBar onSearch={onSearch} />
       </div>
       {!searchStarted ? (
         <section className="px-10">
@@ -115,7 +119,7 @@ function SearchPage() {
           <SearchResultTab
             initialTab="users"
             activeTab={activeTab}
-            onTabChange={handleChangeTab}
+            onTabChange={onChangeTab}
             userIds={userIds || []}
             postData={postData || []}
           />

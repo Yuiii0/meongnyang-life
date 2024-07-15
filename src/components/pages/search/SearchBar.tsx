@@ -1,18 +1,18 @@
 import { Search } from "lucide-react";
-import { useRef } from "react";
-import toast from 'react-hot-toast';
+import React, { useRef } from "react";
+import toast from "react-hot-toast";
 
 interface SearchBarProps {
   onSearch: (term: string) => void;
 }
 
-function SearchBar({ onSearch }: SearchBarProps) {
+const SearchBarComponent = ({ onSearch }: SearchBarProps) => {
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchInputRef.current) {
-      const searchTerm = searchInputRef?.current.value;
+      const searchTerm = searchInputRef.current.value;
       if (searchTerm.trim().length < 2) {
         toast.error("검색어를 2글자 이상 입력해주세요.");
         return;
@@ -34,6 +34,7 @@ function SearchBar({ onSearch }: SearchBarProps) {
       localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
     }
   };
+
   return (
     <form
       className="relative flex items-center flex-grow mr-8"
@@ -50,6 +51,6 @@ function SearchBar({ onSearch }: SearchBarProps) {
       </button>
     </form>
   );
-}
-
+};
+const SearchBar = React.memo(SearchBarComponent);
 export default SearchBar;
