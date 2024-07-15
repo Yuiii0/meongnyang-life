@@ -41,7 +41,7 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
   };
 
   return (
-    <div>
+    <div className="px-6">
       <div className="flex items-center pb-8 ">
         <div className="w-20 h-20 overflow-auto rounded-full">
           <img
@@ -52,13 +52,13 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
             height={80}
           />
         </div>
-        <div className="flex-grow px-2 ml-6">
-          <div className="flex flex-col gap-y-1">
+        <div className="flex-grow pl-2 ml-2">
+          <div className="flex flex-col ">
             <div className="flex items-center justify-between">
-              <div className="font-semibold text-gray-800  max-w-[120px] flex-grow">
+              <div className="flex-grow font-semibold text-gray-800">
                 {nickName}
               </div>
-              <div className="flex-0">
+              <div className="flex-shrink-0 pl-2">
                 {isMyProfile ? (
                   <div className="ml-auto">
                     <Link
@@ -84,7 +84,7 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
                 />
               )}
             </div>
-            <div className="flex pt-1 text-[15px] font-medium text-gray-700 gap-x-6">
+            <div className="flex pt-1.5 text-[15px] font-medium text-gray-700 gap-x-6">
               <div
                 onClick={() => handleOpenModal("follower")}
                 className="cursor-pointer"
@@ -101,7 +101,7 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
           </div>
         </div>
       </div>
-      <div className="text-sm text-gray-600 whitespace-pre-wrap">
+      <div className="px-3 text-sm text-gray-600 whitespace-pre-wrap">
         {introduction}
       </div>
       {isModalOpen && (

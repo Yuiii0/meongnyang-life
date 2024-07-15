@@ -25,11 +25,11 @@ function SimplePostCard({ post }: SimplePostCardProps) {
         <h2 className="pb-1.pt-5 font-semibold text-left text-gray-700 text-[15px]">
           {post.title.slice(0, 16)}
         </h2>
-        <div className="h-16 overflow-hidden text-sm text-left text-gray-600 whitespace-pre-wrap ">
-          {truncateString(post.content, 40)}
+        <div className="h-16 overflow-hidden text-sm text-left text-gray-500 whitespace-pre-wrap ">
+          {truncateString(post.content, 36)}
         </div>
         <div className="flex items-start justify-between">
-          <p className="text-sm font-semibold text-gray-500">{post.nickname}</p>
+          <p className="text-sm font-semibold text-gray-600">{post.nickname}</p>
           <div className="flex items-center gap-x-4 ">
             <div onClick={handleButtonClick}>
               <PostLikeToggleButton postId={post.id || ""} size="small" />
