@@ -4,12 +4,14 @@ import NavigationLink from "./NavigationLink";
 
 interface SuccessProps {
   linkText?: string;
+  imageName?: string;
   text?: string;
 }
 
 function Success({
   children,
   linkText,
+  imageName = "family.webp",
   text,
 }: PropsWithChildren<SuccessProps>) {
   return (
@@ -17,7 +19,7 @@ function Success({
       <div className="fixed flex flex-col transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 gap-y-5">
         <div className="w-[300px] h-[300px]  bg-orange-100 rounded-full flex items-center justify-center">
           <img
-            src="/images/family.webp"
+            src={`/images/${imageName}`}
             alt="dogs_family"
             width={220}
             height={220}
