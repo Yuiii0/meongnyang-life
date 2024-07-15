@@ -49,7 +49,7 @@ const PostDetailPage = () => {
     }
   }, []);
 
-  const handleEditComment = useCallback(
+  const onEditComment = useCallback(
     (comment: CommentDto) => {
       if (commentFormRef.current) {
         commentFormRef.current.value = comment.content;
@@ -63,7 +63,7 @@ const PostDetailPage = () => {
     [focusCommentForm]
   );
 
-  const handleEditReply = useCallback(
+  const onEditReply = useCallback(
     (reply: ReplyDto) => {
       if (commentFormRef.current) {
         commentFormRef.current.value = reply.content;
@@ -77,12 +77,12 @@ const PostDetailPage = () => {
     [focusCommentForm]
   );
 
-  const handleSubmitComment = useCallback(() => {
+  const onSubmitComment = useCallback(() => {
     setCommentId(null);
     setIsEdit(false);
   }, []);
 
-  const handleSubmitReply = useCallback(
+  const onSubmitReply = useCallback(
     (commentId: string) => {
       setReplyId(null);
       setCommentId(commentId);
@@ -123,6 +123,7 @@ const PostDetailPage = () => {
       }
       deletePost({ postId });
       toast.success("성공적으로 삭제되었습니다");
+      closeModal();
       navigate(PATHS.main);
     } catch (error) {
       toast.error("게시물 삭제에 실패하였습니다.");
@@ -186,9 +187,9 @@ const PostDetailPage = () => {
           <CommentList
             postId={postId}
             isMyPost={isMyPost}
-            onEditComment={handleEditComment}
-            onEditReply={handleEditReply}
-            onSubmitReply={handleSubmitReply}
+            onEditComment={onEditComment}
+            onEditReply={onEditReply}
+            onSubmitReply={onSubmitReply}
           />
         </div>
       </section>
@@ -201,7 +202,7 @@ const PostDetailPage = () => {
           commentId={commentId || ""}
           replyId={replyId || ""}
           isReply={isReplying}
-          onSubmitComment={handleSubmitComment}
+          onSubmitComment={onSubmitComment}
         />
       </div>
     </Page>
