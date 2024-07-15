@@ -4,12 +4,12 @@ import { formatTimestamp } from "@/utils/formatTimestamp";
 import { truncateString } from "@/utils/truncateString";
 import { Timestamp } from "firebase/firestore";
 import { MessageSquare } from "lucide-react";
-import React from "react";
 
 import ImageSwiper from "@/components/ui/ImageSwiper";
 import { getPostByPostId } from "@/lib/post/api";
 import { POST } from "@/lib/post/key";
 import { useQueryClient } from "@tanstack/react-query";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import UserCard from "../user/userList/UserCard";
 import PostLikeToggleButton from "./LikeButton/PostLikeToggleButton";
@@ -18,7 +18,7 @@ interface PostCardProps {
   post: PostDto;
 }
 
-const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
+const DetailedPostCardComponent = ({ post }: PostCardProps) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -71,6 +71,8 @@ const DetailedPostCard: React.FC<PostCardProps> = React.memo(({ post }) => {
       </div>
     </div>
   );
-});
+};
+
+const DetailedPostCard = React.memo(DetailedPostCardComponent);
 
 export default DetailedPostCard;

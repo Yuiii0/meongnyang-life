@@ -6,7 +6,7 @@ interface SearchBarProps {
   onSearch: (term: string) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = React.memo(({ onSearch }) => {
+const SearchBarComponent = ({ onSearch }: SearchBarProps) => {
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -51,6 +51,6 @@ const SearchBar: React.FC<SearchBarProps> = React.memo(({ onSearch }) => {
       </button>
     </form>
   );
-});
-
+};
+const SearchBar = React.memo(SearchBarComponent);
 export default SearchBar;
