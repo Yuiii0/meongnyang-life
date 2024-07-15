@@ -3,8 +3,8 @@ import { uploadImagesAndGetUrls } from "@/lib/post/api";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useModalStore } from "@/stores/modal/useModalStore";
 import { getCroppedImg } from "@/utils/image/getCroppedImg";
-import { Image } from "lucide-react";
-import React, { useCallback, useState } from "react";
+import { Image as ImageIcon } from "lucide-react";
+import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 interface ImageUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -31,7 +31,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
 
-  const onCropComplete = useCallback((_: any, croppedAreaPixels: any) => {
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
@@ -56,6 +56,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       openModal();
     });
   };
+
+  useEffect(() => {
+    if (selectedImages.length > 0) {
+      const img = new window.Image(); // 기본 JavaScript Image 객체를 사용
+      img.src = selectedImages[currentImageIndex];
+      img.onload = () => {
+        setCrop({ x: 0, y: 0 });
+        setZoom(1);
+      };
+    }
+  }, [selectedImages, currentImageIndex]);
 
   const handleCropImage = async () => {
     if (!selectedImages.length || !croppedAreaPixels) return;
@@ -108,27 +119,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     closeModal();
   };
 
-  const flexiblePositionCoord = (
-    position: number,
-    imageSize: number,
-    mediaSize: number,
-    zoom: number
-  ): number => {
-    const maxPosition = (mediaSize * zoom) / 2 - imageSize / 2;
-    if (position > maxPosition)
-      return maxPosition + (position - maxPosition) ** 0.7;
-    if (position < -maxPosition)
-      return -maxPosition - (-(position + maxPosition)) ** 0.7;
-    return position;
-  };
-
-  const handleCropChange = (newCrop: { x: number; y: number }) => {
-    setCrop({
-      x: flexiblePositionCoord(newCrop.x, 350, 350, zoom),
-      y: flexiblePositionCoord(newCrop.y, 350, 350, zoom),
-    });
-  };
-
   return (
     <div>
       <input
@@ -142,7 +132,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       />
       <label htmlFor="fileImg">
         <div className="flex items-center justify-center text-center text-gray-500 rounded-sm cursor-pointer h-[96px] w-[96px]">
-          <Image size={28} />
+          <ImageIcon size={28} />
         </div>
       </label>
 
@@ -153,7 +143,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         currentImageIndex={currentImageIndex}
         crop={crop}
         zoom={zoom}
-        onCropChange={handleCropChange}
+        onCropChange={setCrop}
         onZoomChange={setZoom}
         onCropComplete={onCropComplete}
         handleCancelCrop={handleCancelCrop}

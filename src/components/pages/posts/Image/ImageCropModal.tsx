@@ -11,7 +11,7 @@ interface ImageCropModalProps {
   zoom: number;
   onCropChange: (newCrop: { x: number; y: number }) => void;
   onZoomChange: (zoom: number) => void;
-  onCropComplete: (_: any, croppedAreaPixels: any) => void;
+  onCropComplete: (croppedArea: any, croppedAreaPixels: any) => void;
   handleCancelCrop: () => void;
   handleCropImage: () => void;
 }
@@ -48,21 +48,27 @@ function ImageCropModal({
               onCropChange={onCropChange}
               onZoomChange={onZoomChange}
               onCropComplete={onCropComplete}
+              cropShape="rect"
+              showGrid={true}
               style={{
                 containerStyle: {
                   width: "100%",
                   height: "100%",
-                  objectFit: "cover",
-                  background: "gray",
+                  background: "#333",
                 },
                 mediaStyle: {
+                  // width: "100%",
+                  // height: "100%",
                   objectFit: "cover",
                 },
                 cropAreaStyle: {
-                  objectFit: "cover",
+                  width: "100%",
+                  height: "100%",
+                  border: "2px solid rgba(255, 255, 255, 0.8)",
+                  borderRadius: "4px",
+                  boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
                 },
               }}
-              cropSize={{ width: 380, height: 380 }}
             />
           </div>
           <div className="flex justify-end mt-4 space-x-2">
