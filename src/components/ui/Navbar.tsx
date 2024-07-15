@@ -26,6 +26,7 @@ function Navbar({ isOpen, onClose }: NavbarProps) {
   const { mutate: logOut } = useLogOut();
   const { isOpen: isModalOpen, openModal, closeModal } = useModalStore();
   const { mutate: deleteAccount } = useWithdrawUser();
+  console.log("isOpen", isOpen);
 
   const handleClickLogOut = () => {
     try {
@@ -41,7 +42,6 @@ function Navbar({ isOpen, onClose }: NavbarProps) {
   const handleClickDeleteAccount = () => {
     openModal();
     onClose();
-    closeModal();
   };
 
   const onDeleteAccount = () => {
@@ -50,6 +50,7 @@ function Navbar({ isOpen, onClose }: NavbarProps) {
         onSuccess: () => {
           setUser(null);
           navigate(PATHS.logIn);
+          closeModal();
         },
       });
     }

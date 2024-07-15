@@ -21,7 +21,7 @@ function ConfirmModal({
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       className="fixed inset-0 flex items-center justify-center w-full h-full overflow-hidden rounded-md "
-      overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+      overlayClassName="fixed inset-0 bg-white bg-opacity-50"
       ariaHideApp={false}
     >
       <div className="w-full overflow-auto bg-white rounded-md shadow-xl sm:my-8 sm:align-middle sm:w-screen sm:max-w-lg">
