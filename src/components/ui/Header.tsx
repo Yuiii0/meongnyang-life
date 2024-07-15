@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 
 function Header() {
-  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const [isShowNavbar, setIsShowNavbar] = useState(false);
 
   const handleToggleNavbar = () => {
-    setIsNavbarOpen(!isNavbarOpen);
+    setIsShowNavbar(!isShowNavbar);
   };
 
   return (
@@ -22,7 +22,7 @@ function Header() {
         </Link>
         <Menu onClick={handleToggleNavbar} />
       </div>
-      <Navbar isOpen={isNavbarOpen} onClose={handleToggleNavbar} />
+      <Navbar isShowNavbar={isShowNavbar} onClose={handleToggleNavbar} />
     </header>
   );
 }
