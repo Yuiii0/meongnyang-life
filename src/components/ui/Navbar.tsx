@@ -23,7 +23,7 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
   const { user, setUser } = useAuthStore();
   const navigate = useNavigate();
   const { mutate: logOut } = useLogOut();
-  const { isOpen: isModalOpen, closeModal } = useModalStore();
+  const { closeModal } = useModalStore();
   const { mutate: deleteAccount } = useWithdrawUser();
 
   const handleClickLogOut = () => {
@@ -86,7 +86,7 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
               </Link>
             </li>
             <li className="w-full">
-              <Link
+            <Link
                 to={PATHS.posts.create}
                 onClick={onClose}
                 aria-label="Create a new post"
