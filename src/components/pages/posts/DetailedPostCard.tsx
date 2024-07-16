@@ -59,7 +59,7 @@ const DetailedPostCardComponent = ({ post }: PostCardProps) => {
           {truncateString(post.content, 50)}
         </div>
       </div>
-      <div className="flex items-center pb-5 mx-8 border-b gap-x-4">
+      <div className="flex items-center pb-5 border-b gap-x-4">
         <PostLikeToggleButton postId={post.id || ""} />
         <div className="flex items-center text-gray-600 gap-x-2">
           <MessageSquare strokeWidth={1.5} />
