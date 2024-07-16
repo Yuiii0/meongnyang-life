@@ -14,7 +14,12 @@ function ErrorPage() {
     <Page>
       <div className="flex flex-col items-center gap-y-4">
         <div className="w-56">
-          <img src={"/images/dog_cat.webp"} width={224} height={224} />
+          <img
+            src={"/images/dog_cat.webp"}
+            width={224}
+            height={224}
+            alt="logo_cats_dogs"
+          />
         </div>
         <div className="text-4xl font-bold">{error.status}</div>
         <div className="mb-2 text-center">
