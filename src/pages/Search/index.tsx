@@ -3,6 +3,7 @@ import SearchResultTab from "@/components/pages/search/SearchResultTab";
 import PrevButton from "@/components/ui/Button/PrevButton";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
+import SEOMetaTag from "@/components/ui/SEOMetaTag";
 import { useGetPostsByTitle } from "@/lib/search/hooks/useGetPostsByTitle";
 import { useGetUsersByNickname } from "@/lib/search/hooks/useGetUsersByNickname";
 import { X } from "lucide-react";
@@ -88,6 +89,17 @@ function SearchPage() {
 
   return (
     <Page fullWidth>
+      <SEOMetaTag
+        title={
+          searchTerm
+            ? `${searchTerm} 검색 정보 | 멍냥생활`
+            : "멍냥 생활 - 반려동물 커뮤니티"
+        }
+        description="반려동물 관련 정보를 검색하세요. 다양한 반려동물 이야기와 정보를 찾을 수 있습니다."
+        keywords={`검색, ${searchTerm}, 반려동물, 멍냥 생활, 강아지, 고양이,`}
+        url="https://dev-meongnyang-life.vercel.app/search"
+      />
+
       {isLoading && <LoadingSpinner text="검색 중 입니다." />}
       <div className="flex items-center w-full pb-4">
         <div

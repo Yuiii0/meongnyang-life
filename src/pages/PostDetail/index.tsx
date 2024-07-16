@@ -10,6 +10,7 @@ import { removeImageFromStorage } from "@/lib/post/api";
 
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 
+import SEOMetaTag from "@/components/ui/SEOMetaTag";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
@@ -130,6 +131,16 @@ const PostDetailPage = () => {
 
   return (
     <Page>
+      <SEOMetaTag
+        title={`${post.title} | 멍냥생활`}
+        description={`${post.title} 반려동물에 대한 이야기를 확인해보세요.`}
+        keywords={`반려동물, 게시글, ${post.title}`}
+        imgsrc={
+          post.images[0] ||
+          "https://tools.bemypet.kr/static/media/regist_samsek_lili.6a0e7afd4dac533b2c07.png"
+        }
+        url={`https://dev-meongnyang-life.vercel.app/posts/${postId}`}
+      />
       <section>
         <div className="flex items-center justify-between pb-4">
           <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />

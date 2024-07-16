@@ -3,6 +3,7 @@ import RequiredProfileForm from "@/components/pages/user/profiles/RequiredProfil
 import NextButton from "@/components/ui/Button/NextButton";
 import PrevButton from "@/components/ui/Button/PrevButton";
 import Page from "@/components/ui/Page";
+import SEOMetaTag from "@/components/ui/SEOMetaTag";
 import Success from "@/components/ui/Success";
 import { useCreateUserProfile } from "@/lib/user/hooks/useCreateUserProfile";
 import {
@@ -79,6 +80,11 @@ function UserProfileCreatePage() {
 
   return (
     <Page>
+      <SEOMetaTag
+        description="새로운 반려동물 프로필을 생성하세요. 멍냥생활에서 반려동물의 프로필을 작성하고 커뮤니티에 참여해보세요."
+        keywords="프로필 생성, 반려동물, 멍냥 생활, 강아지, 고양이, 회원 가입"
+        url="https://dev-meongnyang-life.vercel.app/profiles/create"
+      />
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(handleSubmitProfile)}>
           {step === 1 && (

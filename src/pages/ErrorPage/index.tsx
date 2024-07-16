@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import Page from "@/components/ui/Page";
+import SEOMetaTag from "@/components/ui/SEOMetaTag";
 import getErrorMessage from "@/utils/getErrorMessage";
 import { useNavigate, useRouteError } from "react-router-dom";
 import { PATHS } from "../route";
@@ -12,6 +13,11 @@ function ErrorPage() {
 
   return (
     <Page>
+      <SEOMetaTag
+        description="요청하신 페이지를 찾을 수 없습니다. 다른 반려동물 관련 콘텐츠를 찾아보세요."
+        keywords="404, 페이지를 찾을 수 없습니다, 반려동물"
+        url={window.location.href}
+      />
       <div className="flex flex-col items-center gap-y-4">
         <div className="w-56">
           <img
