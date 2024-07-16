@@ -16,6 +16,13 @@ interface ImageUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   currentImagesCount: number;
 }
 
+interface CroppedAreaPixels {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 const ImageUpload: React.FC<ImageUploadProps> = ({
   maxImages = 1,
   onchangeImages,
@@ -29,11 +36,15 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] =
+    useState<CroppedAreaPixels | null>(null);
 
-  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-    setCroppedAreaPixels(croppedAreaPixels);
-  }, []);
+  const onCropComplete = useCallback(
+    (_: any, croppedAreaPixels: CroppedAreaPixels) => {
+      setCroppedAreaPixels(croppedAreaPixels);
+    },
+    []
+  );
 
   const handleChangeImages = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -59,7 +70,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
   useEffect(() => {
     if (selectedImages.length > 0) {
-      const img = new window.Image(); // 기본 JavaScript Image 객체를 사용
+      const img = new window.Image();
       img.src = selectedImages[currentImageIndex];
       img.onload = () => {
         setCrop({ x: 0, y: 0 });
