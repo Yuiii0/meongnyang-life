@@ -1,18 +1,18 @@
 import { Heart } from "lucide-react";
+
 interface PostUnLikeButtonProps {
-  onToggleButton: () => void;
   size?: "normal" | "small";
 }
 
-function PostUnLikeButton({ onToggleButton, size }: PostUnLikeButtonProps) {
+function PostUnLikeButton({ size = "normal" }: PostUnLikeButtonProps) {
   return (
-    <button
-      onClick={onToggleButton}
-      className="text-red-400"
-      aria-label="Like post"
-    >
-      <Heart className="fill-current" size={size === "small" ? 18 : 24} />
-    </button>
+    <div className="p-2 text-red-400">
+      <Heart
+        fill="currentColor"
+        strokeWidth={1.5}
+        size={size === "small" ? 18 : 24}
+      />
+    </div>
   );
 }
 
