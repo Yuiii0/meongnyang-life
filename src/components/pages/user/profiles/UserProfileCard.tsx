@@ -30,20 +30,18 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
   const { data: followers } = useGetFollowerList(userId || "");
   const { data: followings } = useGetFollowingList(userId || "");
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("follower");
-  const { openModal } = useModalStore();
+  const { isOpen, openModal } = useModalStore();
 
   const handleOpenModal = (tab: string) => {
     openModal();
     setActiveTab(tab);
-    setIsModalOpen(true);
   };
 
   return (
-    <div>
+    <div className="px-6">
       <div className="flex items-center pb-8 ">
-        <div className="w-20 h-20 overflow-auto rounded-full">
+        <div className="flex-shrink-0 w-20 h-20 overflow-auto rounded-full">
           <img
             src={profileImg || defaultProfileImg}
             alt="profile_img"
@@ -52,13 +50,13 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
             height={80}
           />
         </div>
-        <div className="flex-grow ml-6">
-          <div className="flex flex-col gap-y-1">
+        <div className="flex-grow pl-2 ml-2">
+          <div className="flex flex-col ">
             <div className="flex items-center justify-between">
-              <div className="font-semibold text-gray-800  max-w-[120px] flex-grow">
+              <div className="flex-grow font-semibold text-gray-800 text-[15px]">
                 {nickName}
               </div>
-              <div className="flex-0">
+              <div className="flex-shrink-0 pl-2 ">
                 {isMyProfile ? (
                   <div className="ml-auto">
                     <Link
@@ -73,7 +71,7 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
                 )}
               </div>
             </div>
-            <div className="flex items-center gap-x-2">
+            <div className="flex items-center pt-0.5 gap-x-2">
               <span className="text-sm text-gray-500">{breed}</span>
               {gender && (
                 <img
@@ -84,7 +82,7 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
                 />
               )}
             </div>
-            <div className="flex pt-1 text-[15px] font-medium text-gray-700 gap-x-6">
+            <div className="flex pt-1.5 text-[15px] font-medium text-gray-700 gap-x-6">
               <div
                 onClick={() => handleOpenModal("follower")}
                 className="cursor-pointer"
@@ -101,10 +99,10 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
           </div>
         </div>
       </div>
-      <div className="text-sm text-gray-600 whitespace-pre-wrap">
+      <div className="px-3 text-sm text-gray-600 whitespace-pre-wrap">
         {introduction}
       </div>
-      {isModalOpen && (
+      {isOpen && (
         <FollowModal
           followings={followings || []}
           followers={followers || []}

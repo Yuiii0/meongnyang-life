@@ -36,11 +36,10 @@ const DetailedPostCardComponent = ({ post }: PostCardProps) => {
   };
 
   return (
-    <div>
+    <div className="pb-4">
       <div className="z-10 w-full px-7 ">
         <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
       </div>
-
       <div
         onClick={handleClickPostCard}
         key={post.id}

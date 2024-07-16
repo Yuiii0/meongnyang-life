@@ -53,7 +53,6 @@ function UserEditPage() {
     }
   }, [userProfile, setValue]);
 
-  // 성공 컴포넌트 3초 보여준 후, 유저 페이지로 이동
   useEffect(() => {
     if (step === 3) {
       const timer = setTimeout(() => {
@@ -124,13 +123,20 @@ function UserEditPage() {
           {step === 2 && (
             <>
               <OptionalProfileForm />
-              <PrevButton onClick={handleClickPrevStep} />
+              <div className="fixed bottom-10 left-8">
+                <PrevButton onClick={handleClickPrevStep} />
+              </div>
               <NextButton onClick={methods.handleSubmit(handleSubmitProfile)} />
             </>
           )}
           {step === 3 && (
             <div className="fixed flex flex-col items-center justify-center gap-y-8">
-              <Success text="멍냥생활 회원 정보가 수정되었습니다" />
+              <Success
+                text="멍냥생활 회원 정보가 수정되었습니다"
+                imageName="cats.webp"
+              >
+                수정 완료
+              </Success>
             </div>
           )}
         </form>

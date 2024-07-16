@@ -13,19 +13,20 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import ConfirmModal from "./ConfirmModal";
 
 interface NavbarProps {
-  isOpen: boolean;
+  isShowNavbar: boolean;
   onClose: () => void;
 }
 
-function Navbar({ isOpen, onClose }: NavbarProps) {
+function Navbar({ isShowNavbar, onClose }: NavbarProps) {
   const { user, setUser } = useAuthStore();
   const navigate = useNavigate();
   const { mutate: logOut } = useLogOut();
-  const { isOpen: isModalOpen, openModal, closeModal } = useModalStore();
+  const { isOpen: isModalOpen, closeModal } = useModalStore();
   const { mutate: deleteAccount } = useWithdrawUser();
+
+  console.log("isModalOpen", isModalOpen);
 
   const handleClickLogOut = () => {
     try {
@@ -38,11 +39,10 @@ function Navbar({ isOpen, onClose }: NavbarProps) {
     }
   };
 
-  const handleClickDeleteAccount = () => {
-    openModal();
-    onClose();
-    closeModal();
-  };
+  // const handleClickDeleteAccount = () => {
+  //   openModal();
+  //   onClose();
+  // };
 
   const onDeleteAccount = () => {
     if (user) {
@@ -50,6 +50,7 @@ function Navbar({ isOpen, onClose }: NavbarProps) {
         onSuccess: () => {
           setUser(null);
           navigate(PATHS.logIn);
+          closeModal();
         },
       });
     }
@@ -58,7 +59,7 @@ function Navbar({ isOpen, onClose }: NavbarProps) {
   return (
     <div
       className={`fixed inset-0 z-50 flex flex-col duration-500 items-center justify-center bg-white transition-transform transform ${
-        isOpen ? "translate-x-0" : "translate-x-full"
+        isShowNavbar ? "translate-x-0" : "translate-x-full"
       }`}
     >
       <div className="w-full max-w-md px-12">
@@ -130,18 +131,20 @@ function Navbar({ isOpen, onClose }: NavbarProps) {
               </div>
               <div className="w-full">
                 <button
-                  onClick={handleClickDeleteAccount}
+                  onClick={onDeleteAccount}
                   className="flex items-center w-full text-left gap-x-2"
                 >
                   회원 탈퇴
                 </button>
-                <ConfirmModal
-                  isOpen={isModalOpen}
-                  onRequestClose={closeModal}
-                  onConfirm={onDeleteAccount}
-                  title="회원 탈퇴"
-                  content="더 이상 멍냥생활을 이용하지 않으시겠습니까?"
-                />
+                {/* {isModalOpen && (
+                  <ConfirmModal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal}
+                    onConfirm={onDeleteAccount}
+                    title="회원 탈퇴"
+                    content="더 이상 멍냥생활을 이용하지 않으시겠습니까?"
+                  />
+                )} */}
               </div>
             </div>
           </ul>

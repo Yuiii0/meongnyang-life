@@ -11,7 +11,7 @@ interface ImageCropModalProps {
   zoom: number;
   onCropChange: (newCrop: { x: number; y: number }) => void;
   onZoomChange: (zoom: number) => void;
-  onCropComplete: (_: any, croppedAreaPixels: any) => void;
+  onCropComplete: (croppedArea: any, croppedAreaPixels: any) => void;
   handleCancelCrop: () => void;
   handleCropImage: () => void;
 }
@@ -38,8 +38,8 @@ function ImageCropModal({
       ariaHideApp={false}
     >
       {selectedImages.length > 0 && (
-        <div className="relative w-full max-w-3xl bg-white rounded-lg">
-          <div className="relative w-full h-[400px] rounded-lg bg-white">
+        <div className="relative w-full max-w-3xl bg-white rounded-lg ">
+          <div className="relative w-full h-[400px] rounded-lg bg-black">
             <Cropper
               image={selectedImages[currentImageIndex]}
               crop={crop}
@@ -48,28 +48,31 @@ function ImageCropModal({
               onCropChange={onCropChange}
               onZoomChange={onZoomChange}
               onCropComplete={onCropComplete}
+              cropShape="rect"
+              showGrid={true}
               style={{
                 containerStyle: {
+                  position: "relative",
                   width: "100%",
                   height: "100%",
-                  objectFit: "cover",
-                  background: "gray",
+                  background: "#230c0c",
                 },
                 mediaStyle: {
                   objectFit: "cover",
+                  transition: "transform 0.2s ease-out",
                 },
                 cropAreaStyle: {
-                  objectFit: "cover",
+                  border: "2px solid gray",
+                  borderRadius: "2px",
                 },
               }}
-              cropSize={{ width: 380, height: 380 }}
             />
           </div>
-          <div className="flex justify-end mt-4 space-x-2">
+          <div className="flex justify-end mt-4 mr-4 space-x-2">
             <button
               type="button"
               onClick={handleCancelCrop}
-              className="flex items-center px-4 py-2 text-sm text-gray-600 rounded"
+              className="flex items-center px-4 py-2 mr-2 text-sm text-gray-600 transition duration-200 bg-gray-200 rounded hover:bg-gray-300"
             >
               <X className="w-4 h-4 mr-2" />
               취소
@@ -77,7 +80,7 @@ function ImageCropModal({
             <button
               type="button"
               onClick={handleCropImage}
-              className="flex items-center px-4 py-2 text-sm text-gray-600 rounded"
+              className="flex items-center px-4 py-2 text-sm text-gray-600 transition duration-200 bg-gray-200 rounded hover:bg-gray-300"
             >
               <Scissors className="w-4 h-4 mr-2" />
               완료

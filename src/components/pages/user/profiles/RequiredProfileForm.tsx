@@ -71,7 +71,7 @@ function RequiredProfileForm({ handleNextStep }: RequiredProfileFormProps) {
   };
 
   return (
-    <div className="flex flex-col gap-y-8">
+    <div className="flex flex-col mt-6 gap-y-8">
       <label
         htmlFor="profileImg"
         className="relative flex items-center justify-center w-24 h-24 mx-auto overflow-hidden cursor-pointer"

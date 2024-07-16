@@ -49,7 +49,7 @@ function SignUpForm() {
   return (
     <form
       onSubmit={handleSubmit(onValid)}
-      className="flex flex-col mt-6 gap-y-8"
+      className="flex flex-col mt-6 gap-y-6"
     >
       <div>
         <AuthInput
@@ -65,7 +65,7 @@ function SignUpForm() {
             },
           })}
         />
-        <div className="h-4">
+        <div className="h-5">
           <ErrorMessage>{errors?.name?.message}</ErrorMessage>
         </div>
       </div>
@@ -83,7 +83,7 @@ function SignUpForm() {
             },
           })}
         />
-        <div className="h-4">
+        <div className="h-5">
           <ErrorMessage>{errors?.email?.message}</ErrorMessage>
         </div>
       </div>
@@ -106,7 +106,7 @@ function SignUpForm() {
             },
           })}
         />
-        <div className="h-4">
+        <div className="h-5">
           {errors?.password ? (
             <ErrorMessage>{errors?.password?.message}</ErrorMessage>
           ) : (
@@ -130,9 +130,7 @@ function SignUpForm() {
             },
           })}
         />
-        <div className="h-4">
-          <ErrorMessage>{errors?.passwordConfirm?.message}</ErrorMessage>
-        </div>
+        <ErrorMessage>{errors?.passwordConfirm?.message}</ErrorMessage>
       </div>
       <Button disabled={isPending}>회원가입</Button>
     </form>
