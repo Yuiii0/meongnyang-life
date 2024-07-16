@@ -44,13 +44,18 @@ const SearchBarComponent = ({ onSearch }: SearchBarProps) => {
         ref={searchInputRef}
         type="text"
         placeholder="검색어를 입력하세요"
-        className="px-5 py-2.5 border border-brand-100 rounded-lg w-full pl-12 focus:border-2"
+        aria-label="SearchTerm"
+        className="px-5 py-2.5 border border-brand-100 rounded-lg w-full pl-16 focus:border-2"
       />
-      <button className="absolute text-gray-600 left-4">
-        <Search size={20} />
+      <button
+        className="absolute left-0 flex items-center justify-center h-14 tex-gray-600 w-14"
+        aria-label="Search"
+      >
+        <Search size={22} />
       </button>
     </form>
   );
 };
+
 const SearchBar = React.memo(SearchBarComponent);
 export default SearchBar;
