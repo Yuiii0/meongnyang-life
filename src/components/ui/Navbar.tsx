@@ -86,7 +86,7 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
               </Link>
             </li>
             <li className="w-full">
-            <Link
+              <Link
                 to={PATHS.posts.create}
                 onClick={onClose}
                 aria-label="Create a new post"
@@ -143,6 +143,9 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
             </li>
           </ul>
         </nav>
+        <div className="fixed ml-auto text-xs text-gray-400 right-4 bottom-4">
+          &copy; 비마이펫
+        </div>
       </div>
     </div>
   );
