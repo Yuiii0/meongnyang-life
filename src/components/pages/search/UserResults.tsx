@@ -7,7 +7,7 @@ interface UserResultsProps {
 
 function UserResults({ userIds }: UserResultsProps) {
   return userIds && userIds.length > 0 ? (
-    <ul className="px-8 py-6">
+    <ul className="px-6 py-4">
       {userIds.map((userId) => (
         <li key={userId} className="flex items-center justify-between pb-1">
           <UserCard userId={userId} />
