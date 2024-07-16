@@ -9,7 +9,7 @@ interface SEOMetaTagProps {
 }
 
 function SEOMetaTag({
-  title = "멍냥 생활 - 반려동물 커뮤니티",
+  title = "멍냥생활 | 반려동물 커뮤니티",
   description,
   keywords,
   imgsrc = "https://tools.bemypet.kr/static/media/regist_samsek_lili.6a0e7afd4dac533b2c07.png",
@@ -18,7 +18,7 @@ function SEOMetaTag({
   return (
     <Helmet>
       <title>{title}</title>
-      <meta name="description" content={description} />
+      <meta name="description" content={description} data-react-helmet="true" />
       <meta name="keywords" content={keywords} />
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
