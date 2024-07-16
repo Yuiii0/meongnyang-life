@@ -45,7 +45,7 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
           <img
             src={profileImg || defaultProfileImg}
             alt="profile_img"
-            className="w-full h-full overflow-hidden"
+            className="object-cover w-full h-full overflow-hidden"
             width={80}
             height={80}
           />

@@ -1,9 +1,8 @@
-import { useAuthStore } from "@/stores/auth/useAuthStore";
-
 import { useCreatePostLikeReaction } from "@/lib/likes/hooks/useCreatePostLikeReaction";
 import { useDeletePostLikeReaction } from "@/lib/likes/hooks/useDeletePostLikeReaction";
 import { useGetPostLikeCount } from "@/lib/likes/hooks/useGetPostLikeCount";
 import { useGetPostLikeStatus } from "@/lib/likes/hooks/useGetPostLikeStatus";
+import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { formatCount } from "@/utils/formatCount";
 import { debounce } from "lodash-es";
 import PostLikeButton from "./PostLikeButton";
@@ -41,14 +40,18 @@ function PostLikeToggleButton({
   }, 300);
 
   return (
-    <div className="flex items-center text-gray-600 gap-x-2">
+    <button
+      className="flex items-center text-gray-600 cursor-pointer"
+      onClick={handleToggleLikeButton}
+      aria-label="like post"
+    >
       {isLike ? (
-        <PostUnLikeButton onToggleButton={handleToggleLikeButton} size={size} />
+        <PostUnLikeButton size={size} />
       ) : (
-        <PostLikeButton onToggleButton={handleToggleLikeButton} size={size} />
+        <PostLikeButton size={size} />
       )}
       <span>{formatCount(likeCount || 0)}</span>
-    </div>
+    </button>
   );
 }
 

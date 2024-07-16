@@ -75,6 +75,7 @@ function RequiredProfileForm({ handleNextStep }: RequiredProfileFormProps) {
       <label
         htmlFor="profileImg"
         className="relative flex items-center justify-center w-24 h-24 mx-auto overflow-hidden cursor-pointer"
+        aria-label="Edit profile image"
       >
         <div className="relative w-20 h-20">
           <img

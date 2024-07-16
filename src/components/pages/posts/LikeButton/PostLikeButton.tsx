@@ -1,14 +1,14 @@
 import { Heart } from "lucide-react";
+
 interface PostLikeButtonProps {
-  onToggleButton: () => void;
   size?: "normal" | "small";
 }
 
-function PostLikeButton({ onToggleButton, size }: PostLikeButtonProps) {
+function PostLikeButton({ size = "normal" }: PostLikeButtonProps) {
   return (
-    <button className="text-gray-600" onClick={onToggleButton}>
+    <div className="p-2 text-gray-600">
       <Heart strokeWidth={1.5} size={size === "small" ? 18 : 24} />
-    </button>
+    </div>
   );
 }
 

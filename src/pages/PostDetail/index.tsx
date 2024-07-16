@@ -10,6 +10,7 @@ import { removeImageFromStorage } from "@/lib/post/api";
 
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 
+import SEOMetaTag from "@/components/ui/SEOMetaTag";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
@@ -130,15 +131,25 @@ const PostDetailPage = () => {
 
   return (
     <Page>
+      <SEOMetaTag
+        title={`${post.title} | 멍냥생활`}
+        description={`${post.title} 반려동물에 대한 이야기를 확인해보세요.`}
+        keywords={`반려동물, 게시글, ${post.title}`}
+        imgsrc={
+          post.images[0] ||
+          "https://tools.bemypet.kr/static/media/regist_samsek_lili.6a0e7afd4dac533b2c07.png"
+        }
+        url={`https://dev-meongnyang-life.vercel.app/posts/${postId}`}
+      />
       <section>
         <div className="flex items-center justify-between pb-4">
           <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
           {isMyPost && (
             <div className="flex text-brand-100 gap-x-4">
-              <Link to={`/posts/update/${postId}`}>
+              <Link to={`/posts/update/${postId}`} aria-label="Edit post">
                 <FilePenLine size={20} />
               </Link>
-              <button onClick={onDeletePost}>
+              <button onClick={onDeletePost} aria-label="Delete post">
                 <Trash2 size={20} />
               </button>
               {/* <ConfirmModal
@@ -163,6 +174,7 @@ const PostDetailPage = () => {
                     srcSet={`${image.small} 400w, ${image.large} 1080w`}
                     sizes="(max-width: 600px) 480px, 1080px"
                     alt={`Post image ${index + 1}`}
+                    aria-label={`Post image ${index + 1}`}
                   />
                 </div>
               ))}
@@ -174,7 +186,7 @@ const PostDetailPage = () => {
           <div className="flex pt-2 pb-3.5 border-b gap-x-4">
             <PostLikeToggleButton postId={postId} />
             <div className="flex items-center text-gray-600 gap-x-2">
-              <MessageSquare strokeWidth={1.5} />
+              <MessageSquare strokeWidth={1.5} aria-label="Comments" />
               <span>{formatCount(post.commentCount || 0)}</span>
             </div>
           </div>
@@ -188,6 +200,7 @@ const PostDetailPage = () => {
             onEditComment={onEditComment}
             onEditReply={onEditReply}
             onSubmitReply={onSubmitReply}
+            aria-label="Comment list"
           />
         </div>
       </section>
@@ -201,6 +214,7 @@ const PostDetailPage = () => {
           replyId={replyId || ""}
           isReply={isReplying}
           onSubmitComment={onSubmitComment}
+          aria-label="Comment form"
         />
       </div>
     </Page>

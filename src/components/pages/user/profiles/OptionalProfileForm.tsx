@@ -37,6 +37,7 @@ function OptionalProfileForm() {
                 setValue("petType", "dog");
                 setValue("isNoPet", false);
               }}
+              aria-label="Select dog as pet type"
             >
               <img
                 src="/images/dog_smiling.webp"
@@ -58,6 +59,7 @@ function OptionalProfileForm() {
                 setValue("petType", "cat");
                 setValue("isNoPet", false);
               }}
+              aria-label="Select cat as pet type"
             >
               <img
                 src="/images/cat_smiling.webp"
@@ -78,6 +80,7 @@ function OptionalProfileForm() {
                 id="yellowCheckBox"
                 type="checkbox"
                 className="w-4 h-4 accent-orange-400"
+                aria-label="No pet checkbox"
                 {...register("isNoPet")}
               />
               <span className="pl-2 text-sm text-gray-400">

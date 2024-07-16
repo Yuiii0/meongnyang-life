@@ -5,6 +5,7 @@ function NextButton({ ...props }) {
     <div className="fixed bottom-10 right-10">
       <button
         className="flex items-center justify-end font-semibold gap-x-1 "
+        aria-label="Next"
         {...props}
       >
         다음

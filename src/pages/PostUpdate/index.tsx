@@ -2,6 +2,7 @@ import PostForm from "@/components/pages/posts/PostForm";
 import NoResults from "@/components/pages/search/NoResults";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
+import SEOMetaTag from "@/components/ui/SEOMetaTag";
 import { useAuth } from "@/hooks/Auth/useAuth";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 import { useUpdatePost } from "@/lib/post/hooks/useUpdatePost";
@@ -68,6 +69,12 @@ function PostUpdatePage() {
 
   return (
     <Page>
+      <SEOMetaTag
+        title={`${post.title} | 멍냥생활`}
+        description={`${post.title} 게시글을 수정하고 업데이트하세요. 반려동물 커뮤니티와 더 많은 이야기를 나누세요.`}
+        keywords={`게시글 수정, ${post.title}, 반려동물, 멍냥 생활, 강아지, 고양이, 사진`}
+        url="https://dev-meongnyang-life.vercel.app/posts/create"
+      />
       <PostForm onSubmit={handleUpdatePost} initialData={initialData} />
     </Page>
   );

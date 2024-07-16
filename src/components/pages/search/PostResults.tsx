@@ -8,7 +8,7 @@ interface PostResultsProps {
 
 function PostResults({ postData }: PostResultsProps) {
   return postData && postData.length > 0 ? (
-    <div className="px-8 py-6">
+    <div className="px-6 py-4">
       <SimplePostCardsList posts={postData} />
     </div>
   ) : (

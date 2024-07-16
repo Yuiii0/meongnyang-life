@@ -14,6 +14,7 @@ function NicknameInput() {
       <Input
         label="닉네임 *"
         placeholder="닉네임을 입력해주세요"
+        aria-label="Nickname"
         {...register("nickName", {
           required: "닉네임을 입력해주세요",
           maxLength: { value: 16, message: "16글자 이내로 작성해주세요" },

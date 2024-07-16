@@ -18,6 +18,7 @@ function PrevButton({ isNavigate = true, ...props }: PrevButtonProps) {
     <button
       onClick={handleClickPrevButton}
       className="flex items-center justify-start"
+      aria-label="Go back"
     >
       <ChevronLeft {...props} />
     </button>

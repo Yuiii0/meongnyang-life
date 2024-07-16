@@ -1,0 +1,17 @@
+User-agent: *
+
+Disallow: /signup
+Disallow: /find/pw
+
+Disallow: /profiles/create
+Disallow: /profiles/update
+
+Disallow: /posts/create
+Disallow: /posts/update
+
+Disallow: /likes
+Disallow: /bookmarks
+
+Allow: /
+
+Sitemap: https://dev-meongnyang-life.vercel.app/sitemap.xml

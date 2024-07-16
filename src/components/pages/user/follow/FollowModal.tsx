@@ -40,7 +40,11 @@ function FollowModal({
     >
       <div className="relative w-full h-full pt-20">
         <div className="flex items-center justify-between">
-          <button onClick={closeModal} className="pl-6 text-gray-700">
+          <button
+            onClick={closeModal}
+            className="pl-6 text-gray-700"
+            aria-label="Close Modal"
+          >
             <ChevronLeft />
           </button>
           <h5 className="flex-grow py-5 pl-6 text-lg font-semibold">
@@ -74,6 +78,7 @@ function FollowModal({
           <TabsContent
             value="following"
             className="h-full px-6 py-4 overflow-auto"
+            aria-label="Following Tab Content"
           >
             {followings && followings.length > 0 ? (
               <UserCardsList userIdList={followings} />
@@ -87,6 +92,7 @@ function FollowModal({
           <TabsContent
             value="follower"
             className="h-full px-6 py-4 overflow-auto "
+            aria-label="Follower Tab Content"
           >
             {followers && followers.length > 0 ? (
               <UserCardsList userIdList={followers} />

@@ -14,6 +14,7 @@ function IntroductionInput() {
       <TextArea
         label="자기 소개 *"
         placeholder="자기소개를 작성해주세요"
+        aria-label="Introduction"
         {...register("introduction", {
           required: "자기소개를 입력해주세요",
           maxLength: { value: 150, message: "150글자 이내로 작성해주세요" },

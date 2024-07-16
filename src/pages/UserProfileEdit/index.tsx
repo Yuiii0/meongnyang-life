@@ -4,6 +4,7 @@ import NextButton from "@/components/ui/Button/NextButton";
 import PrevButton from "@/components/ui/Button/PrevButton";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
+import SEOMetaTag from "@/components/ui/SEOMetaTag";
 import Success from "@/components/ui/Success";
 import { useAuth } from "@/hooks/Auth/useAuth";
 import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
@@ -113,6 +114,16 @@ function UserEditPage() {
 
   return (
     <Page>
+      <SEOMetaTag
+        title={`${userProfile?.nickName}님의 프로필 | 멍냥생활`}
+        description={`${userProfile?.nickName}님의 반려동물 프로필 수정 페이지입니다. 반려동물 정보를 수정해보세요.`}
+        keywords={`프로필, ${userProfile?.nickName}, ${userId}, 반려동물, 강아지, 고양이`}
+        imgsrc={
+          userProfile?.profileImg ||
+          "https://tools.bemypet.kr/static/media/regist_samsek_lili.6a0e7afd4dac533b2c07.png"
+        }
+        url={`https://dev-meongnyang-life.vercel.app/profiles/update/${userId}`}
+      />
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(handleSubmitProfile)}>
           {step === 1 && (

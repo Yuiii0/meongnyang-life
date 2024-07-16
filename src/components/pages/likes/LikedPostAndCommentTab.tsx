@@ -51,7 +51,7 @@ function LikedPostAndCommentTab({ initialTab }: LikedPostAndCommentTabProps) {
         >{`댓글 ${likedComments?.length || 0}`}</TabsTrigger>
       </TabsList>
       <TabsContent value="posts" className="h-full overflow-auto">
-        <section className="px-8 pt-6">
+        <section className="px-6 pt-4">
           {likedPosts && likedPosts.length > 0 ? (
             <SimplePostCardsList posts={likedPosts || []} />
           ) : (
@@ -63,7 +63,7 @@ function LikedPostAndCommentTab({ initialTab }: LikedPostAndCommentTabProps) {
         </section>
       </TabsContent>
       <TabsContent value="comments" className="h-full overflow-auto">
-        <section className="px-8 pt-6">
+        <section className="px-6 pt-4">
           <ul>
             {likedComments && likedComments.length > 0 ? (
               <ul>

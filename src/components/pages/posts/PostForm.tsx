@@ -80,6 +80,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         placeholder="타이틀을 입력해주세요"
         type="text"
         error={!!errors.title}
+        aria-label="Title"
         isBorder={false}
         {...register("title", {
           required: "타이틀을 입력해주세요",
@@ -87,12 +88,13 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
           maxLength: { value: 40, message: "40글자 이하로 작성해주세요" },
         })}
       />
-      <div className="h-5">
+      <div className="h-5.5">
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
       </div>
       <TextArea
         placeholder="반려동물의 일상을 함께 공유해보세요"
         error={!!errors.content}
+        aria-label="Content"
         isBorder={false}
         {...register("content", {
           required: "내용을 입력해주세요",
@@ -115,16 +117,18 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
             onchangeImages={handleChangeImages}
             onIsImgUploading={setIsImgUploading}
             currentImagesCount={selectedFiles.length}
+            aria-label="Image Upload"
           />
           <ImageCarousel
             images={selectedFiles.map((file) => file.original)}
             onRemoveImage={handleRemoveImage}
+            aria-label="Uploaded Images"
           />
         </div>
         <p className="pt-1.5 pb-4 pr-4 text-sm text-gray-500 text-end">
           {selectedFiles.length}/{MAX_IMAGE}
         </p>
-        <Button>작성 완료</Button>
+        <Button aria-label="Submit Post">작성 완료</Button>
       </div>
     </form>
   );

@@ -37,13 +37,13 @@ const DetailedPostCardComponent = ({ post }: PostCardProps) => {
 
   return (
     <div className="pb-4">
-      <div className="z-10 w-full px-7 ">
+      <div className="z-10 w-full ">
         <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
       </div>
       <div
         onClick={handleClickPostCard}
         key={post.id}
-        className="flex flex-col pt-6 pb-8 mx-8 gap-y-4"
+        className="flex flex-col pt-6 pb-8 gap-y-4"
       >
         <h2 className="overflow-hidden text-lg font-semibold text-gray-700">
           {post.title.slice(0, 18)}
@@ -59,7 +59,7 @@ const DetailedPostCardComponent = ({ post }: PostCardProps) => {
           {truncateString(post.content, 50)}
         </div>
       </div>
-      <div className="flex items-center pb-5 mx-8 border-b gap-x-4">
+      <div className="flex items-center pb-5 border-b gap-x-4">
         <PostLikeToggleButton postId={post.id || ""} />
         <div className="flex items-center text-gray-600 gap-x-2">
           <MessageSquare strokeWidth={1.5} />
