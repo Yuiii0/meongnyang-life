@@ -135,10 +135,10 @@ const PostDetailPage = () => {
           <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
           {isMyPost && (
             <div className="flex text-brand-100 gap-x-4">
-              <Link to={`/posts/update/${postId}`}>
+              <Link to={`/posts/update/${postId}`} aria-label="Edit post">
                 <FilePenLine size={20} />
               </Link>
-              <button onClick={onDeletePost}>
+              <button onClick={onDeletePost} aria-label="Delete post">
                 <Trash2 size={20} />
               </button>
               {/* <ConfirmModal
@@ -163,6 +163,7 @@ const PostDetailPage = () => {
                     srcSet={`${image.small} 400w, ${image.large} 1080w`}
                     sizes="(max-width: 600px) 480px, 1080px"
                     alt={`Post image ${index + 1}`}
+                    aria-label={`Post image ${index + 1}`}
                   />
                 </div>
               ))}
@@ -174,7 +175,7 @@ const PostDetailPage = () => {
           <div className="flex pt-2 pb-3.5 border-b gap-x-4">
             <PostLikeToggleButton postId={postId} />
             <div className="flex items-center text-gray-600 gap-x-2">
-              <MessageSquare strokeWidth={1.5} />
+              <MessageSquare strokeWidth={1.5} aria-label="Comments" />
               <span>{formatCount(post.commentCount || 0)}</span>
             </div>
           </div>
@@ -188,6 +189,7 @@ const PostDetailPage = () => {
             onEditComment={onEditComment}
             onEditReply={onEditReply}
             onSubmitReply={onSubmitReply}
+            aria-label="Comment list"
           />
         </div>
       </section>
@@ -201,6 +203,7 @@ const PostDetailPage = () => {
           replyId={replyId || ""}
           isReply={isReplying}
           onSubmitComment={onSubmitComment}
+          aria-label="Comment form"
         />
       </div>
     </Page>

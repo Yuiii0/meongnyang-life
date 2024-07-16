@@ -39,6 +39,7 @@ const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
             <button
               type="button"
               onClick={togglePasswordVisibility}
+              aria-label={pwIsHidden ? "Show password" : "Hide password"}
               className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-800 focus:outline-none"
             >
               {pwIsHidden ? <EyeOff size={16} /> : <Eye size={16} />}

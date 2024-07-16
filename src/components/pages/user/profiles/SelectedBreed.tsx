@@ -60,6 +60,7 @@ export function SelectedBreed({
               variant="outline"
               role="combobox"
               aria-expanded={open}
+              aria-label="Select breed"
               disabled={disabled}
               className="w-[200px] justify-between"
             >
@@ -71,7 +72,10 @@ export function SelectedBreed({
           </PopoverTrigger>
           <PopoverContent className="w-[200px] p-0">
             <Command>
-              <CommandInput placeholder={`${petTypeKr}을 검색해보세요`} />
+              <CommandInput
+                placeholder={`${petTypeKr}을 검색해보세요`}
+                aria-label={`Search ${petTypeKr}`}
+              />
               <CommandList className="overflow-y-auto max-h-32">
                 <CommandEmpty>{`해당하는 ${petTypeKr}이 없습니다`}</CommandEmpty>
                 <CommandGroup>
@@ -80,6 +84,7 @@ export function SelectedBreed({
                       key={b.value}
                       value={b.value}
                       onSelect={() => handleSelectBreed(b.value)}
+                      aria-label={`Select ${b.label}`}
                     >
                       <Check
                         className={cn(

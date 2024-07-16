@@ -90,7 +90,11 @@ function SearchPage() {
     <Page fullWidth>
       {isLoading && <LoadingSpinner text="검색 중 입니다." />}
       <div className="flex items-center w-full pb-4">
-        <div className="px-3" onClick={searchStarted ? onGoBack : undefined}>
+        <div
+          className="px-3"
+          onClick={searchStarted ? onGoBack : undefined}
+          aria-label="Go back"
+        >
           <PrevButton isNavigate={!searchStarted} />
         </div>
         <SearchBar onSearch={onSearch} />
@@ -107,7 +111,10 @@ function SearchPage() {
                 className="flex pl-2 py-2.5 gray-500 justify-between items-center text-sm"
               >
                 <p>{search}</p>
-                <button onClick={() => handleRemoveRecentSearch(index)}>
+                <button
+                  onClick={() => handleRemoveRecentSearch(index)}
+                  aria-label={`Remove Recent search: ${search}`}
+                >
                   <X size={16} />
                 </button>
               </li>

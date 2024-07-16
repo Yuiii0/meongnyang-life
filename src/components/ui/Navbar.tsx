@@ -26,8 +26,6 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
   const { isOpen: isModalOpen, closeModal } = useModalStore();
   const { mutate: deleteAccount } = useWithdrawUser();
 
-  console.log("isModalOpen", isModalOpen);
-
   const handleClickLogOut = () => {
     try {
       logOut();
@@ -38,11 +36,6 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
       toast.error("오류가 발생했습니다. 다시 시도해주세요");
     }
   };
-
-  // const handleClickDeleteAccount = () => {
-  //   openModal();
-  //   onClose();
-  // };
 
   const onDeleteAccount = () => {
     if (user) {
@@ -71,7 +64,11 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
             className="mx-auto"
           />
         </div>
-        <button onClick={onClose} className="fixed z-50 mb-4 top-10 left-6">
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          className="fixed z-50 mb-4 top-10 left-6"
+        >
           <X size={20} />
         </button>
         <nav>
@@ -80,6 +77,7 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
               <Link
                 to={`/profiles/${user?.uid}`}
                 onClick={onClose}
+                aria-label="Go to my profile"
                 className="flex items-center w-full gap-x-2"
               >
                 <UserRound />
@@ -91,6 +89,7 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
               <Link
                 to={PATHS.posts.create}
                 onClick={onClose}
+                aria-label="Create a new post"
                 className="flex items-center w-full gap-x-2"
               >
                 <PencilLine />
@@ -102,6 +101,7 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
               <Link
                 to={`/likes/${user?.uid}`}
                 onClick={onClose}
+                aria-label="View my liked active"
                 className="flex items-center w-full gap-x-2"
               >
                 <Heart />
@@ -113,40 +113,34 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
               <Link
                 to={`/bookmarks/${user?.uid}`}
                 onClick={onClose}
-                className="flex items-center w-full gap-x-2"
+                aria-label="View my bookmarked posts"
+                className="flex items-center w-full pb-5 gap-x-4"
               >
                 <Bookmark />
                 저장한 게시글
                 <ChevronRight size={20} className="ml-auto" />
               </Link>
             </li>
-            <div className="flex flex-col w-full pt-12 text-sm text-gray-500 border-t gap-y-4">
-              <div className="w-full">
-                <button
-                  onClick={handleClickLogOut}
-                  className="flex items-center w-full gap-x-2"
-                >
-                  로그아웃
-                </button>
-              </div>
-              <div className="w-full">
-                <button
-                  onClick={onDeleteAccount}
-                  className="flex items-center w-full text-left gap-x-2"
-                >
-                  회원 탈퇴
-                </button>
-                {/* {isModalOpen && (
-                  <ConfirmModal
-                    isOpen={isModalOpen}
-                    onRequestClose={closeModal}
-                    onConfirm={onDeleteAccount}
-                    title="회원 탈퇴"
-                    content="더 이상 멍냥생활을 이용하지 않으시겠습니까?"
-                  />
-                )} */}
-              </div>
-            </div>
+          </ul>
+          <ul className="flex flex-col w-full pt-12 text-sm text-gray-500 border-t gap-y-4">
+            <li className="w-full">
+              <button
+                onClick={handleClickLogOut}
+                aria-label="Log out"
+                className="flex items-center w-full gap-x-2"
+              >
+                로그아웃
+              </button>
+            </li>
+            <li className="w-full">
+              <button
+                onClick={onDeleteAccount}
+                aria-label="Delete my account"
+                className="flex items-center w-full text-left gap-x-2"
+              >
+                회원 탈퇴
+              </button>
+            </li>
           </ul>
         </nav>
       </div>
