@@ -26,7 +26,7 @@ function MainPage() {
   }, [inView, hasNextPage, fetchNextPage]);
 
   return (
-    <Page fullWidth>
+    <Page>
       {posts?.pages.map((page, index) => (
         <div key={index}>
           {page ? (

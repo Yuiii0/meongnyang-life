@@ -114,7 +114,7 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
                 to={`/bookmarks/${user?.uid}`}
                 onClick={onClose}
                 aria-label="View my bookmarked posts"
-                className="flex items-center w-full pb-5 gap-x-4"
+                className="flex items-center w-full pb-5 gap-x-2"
               >
                 <Bookmark />
                 저장한 게시글
