@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import ConfirmModal from "./ConfirmModal";
 
 interface NavbarProps {
   isShowNavbar: boolean;
@@ -24,7 +23,7 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
   const { user, setUser } = useAuthStore();
   const navigate = useNavigate();
   const { mutate: logOut } = useLogOut();
-  const { isOpen: isModalOpen, openModal, closeModal } = useModalStore();
+  const { isOpen: isModalOpen, closeModal } = useModalStore();
   const { mutate: deleteAccount } = useWithdrawUser();
 
   console.log("isModalOpen", isModalOpen);
@@ -40,10 +39,10 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
     }
   };
 
-  const handleClickDeleteAccount = () => {
-    openModal();
-    onClose();
-  };
+  // const handleClickDeleteAccount = () => {
+  //   openModal();
+  //   onClose();
+  // };
 
   const onDeleteAccount = () => {
     if (user) {
@@ -132,12 +131,12 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
               </div>
               <div className="w-full">
                 <button
-                  onClick={handleClickDeleteAccount}
+                  onClick={onDeleteAccount}
                   className="flex items-center w-full text-left gap-x-2"
                 >
                   회원 탈퇴
                 </button>
-                {isModalOpen && (
+                {/* {isModalOpen && (
                   <ConfirmModal
                     isOpen={isModalOpen}
                     onRequestClose={closeModal}
@@ -145,7 +144,7 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
                     title="회원 탈퇴"
                     content="더 이상 멍냥생활을 이용하지 않으시겠습니까?"
                   />
-                )}
+                )} */}
               </div>
             </div>
           </ul>
