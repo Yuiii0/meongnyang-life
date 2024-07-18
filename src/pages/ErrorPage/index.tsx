@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/Button";
 import Page from "@/components/ui/Page";
 import SEOMetaTag from "@/components/ui/SEOMetaTag";
+import { Button } from "@/shared/components/Button";
 import getErrorMessage from "@/utils/getErrorMessage";
 import { useNavigate, useRouteError } from "react-router-dom";
 import { PATHS } from "../route";

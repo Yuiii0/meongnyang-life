@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/utils";
+import { Button } from "@/shared/components/Button";
 import {
   Command,
   CommandEmpty,
@@ -6,15 +7,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
+} from "@/shared/components/command";
 import {
-  Popover,
+  Popover, 
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { catBreedData } from "@/shared/breeds/catbreed.data";
-import { dogBreedData } from "@/shared/breeds/dogbreed.data";
+} from "@/shared/components/popover";
+import { catBreedData, dogBreedData } from "@/shared/const/breedData";
+
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useEffect, useState } from "react";
 
