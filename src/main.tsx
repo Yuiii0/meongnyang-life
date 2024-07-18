@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import ReactModal from "react-modal";
 import App from "./App";
-import "./styles/index.css";
+import "./shared/styles/index.css";
 
 ReactModal.setAppElement("#root");
 

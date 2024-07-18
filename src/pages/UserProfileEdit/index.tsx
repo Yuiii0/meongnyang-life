@@ -6,7 +6,8 @@ import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
 import SEOMetaTag from "@/components/ui/SEOMetaTag";
 import Success from "@/components/ui/Success";
-import { useAuth } from "@/hooks/Auth/useAuth";
+import { useAuth } from "@/lib/auth/hooks/useAuth";
+
 import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
 import { useUpdateUserProfile } from "@/lib/user/hooks/useUpdateUserProfile";
 import {

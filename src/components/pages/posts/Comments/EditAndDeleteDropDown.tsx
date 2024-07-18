@@ -1,9 +1,9 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/shared/components/dropdown-menu";
+import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { Ellipsis, Pencil, Trash } from "lucide-react";
 
 interface EditAndDeleteDropDownProps {
@@ -24,7 +24,7 @@ function EditAndDeleteDropDown({
       <DropdownMenuTrigger>
         <Ellipsis size={14} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="text-center min-w-20">
+      <DropdownMenuContent className="px-4 space-y-1.5 text-[13px] text-center min-w-18">
         {isMyComment && (
           <DropdownMenuItem
             onClick={onEdit}

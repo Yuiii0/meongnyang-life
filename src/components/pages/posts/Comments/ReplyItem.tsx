@@ -2,13 +2,14 @@ import { useDeleteReply } from "@/lib/comment/hooks/useDeleteReply";
 import { ReplyDto } from "@/lib/comment/type";
 import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
-import { formatTimestamp } from "@/utils/formatTimestamp";
-import { truncateString } from "@/utils/truncateString";
+
 import { Timestamp } from "firebase/firestore";
 import { CornerDownRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import EditAndDeleteDropDown from "./EditAndDeleteDropDown";
 import CommentLikeToggleButton from "./LikeButton/CommentLikeToggleButton";
+import { truncateString } from '@/shared/utils/truncateString';
+import { formatTimestamp } from '@/shared/utils/formatTimestamp';
 
 interface ReplyItemProps {
   reply: ReplyDto;

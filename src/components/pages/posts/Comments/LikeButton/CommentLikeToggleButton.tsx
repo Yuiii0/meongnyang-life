@@ -2,10 +2,11 @@ import { useCreateCommentLikeReaction } from "@/lib/likes/hooks/useCreateComment
 import { useDeleteCommentLikeReaction } from "@/lib/likes/hooks/useDeleteCommentLikeReaction";
 import { useGetCommentLikeCount } from "@/lib/likes/hooks/useGetCommentLikeCount";
 import { useGetCommentLikeStatus } from "@/lib/likes/hooks/useGetCommentLikeStatus";
-import { formatCount } from "@/utils/formatCount";
+
 import { debounce } from "lodash-es";
 import CommentLikeButton from "./CommentLikeButton";
 import CommentUnLikeButton from "./CommentUnLikeButton";
+import { formatCount } from '@/shared/utils/formatCount';
 
 interface CommentLikeToggleButtonProps {
   postId: string;

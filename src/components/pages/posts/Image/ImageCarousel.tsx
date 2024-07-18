@@ -1,8 +1,4 @@
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from '@/shared/components/carousel';
 import { X } from "lucide-react";
 
 interface ImageCarouselProps {

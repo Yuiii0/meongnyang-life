@@ -1,8 +1,8 @@
-import { cleaningText } from "@/utils/cleaningText";
-import { createKeyWords } from "@/utils/createKeywords";
+import { db } from "@/shared/firebase";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { UserProfile } from "./type";
-import { db } from '@/shared/firebase';
+import { cleaningText } from '@/shared/utils/cleaningText';
+import { createKeyWords } from '@/shared/utils/createKeywords';
 
 export const createUserProfile = async (
   userData: UserProfile,
