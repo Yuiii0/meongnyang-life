@@ -1,13 +1,14 @@
 import { PostDto } from "@/lib/post/type";
-import { formatCount } from "@/utils/formatCount";
-import { formatTimestamp } from "@/utils/formatTimestamp";
-import { truncateString } from "@/utils/truncateString";
+
 import { Timestamp } from "firebase/firestore";
 import { MessageSquare } from "lucide-react";
 
 import ImageSwiper from "@/components/ui/ImageSwiper";
 import { getPostByPostId } from "@/lib/post/api";
 import { POST } from "@/lib/post/key";
+import { formatCount } from "@/shared/utils/formatCount";
+import { formatTimestamp } from "@/shared/utils/formatTimestamp";
+import { truncateString } from "@/shared/utils/truncateString";
 import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router-dom";

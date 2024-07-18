@@ -3,9 +3,9 @@ import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
 
 import { useAuthStore } from "@/stores/auth/useAuthStore";
-import { formatTimestamp } from "@/utils/formatTimestamp";
-import { truncateString } from "@/utils/truncateString";
 
+import { formatTimestamp } from "@/shared/utils/formatTimestamp";
+import { truncateString } from "@/shared/utils/truncateString";
 import { Timestamp } from "firebase/firestore";
 import React from "react";
 import { Link } from "react-router-dom";

@@ -1,8 +1,9 @@
 import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
 import { useModalStore } from "@/stores/modal/useModalStore";
-import { truncateString } from "@/utils/truncateString";
+
 import { useNavigate } from "react-router-dom";
 import FollowToggleButton from "../follow/FollowButton/FollowToggleButton";
+import { truncateString } from '@/shared/utils/truncateString';
 
 interface UserCardProps {
   userId: string;

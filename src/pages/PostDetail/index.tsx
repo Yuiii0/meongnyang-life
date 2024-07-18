@@ -15,8 +15,9 @@ import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 import { PostImage } from "@/lib/post/type";
-import { formatCount } from "@/utils/formatCount";
-import { formatTimestamp } from "@/utils/formatTimestamp";
+
+import { formatCount } from "@/shared/utils/formatCount";
+import { formatTimestamp } from "@/shared/utils/formatTimestamp";
 import { Timestamp } from "firebase/firestore";
 import { FilePenLine, MessageSquare, Trash2 } from "lucide-react";
 import { useCallback, useRef, useState } from "react";

@@ -2,7 +2,7 @@ import ImageCropModal from "@/components/pages/posts/Image/ImageCropModal";
 import { uploadImagesAndGetUrls } from "@/lib/post/api";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useModalStore } from "@/stores/modal/useModalStore";
-import { getCroppedImg } from "@/utils/image/getCroppedImg";
+import { getCroppedImg } from "@/utils/getCroppedImg";
 import { Image as ImageIcon } from "lucide-react";
 import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
