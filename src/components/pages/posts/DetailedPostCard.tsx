@@ -3,7 +3,6 @@ import { PostDto } from "@/lib/post/type";
 import { Timestamp } from "firebase/firestore";
 import { MessageSquare } from "lucide-react";
 
-import ImageSwiper from "@/components/ui/ImageSwiper";
 import { getPostByPostId } from "@/lib/post/api";
 import { POST } from "@/lib/post/key";
 import { formatCount } from "@/shared/utils/formatCount";
@@ -14,6 +13,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import UserCard from "../user/userList/UserCard";
 import PostLikeToggleButton from "./LikeButton/PostLikeToggleButton";
+import ImageSwiper from './Image/ImageSwiper';
 
 interface PostCardProps {
   post: PostDto;
