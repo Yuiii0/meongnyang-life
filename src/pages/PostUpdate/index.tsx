@@ -3,7 +3,8 @@ import NoResults from "@/components/pages/search/NoResults";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
 import SEOMetaTag from "@/components/ui/SEOMetaTag";
-import { useAuth } from "@/hooks/Auth/useAuth";
+import { useAuth } from "@/lib/auth/hooks/useAuth";
+
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 import { useUpdatePost } from "@/lib/post/hooks/useUpdatePost";
 import { PostFormData } from "@/lib/post/type";
