@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import { Button } from "@/shared/components/Button";
 import {
   Command,
@@ -9,11 +8,12 @@ import {
   CommandList,
 } from "@/shared/components/command";
 import {
-  Popover, 
+  Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/shared/components/popover";
 import { catBreedData, dogBreedData } from "@/shared/const/breedData";
+import { cn } from "@/shared/utils/cn";
 
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useEffect, useState } from "react";

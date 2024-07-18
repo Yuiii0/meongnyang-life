@@ -1,6 +1,5 @@
 import { db, storage } from "@/shared/firebase";
-import { cleaningText } from "@/utils/cleaningText";
-import { createKeyWords } from "@/utils/createKeywords";
+
 import imageCompression from "browser-image-compression";
 import {
   addDoc,
@@ -27,6 +26,8 @@ import {
   uploadBytes,
 } from "firebase/storage";
 import { PostDto } from "./type";
+import { cleaningText } from '@/shared/utils/cleaningText';
+import { createKeyWords } from '@/shared/utils/createKeywords';
 
 interface UploadOptions {
   maxSizeMB: number;

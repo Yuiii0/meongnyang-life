@@ -1,9 +1,10 @@
 import Page from "@/components/ui/Page";
 import SEOMetaTag from "@/components/ui/SEOMetaTag";
 import { Button } from "@/shared/components/Button";
-import getErrorMessage from "@/utils/getErrorMessage";
+
 import { useNavigate, useRouteError } from "react-router-dom";
 import { PATHS } from "../route";
+import getErrorMessage from '@/shared/utils/getErrorMessage';
 
 function ErrorPage() {
   const error: any = useRouteError();
