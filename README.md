@@ -29,7 +29,9 @@ PW: abcd1234!!
 ```
 git clone https://github.com/Yuiii0/meongnyang-life.git
 cd meongnyang-life
+
 npm install
+
 npm run dev
 ```
 
@@ -37,7 +39,7 @@ npm run dev
 
 ## 🔍 유저 플로우
 
-![alt text](image.png)
+![Screen Flow Template - Frame 1](https://github.com/user-attachments/assets/d8ecd4f9-a1a5-4379-a595-842d7db44f5e)
 
 <br/>
 
@@ -125,6 +127,8 @@ npm run dev
 <br/>
 
 ## ⚙️ 아키텍쳐
+<img width="812" alt="image" src="https://github.com/user-attachments/assets/4500508b-18f1-4216-9faa-b9eda8da035d">
+
 
 ## 🗂 프로젝트 구조
 
