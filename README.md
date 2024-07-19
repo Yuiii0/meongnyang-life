@@ -16,9 +16,12 @@
 
 24.06 ~ 24.07 (4주)
 
+<br/>
+
 #### 📎 배포 링크
 
 [🐾 멍냥생활 배포 URL ](https://dev-meongnyang-life.vercel.app/)
+
 
 #### 🔒 테스트 계정
 
@@ -43,7 +46,8 @@ npm run dev
 ## 🔍 유저 플로우
 
 ![Screen Flow Template - Frame 1](https://github.com/user-attachments/assets/d8ecd4f9-a1a5-4379-a595-842d7db44f5e)
-
+- [UserFlow](https://miro.com/app/board/uXjVK6L-Tmo=/)
+- [WireFrame](https://miro.com/app/board/uXjVK6LP-lc=/)
 <br/>
 
 ## 🛠 기술 스택
@@ -190,3 +194,12 @@ npm run dev
  ┃ ┗ 📂utils
  ┗ 📂stores
 ```
+
+## 📄 Log
+<img width="727" alt="image" src="https://github.com/user-attachments/assets/38b35cec-3ed5-4d55-b368-573f242a8dbb">
+<br/>
+<br/>
+
+[📎 PR 기록](https://github.com/Yuiii0/meongnyang-life/pulls?q=is%3Apr+is%3Aclosed)
+
+
