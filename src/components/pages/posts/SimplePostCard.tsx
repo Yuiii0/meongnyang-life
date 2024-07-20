@@ -28,13 +28,13 @@ function SimplePostCard({ post }: SimplePostCardProps) {
         <div className="h-16 overflow-hidden text-sm text-left text-gray-500 whitespace-pre-wrap ">
           {truncateString(post.content, 36)}
         </div>
-        <div className="flex items-start justify-between">
+        <div className="flex items-center justify-between">
           <p className="text-sm font-semibold text-gray-600">{post.nickname}</p>
           <div className="flex items-center gap-x-4 ">
             <div onClick={handleButtonClick}>
               <PostLikeToggleButton postId={post.id || ""} size="small" />
             </div>
-            <div className="flex items-center text-gray-600 gap-x-2">
+            <div className="flex items-center text-sm text-gray-600 gap-x-1.5">
               <MessageSquare strokeWidth={1.5} size={18} />
               <span>{formatCount(post.commentCount || 0)}</span>
             </div>
