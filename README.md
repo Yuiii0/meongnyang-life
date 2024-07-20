@@ -113,9 +113,20 @@ npm run dev
 ## 🔥 성능 최적화
 
 - [이미지 최적화로 사이즈 85% 감소, 다양한 사이즈로 반응형 이미지 적용](https://s-organization-335.gitbook.io/meongnang/undefined)
+	-  browser-image-compression 활용한 이미지 폭, 타입 정의
+	- width, height,aspect-ratio값 지정으로 Reflow 방지,
+	-  다양한 size 이미지 제공,
+	- lazy loading
+
 - [code Splitting, prefetch 적용으로 로딩속도 개선](https://s-organization-335.gitbook.io/meongnang/prefetch-code-splitting)
+	- React.lazy와 suspense
+	- manualChunks, prefetch 적용
 - [웹 접근성 37%, SEO 83→100 점수 개선](https://s-organization-335.gitbook.io/db/seo)
 
+	- aria 적용
+	- meta 태그 관리 , Robots.txt , Sitemap 생성
+
+<br/>
 <br/>
 
 ## ☄️ 트러블 슈팅
