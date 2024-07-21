@@ -80,6 +80,9 @@
   ::-moz-selection {
     background-color: #ffd27f;
   }
+  #root {
+    @apply w-full max-w-screen-md mx-auto;
+  }
 
   input,
   textarea {
