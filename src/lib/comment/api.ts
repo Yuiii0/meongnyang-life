@@ -131,7 +131,7 @@ export const getRepliesByCommentId = async (
 ) => {
   const repliesQuery = query(
     collection(db, "posts", postId, "comments", commentId, "replies"),
-    orderBy("createdAt", "desc")
+    orderBy("createdAt", "asc")
   );
   const querySnapshot = await getDocs(repliesQuery);
 
