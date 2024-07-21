@@ -74,10 +74,21 @@
     @apply bg-background text-foreground;
   }
 
-  /* Hide scrollbar */
-  * {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE 10+ */
+  ::selection {
+    background-color: #ffd27f;
+  }
+  ::-moz-selection {
+    background-color: #ffd27f;
+  }
+
+  input,
+  textarea {
+    caret-color: #f7b750;
+  }
+
+  text * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   *::-webkit-scrollbar {
