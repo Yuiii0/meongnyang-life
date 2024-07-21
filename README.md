@@ -25,7 +25,7 @@
 
 #### 🔒 테스트 계정
 
-ID : meong@test.com <br>
+ID : mayo@naver.com <br>
 PW: abcd1234!!
 
 <br/>
@@ -60,36 +60,37 @@ npm run dev
 
 ## 📌 주요기능
 
-#### 로그인 / 회원가입 <br/>
+#### [로그인 / 회원가입] <br/>
 
 - 폼 유효성 검증 (email 형식, 대소문자, 특수문자 포함 8글자 이상 비밀번호)
 - 구글 소셜 로그인
 - 전역상태로 인증상태 유지 및 유저정보 관리</details>
 - 인증된 유저에 따른 서비스 접근 제한 및 보호 (타인의 프로필, 게시글 수정 페이지 접근 불가)
-- <details><summary> 🔍 View</summary> <br/>  </details>
 
 <p align="left">
   <img src="https://github.com/user-attachments/assets/dd9898f4-41be-40ce-acef-061671177067" style="margin-right: 15px;">
   <img src="https://github.com/user-attachments/assets/a3079322-14c6-4bde-b196-fc6a90a2cd25">
 </p>
 
+ <br/>
 
-
-#### 전체 게시글 조회
+#### [전체 게시글 조회]
 
 - 무한스크롤을 활용한 페이지네이션
 - 스와이퍼를 통한 게시물 이미지 확인 기능
 
 ![mainPage](https://github.com/user-attachments/assets/7b943b27-704c-488a-8f3b-7b62e625cfc7)
+
 <br/>
 
 
-#### 게시글 상세 조회
+
+#### [게시글 상세 조회]
 
 - 게시물 상세 정보 조회 기능
 - 게시글 좋아요 기능
 
-#### 댓글, 대댓글
+#### [댓글, 대댓글]
 
 - 댓글, 대댓글 생성, 수정, 삭제 기능
 - 본인 게시글의 모든 댓글 삭제 권한
@@ -102,7 +103,10 @@ npm run dev
   <img src="https://github.com/user-attachments/assets/40822ab3-00f2-4909-8995-5e3dbb319b57">
 </p>
 
-#### 게시글 작성 / 수정 / 삭제
+
+<br/>
+
+#### [게시글 작성 / 수정 / 삭제]
 
 - 텍스트와 이미지를 활용한 게시글 작성 기능
 - 최대 5장 이미지 업로드 가능 (webp 변환, resizing 적용)
@@ -113,8 +117,10 @@ npm run dev
   <img src="https://github.com/user-attachments/assets/4a9ed422-c336-4f4d-9a53-1a13fa1cc905">
 </p>
 
+<br/>
 
-#### 유저 조회
+
+#### [유저 조회]
 
 - 유저 팔로우/언팔로우 기능
 - 유저의 반려동물 종류, 성별, 소개 및 게시글 조회
@@ -122,7 +128,9 @@ npm run dev
 
 ![userProfile(follow)](https://github.com/user-attachments/assets/39e27799-bc68-47df-9adb-7a09ab5fc8b5)
 
-#### 검색 기능
+<br/>
+
+#### [검색 기능]
 
 - 유저 검색 기능
 - 게시물 검색 기능
@@ -130,30 +138,34 @@ npm run dev
 
 ![searchPage](https://github.com/user-attachments/assets/89016c79-afc9-4696-aa58-99975c1abc10)
 
-#### 좋아요, 북마크 기능
+<br/>
+
+#### [좋아요, 북마크 기능]
 
 - 좋아요한 게시글, 댓글 조회 가능
 - 북마크 게시글 조회 가능
+
+![like_activity](https://github.com/user-attachments/assets/7f35711b-447e-4812-8825-c5de9245a8ca)
 
 <br/>
 
 ## 🔥 성능 최적화
 
 - [이미지 최적화로 사이즈 85% 감소, 다양한 사이즈로 반응형 이미지 적용](https://s-organization-335.gitbook.io/meongnang/undefined)
-	-  browser-image-compression 활용한 이미지 폭, 타입 정의
-	- width, height,aspect-ratio값 지정으로 Reflow 방지,
-	-  다양한 size 이미지 제공,
+	- browser-image-compression 활용한 이미지 폭, 타입 정의
+	- width, height, aspect-ratio값 지정으로 Reflow 방지
+	-  다양한 size 이미지
 	- lazy loading
 
-- [code Splitting, prefetch 적용으로 로딩속도 개선](https://s-organization-335.gitbook.io/meongnang/prefetch-code-splitting)
+- [code splitting, prefetch 적용으로 로딩속도 개선](https://s-organization-335.gitbook.io/meongnang/prefetch-code-splitting)
 	- React.lazy와 suspense
-	- manualChunks, prefetch 적용
+	- manualChunks
+ 	- prefetch
 - [웹 접근성 37%, SEO 83→100 점수 개선](https://s-organization-335.gitbook.io/db/seo)
 
-	- aria 적용
+	- aria label 적용
 	- meta 태그 관리 , Robots.txt , Sitemap 생성
 
-<br/>
 <br/>
 
 ## ☄️ 트러블 슈팅
