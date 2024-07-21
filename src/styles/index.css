@@ -86,13 +86,12 @@
     caret-color: #f7b750;
   }
 
-  text * {
+  * {
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
 
   *::-webkit-scrollbar {
-    /* WebKit */
     display: none;
   }
 }
