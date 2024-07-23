@@ -20,6 +20,7 @@ import { PostImage } from "@/lib/post/type";
 import PlaceholderImage from "@/components/pages/posts/Image/PlaceholderImage";
 import { formatCount } from "@/shared/utils/formatCount";
 import { formatTimestamp } from "@/shared/utils/formatTimestamp";
+import { useModalStore } from "@/stores/modal/useModalStore";
 import { Timestamp } from "firebase/firestore";
 import { FilePenLine, MessageSquare, Trash2 } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
