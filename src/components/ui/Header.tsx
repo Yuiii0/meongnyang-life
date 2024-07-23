@@ -16,8 +16,8 @@ function Header() {
         <span className="text-[34px] mr-3">🐾</span>
         <span>멍냥생활</span>
       </Link>
-      <div className="flex gap-x-4" aria-label="Search">
-        <Link to="/search">
+      <div className="flex gap-x-4">
+        <Link to="/search" aria-label="Search">
           <Search />
         </Link>
         <button

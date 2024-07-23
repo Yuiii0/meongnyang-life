@@ -5,7 +5,7 @@ import NoResults from "@/components/pages/search/NoResults";
 import UserCard from "@/components/pages/user/userList/UserCard";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
-import PlaceholderImage from "@/components/ui/PlaceholderImage";
+
 import { removeImageFromStorage } from "@/lib/post/api";
 
 import { useAuthStore } from "@/stores/auth/useAuthStore";
@@ -16,9 +16,10 @@ import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 import { PostImage } from "@/lib/post/type";
-import { useModalStore } from "@/stores/modal/useModalStore";
-import { formatCount } from "@/utils/formatCount";
-import { formatTimestamp } from "@/utils/formatTimestamp";
+
+import PlaceholderImage from "@/components/pages/posts/Image/PlaceholderImage";
+import { formatCount } from "@/shared/utils/formatCount";
+import { formatTimestamp } from "@/shared/utils/formatTimestamp";
 import { Timestamp } from "firebase/firestore";
 import { FilePenLine, MessageSquare, Trash2 } from "lucide-react";
 import { useCallback, useRef, useState } from "react";

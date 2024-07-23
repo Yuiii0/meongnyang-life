@@ -93,7 +93,9 @@ function UserProfileCreatePage() {
           {step === 2 && (
             <>
               <OptionalProfileForm />
-              <PrevButton onClick={handleClickPrevStep} />
+              <div className="fixed bottom-10 left-8">
+                <PrevButton onClick={handleClickPrevStep} />
+              </div>
               <NextButton onClick={methods.handleSubmit(handleSubmitProfile)} />
             </>
           )}

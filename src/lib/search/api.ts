@@ -1,8 +1,9 @@
 import { db } from "@/shared/firebase";
-import { cleaningText } from "@/utils/cleaningText";
-import { createKeyWords } from "@/utils/createKeywords";
+
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { PostDto } from "../post/type";
+import { cleaningText } from '@/shared/utils/cleaningText';
+import { createKeyWords } from '@/shared/utils/createKeywords';
 
 export const searchUsersByNickname = async (nickname: string) => {
   try {

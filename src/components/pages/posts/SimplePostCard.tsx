@@ -1,10 +1,11 @@
-import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import { PostDto } from "@/lib/post/type";
-import { formatCount } from "@/utils/formatCount";
-import { truncateString } from "@/utils/truncateString";
+
+import { formatCount } from "@/shared/utils/formatCount";
+import { truncateString } from "@/shared/utils/truncateString";
 import { MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
 import PostLikeToggleButton from "./LikeButton/PostLikeToggleButton";
+import PlaceholderImage from './Image/PlaceholderImage';
 
 interface SimplePostCardProps {
   post: PostDto;

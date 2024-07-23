@@ -1,5 +1,6 @@
 import { PostDto } from "@/lib/post/type";
-import { formatCount } from "@/utils/formatCount";
+
+import { formatCount } from "@/shared/utils/formatCount";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import PostResults from "./PostResults";
 import UserResults from "./UserResults";

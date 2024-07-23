@@ -84,7 +84,7 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         isBorder={false}
         {...register("title", {
           required: "타이틀을 입력해주세요",
-          minLength: { value: 3, message: "3글자 이상으로 작성해주세요" },
+          minLength: { value: 2, message: "2글자 이상으로 작성해주세요" },
           maxLength: { value: 40, message: "40글자 이하로 작성해주세요" },
         })}
       />
@@ -99,8 +99,8 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
         {...register("content", {
           required: "내용을 입력해주세요",
           minLength: {
-            value: 8,
-            message: "내용이 너무 짧아요. 8글자 이상으로 작성해주세요",
+            value: 5,
+            message: "내용이 너무 짧아요. 5글자 이상으로 작성해주세요",
           },
           maxLength: {
             value: 2000,
