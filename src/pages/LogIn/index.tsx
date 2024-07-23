@@ -14,7 +14,7 @@ function LogInPage() {
           keywords="멍냥 생활, 반려동물 커뮤니티, 사진 공유, 일상 교환, 정보 교환, 로그인"
           url="https://dev-meongnyang-life.vercel.app"
         />
-        <section className="w-full max-w-md text-center">
+        <section className="w-full max-w-md mx-auto text-center">
           <div className="mb-12">
             <h1 className=" text-xl font-bold -translate-x-0.5">
               🐾 멍냥 생활

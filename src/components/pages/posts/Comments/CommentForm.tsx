@@ -106,7 +106,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
     <div>
       <form
         onSubmit={handleSubmitComment}
-        className="flex items-center w-screen px-6 py-4 gap-x-4"
+        className="flex items-center w-screen max-w-screen-md px-6 py-4 mx-auto gap-x-4"
       >
         <div className="relative flex-grow">
           <input

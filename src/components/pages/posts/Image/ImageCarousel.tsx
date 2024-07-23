@@ -25,7 +25,7 @@ function ImageCarousel({
       }}
       className="w-full h-full"
     >
-      <CarouselContent className="flex">
+      <CarouselContent className="flex bg-red-50 ">
         {images.map((image, index) => (
           <CarouselItem
             key={index}
