@@ -51,7 +51,9 @@ function PostLikeToggleButton({
       ) : (
         <PostLikeButton size={size} />
       )}
-      <span>{formatCount(likeCount || 0)}</span>
+      <span className={size === "small" ? "text-sm" : ""}>
+        {formatCount(likeCount || 0)}
+      </span>
     </button>
   );
 }

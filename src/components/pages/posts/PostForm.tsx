@@ -110,8 +110,8 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
       />
       <ErrorMessage>{errors.content?.message}</ErrorMessage>
 
-      <div className="fixed bottom-0 left-0 w-full px-6 py-8">
-        <div className="flex items-center pt-6 gap-x-4">
+      <div className="fixed bottom-0 left-0 w-full max-w-screen-md px-8 py-8 mx-auto md:left-1/2 md:transform md:-translate-x-1/2">
+        <div className="flex items-center pt-6 mx-auto gap-x-4">
           <ImageUpload
             maxImages={MAX_IMAGE}
             onchangeImages={handleChangeImages}

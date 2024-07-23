@@ -37,7 +37,7 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
     }
   };
 
-  const onDeleteAccount = () => {
+  const handleDeleteAccount = () => {
     if (user) {
       deleteAccount(user, {
         onSuccess: () => {
@@ -134,7 +134,7 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
             </li>
             <li className="w-full">
               <button
-                onClick={onDeleteAccount}
+                onClick={handleDeleteAccount}
                 aria-label="Delete my account"
                 className="flex items-center w-full text-left gap-x-2"
               >

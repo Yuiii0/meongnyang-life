@@ -10,6 +10,7 @@ import { removeImageFromStorage } from "@/lib/post/api";
 
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 
+import ConfirmModal from "@/components/ui/ConfirmModal";
 import SEOMetaTag from "@/components/ui/SEOMetaTag";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
@@ -19,6 +20,7 @@ import { PostImage } from "@/lib/post/type";
 import PlaceholderImage from "@/components/pages/posts/Image/PlaceholderImage";
 import { formatCount } from "@/shared/utils/formatCount";
 import { formatTimestamp } from "@/shared/utils/formatTimestamp";
+import { useModalStore } from "@/stores/modal/useModalStore";
 import { Timestamp } from "firebase/firestore";
 import { FilePenLine, MessageSquare, Trash2 } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
@@ -38,7 +40,7 @@ const PostDetailPage = () => {
   const [commentId, setCommentId] = useState<string | null>(null);
   const [replyId, setReplyId] = useState<string | null>(null);
   const [isReplying, setIsReplying] = useState(false);
-  // const { isOpen, openModal, closeModal } = useModalStore();
+  const { isOpen, closeModal } = useModalStore();
 
   const focusCommentForm = useCallback(() => {
     if (commentFormRef.current) {
@@ -124,7 +126,7 @@ const PostDetailPage = () => {
       }
       deletePost({ postId });
       toast.success("성공적으로 삭제되었습니다");
-      // closeModal();
+      closeModal();
       navigate(PATHS.main);
     } catch (error) {
       toast.error("게시물 삭제에 실패하였습니다.");
@@ -154,13 +156,13 @@ const PostDetailPage = () => {
               <button onClick={onDeletePost} aria-label="Delete post">
                 <Trash2 size={20} />
               </button>
-              {/* <ConfirmModal
+              <ConfirmModal
                 isOpen={isOpen}
                 onRequestClose={closeModal}
                 onConfirm={onDeletePost}
                 title="게시물 삭제"
                 content="정말로 이 게시물을 삭제하시겠습니까?"
-              /> */}
+              />
             </div>
           )}
         </div>
@@ -206,7 +208,7 @@ const PostDetailPage = () => {
           />
         </div>
       </section>
-      <div className="fixed bottom-0 left-0 bg-white">
+      <div className="fixed bottom-0 left-0 right-0 w-full bg-white ">
         <CommentForm
           postId={postId}
           userId={user?.uid || ""}

@@ -106,7 +106,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
     <div>
       <form
         onSubmit={handleSubmitComment}
-        className="flex items-center w-screen px-6 py-4 gap-x-4"
+        className="flex items-center w-screen max-w-screen-md px-6 py-4 mx-auto gap-x-4"
       >
         <div className="relative flex-grow">
           <input
@@ -129,11 +129,8 @@ const CommentForm: React.FC<CommentFormProps> = ({
         </button>
       </form>
       {showPicker && (
-        <div className="relative w-full">
-          <div
-            ref={pickerRef}
-            className="absolute transform -translate-x-1/2 left-1/2"
-          >
+        <div className="w-full ">
+          <div ref={pickerRef} className="">
             <EmojiPicker
               onEmojiClick={handleEmojiClick}
               className="w-full max-w-sm mx-auto bg-white rounded-lg shadow-lg"
