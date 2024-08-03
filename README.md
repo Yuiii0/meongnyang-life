@@ -59,93 +59,77 @@ npm run dev
 <br/>
 
 ## 📌 주요기능
+##### 토글을 열면 시연영상을 확인하실 수 있습니다
 
-#### [로그인 / 회원가입] <br/>
+#### <details><summary>로그인 / 회원가입</summary> <p align="left"><img src="https://github.com/user-attachments/assets/dd9898f4-41be-40ce-acef-061671177067" style="margin-right: 15px;"> <img src="https://github.com/user-attachments/assets/a3079322-14c6-4bde-b196-fc6a90a2cd25"></p>  <br/></details>
+
 
 - 폼 유효성 검증 (email 형식, 대소문자, 특수문자 포함 8글자 이상 비밀번호)
 - 구글 소셜 로그인
 - 전역상태로 인증상태 유지 및 유저정보 관리</details>
 - 인증된 유저에 따른 서비스 접근 제한 및 보호 (타인의 프로필, 게시글 수정 페이지 접근 불가)
 
-<p align="left">
-  <img src="https://github.com/user-attachments/assets/dd9898f4-41be-40ce-acef-061671177067" style="margin-right: 15px;">
-  <img src="https://github.com/user-attachments/assets/a3079322-14c6-4bde-b196-fc6a90a2cd25">
-</p>
 
  <br/>
+ 
+#### <details><summary>전체 게시글 조회</summary><img src="https://github.com/user-attachments/assets/7b943b27-704c-488a-8f3b-7b62e625cfc7"><br/></details>
 
-#### [전체 게시글 조회]
 
 - 무한스크롤을 활용한 페이지네이션
 - 스와이퍼를 통한 게시물 이미지 확인 기능
 
-![mainPage](https://github.com/user-attachments/assets/7b943b27-704c-488a-8f3b-7b62e625cfc7)
 
 <br/>
 
-
-
-#### [게시글 상세 조회]
+#### <details><summary>게시글 상세 조회</summary><img src="https://github.com/user-attachments/assets/51480d7a-2502-43f3-8d72-bcb7c06c2502"><br/></details>
 
 - 게시물 상세 정보 조회 기능
 - 게시글 좋아요 기능
 
-#### [댓글, 대댓글]
+<br/>
+
+#### <details><summary>댓글, 대댓글</summary><img src="https://github.com/user-attachments/assets/51480d7a-2502-43f3-8d72-bcb7c06c2502"><br/></details>
 
 - 댓글, 대댓글 생성, 수정, 삭제 기능
 - 본인 게시글의 모든 댓글 삭제 권한
 - 무한스크롤을 활용한 댓글 조회
 - 댓글, 대댓글 좋아요 기능
 
-
-<p align="left">
-  <img src="https://github.com/user-attachments/assets/51480d7a-2502-43f3-8d72-bcb7c06c2502" style="margin-right: 15px;">
-  <img src="https://github.com/user-attachments/assets/40822ab3-00f2-4909-8995-5e3dbb319b57">
-</p>
-
-
 <br/>
 
-#### [게시글 작성 / 수정 / 삭제]
+#### <details><summary>게시글 작성 / 수정 / 삭제</summary><p align="left"><img src="https://github.com/user-attachments/assets/92cdc435-e498-4c32-b74a-3f0a1c627680" style="margin-right: 15px;"><img src="https://github.com/user-attachments/assets/4a9ed422-c336-4f4d-9a53-1a13fa1cc905"></p><br/></details>
 
 - 텍스트와 이미지를 활용한 게시글 작성 기능
 - 최대 5장 이미지 업로드 가능 (webp 변환, resizing 적용)
 - 이미지 크롭 기능 제공
 
-<p align="left">
-  <img src="https://github.com/user-attachments/assets/92cdc435-e498-4c32-b74a-3f0a1c627680" style="margin-right: 15px;">
-  <img src="https://github.com/user-attachments/assets/4a9ed422-c336-4f4d-9a53-1a13fa1cc905">
-</p>
+
 
 <br/>
 
-
-#### [유저 조회]
+#### <details><summary>유저 조회</summary><img src="https://github.com/user-attachments/assets/39e27799-bc68-47df-9adb-7a09ab5fc8b5"><br/></details>
 
 - 유저 팔로우/언팔로우 기능
 - 유저의 반려동물 종류, 성별, 소개 및 게시글 조회
 - 유저의 팔로우 관계 조회, 관리 기능
 
-![userProfile(follow)](https://github.com/user-attachments/assets/39e27799-bc68-47df-9adb-7a09ab5fc8b5)
+
 
 <br/>
 
-#### [검색 기능]
+#### <details><summary>검색 기능</summary><img src="https://github.com/user-attachments/assets/89016c79-afc9-4696-aa58-99975c1abc10"><br/></details>
+
 
 - 유저 검색 기능
 - 게시물 검색 기능
 - 최근 검색어 기록 제공
 
-![searchPage](https://github.com/user-attachments/assets/89016c79-afc9-4696-aa58-99975c1abc10)
-
 <br/>
 
-#### [좋아요, 북마크 기능]
+#### <details><summary>좋아요, 북마크 기능</summary><img src="https://github.com/user-attachments/assets/7f35711b-447e-4812-8825-c5de9245a8ca"><br/></details>
 
 - 좋아요한 게시글, 댓글 조회 가능
 - 북마크 게시글 조회 가능
-
-![like_activity](https://github.com/user-attachments/assets/7f35711b-447e-4812-8825-c5de9245a8ca)
 
 <br/>
 
