@@ -20,7 +20,10 @@ function FollowModal({
   initialTab,
 }: FollowModalProps) {
   const [activeTab, setActiveTab] = useState(initialTab);
-  const { isOpen, closeModal } = useModalStore();
+  const { isOpen, closeModal } = useModalStore((state) => ({
+    isOpen: state.isOpen,
+    closeModal: state.closeModal,
+  }));
 
   const handleChangeTab = (value: string) => {
     setActiveTab(value);

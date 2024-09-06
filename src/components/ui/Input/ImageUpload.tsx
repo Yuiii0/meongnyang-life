@@ -32,7 +32,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   ...props
 }) => {
   const user = useAuthStore((state) => state.user);
-  const { openModal, closeModal, isOpen } = useModalStore();
+  const { openModal, closeModal, isOpen } = useModalStore((state) => ({
+    isOpen: state.isOpen,
+    openModal: state.openModal,
+    closeModal: state.closeModal,
+  }));
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [crop, setCrop] = useState({ x: 0, y: 0 });

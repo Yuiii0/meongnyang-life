@@ -26,7 +26,7 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
   }));
   const navigate = useNavigate();
   const { mutate: logOut } = useLogOut();
-  const { closeModal } = useModalStore();
+  const closeModal = useModalStore((state) => state.closeModal);
   const { mutate: deleteAccount } = useWithdrawUser();
 
   const handleClickLogOut = () => {

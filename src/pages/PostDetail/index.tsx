@@ -40,7 +40,10 @@ const PostDetailPage = () => {
   const [commentId, setCommentId] = useState<string | null>(null);
   const [replyId, setReplyId] = useState<string | null>(null);
   const [isReplying, setIsReplying] = useState(false);
-  const { isOpen, closeModal } = useModalStore();
+  const { isOpen, closeModal } = useModalStore((state) => ({
+    isOpen: state.isOpen,
+    closeModal: state.closeModal,
+  }));
 
   const focusCommentForm = useCallback(() => {
     if (commentFormRef.current) {

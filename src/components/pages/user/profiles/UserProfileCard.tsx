@@ -31,7 +31,10 @@ function UserProfileCard({ userProfile }: UserProfileCardProps) {
   const { data: followings } = useGetFollowingList(userId || "");
 
   const [activeTab, setActiveTab] = useState("follower");
-  const { isOpen, openModal } = useModalStore();
+  const { isOpen, openModal } = useModalStore((state) => ({
+    isOpen: state.isOpen,
+    openModal: state.openModal,
+  }));
 
   const handleOpenModal = (tab: string) => {
     openModal();
