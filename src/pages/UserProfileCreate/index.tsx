@@ -11,14 +11,17 @@ import {
   DEFAULT_PROFILE_IMG_DOG,
 } from "@/shared/const/UserprofileImgPath";
 import { auth } from "@/shared/firebase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../route";
 
 function UserProfileCreatePage() {
   const user = auth.currentUser;
-  const { mutateAsync: createUserData } = useCreateUserProfile(user?.uid || "");
 
+  const { mutateAsync: createUserData } = useCreateUserProfile(user?.uid || "");
+  const navigate = useNavigate();
   const methods = useForm({
     defaultValues: {
       nickName: "",
@@ -32,6 +35,15 @@ function UserProfileCreatePage() {
   });
 
   const [step, setStep] = useState(1);
+
+  useEffect(() => {
+    if (step === 3) {
+      const timer = setTimeout(() => {
+        navigate(PATHS.main);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [step, navigate]);
 
   const handleClickPrevStep = () => {
     setStep((prev) => prev - 1);
@@ -104,13 +116,8 @@ function UserProfileCreatePage() {
             </>
           )}
           {step === 3 && (
-            <div className="fixed flex flex-col items-center justify-center gap-y-8 ">
-              <Success
-                linkText="멍냥생활 이용하기"
-                text="멍냥생활 회원이 되신것을"
-              >
-                환영합니다
-              </Success>
+            <div className="fixed flex flex-col items-center justify-center gap-y-8">
+              <Success text="멍냥생활 회원이 되신것을">환영합니다</Success>
             </div>
           )}
         </form>

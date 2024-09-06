@@ -151,7 +151,7 @@ function UserEditPage() {
                 text="멍냥생활 회원 정보가 수정되었습니다"
                 imageName="cats.webp"
               >
-                수정 완료
+                프로필 수정 완료
               </Success>
             </div>
           )}
