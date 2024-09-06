@@ -31,7 +31,7 @@ import { PATHS } from "../route";
 const PostDetailPage = () => {
   const { postId } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
   const { data: post, isError, isLoading } = useGetPostByPostId(postId || "");
   const { mutate: deletePost } = useDeletePost();
 

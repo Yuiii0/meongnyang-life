@@ -20,7 +20,10 @@ interface NavbarProps {
 }
 
 function Navbar({ isShowNavbar, onClose }: NavbarProps) {
-  const { user, setUser } = useAuthStore();
+  const { user, setUser } = useAuthStore((state) => ({
+    user: state.user,
+    setUser: state.setUser,
+  }));
   const navigate = useNavigate();
   const { mutate: logOut } = useLogOut();
   const { closeModal } = useModalStore();

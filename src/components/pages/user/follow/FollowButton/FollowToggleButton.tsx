@@ -11,7 +11,7 @@ interface FollowButtonProps {
 }
 
 function FollowToggleButton({ userId }: FollowButtonProps) {
-  const { user } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
 
   const myUserId = user?.uid || "";
 

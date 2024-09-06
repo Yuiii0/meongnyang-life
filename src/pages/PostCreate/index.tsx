@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 function PostCreatePage() {
-  const { user } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
 
   const { mutateAsync: createPost } = useCreatePost();
   const navigate = useNavigate();

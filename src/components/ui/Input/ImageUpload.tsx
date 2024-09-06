@@ -1,6 +1,6 @@
 import ImageCropModal from "@/components/pages/posts/Image/ImageCropModal";
 import { uploadImagesAndGetUrls } from "@/lib/post/api";
-import { getCroppedImg } from '@/shared/utils/getCroppedImg';
+import { getCroppedImg } from "@/shared/utils/getCroppedImg";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useModalStore } from "@/stores/modal/useModalStore";
 
@@ -31,7 +31,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   currentImagesCount,
   ...props
 }) => {
-  const { user } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
   const { openModal, closeModal, isOpen } = useModalStore();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

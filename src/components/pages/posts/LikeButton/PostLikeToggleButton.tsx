@@ -18,7 +18,7 @@ function PostLikeToggleButton({
   postId,
   size = "normal",
 }: LikeToggleButtonProps) {
-  const { user } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
   const userId = user?.uid;
 
   const { data: isLike } = useGetPostLikeStatus(postId, userId || "");

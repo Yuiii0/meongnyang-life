@@ -16,7 +16,7 @@ interface SignUpForm {
 
 function SignUpForm() {
   const navigate = useNavigate();
-  const { setUser } = useAuthStore();
+  const setUser = useAuthStore((state) => state.setUser);
   const { mutate: signUpByEmail, isPending } = useSignUpByEmail();
   const {
     register,

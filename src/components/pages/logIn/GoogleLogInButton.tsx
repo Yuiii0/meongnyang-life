@@ -4,7 +4,7 @@ import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useNavigate } from "react-router-dom";
 
 function GoogleLogInButton() {
-  const { setUser } = useAuthStore();
+  const setUser = useAuthStore((state) => state.setUser);
   const navigate = useNavigate();
 
   const { mutate: logInByGoogle, isPending } = useLogInByGoogle((data) => {

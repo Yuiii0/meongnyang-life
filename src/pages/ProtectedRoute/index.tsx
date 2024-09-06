@@ -4,7 +4,10 @@ import { Navigate } from "react-router-dom";
 import { PATHS } from "../route";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuthStore();
+  const { user, loading } = useAuthStore((state) => ({
+    user: state.user,
+    loading: state.loading,
+  }));
   if (loading) {
     return <LoadingSpinner />;
   }

@@ -20,7 +20,7 @@ interface UserProfileCardProps {
 }
 
 function UserProfileCard({ userProfile }: UserProfileCardProps) {
-  const { user } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
   const { userId, nickName, introduction, gender, profileImg, breed, petType } =
     userProfile;
   const isMyProfile = user?.uid === userId;

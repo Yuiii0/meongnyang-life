@@ -8,7 +8,10 @@ import { useNavigate } from "react-router-dom";
 type CheckPermission = (user: User) => boolean;
 
 export const useAuth = (checkPermission?: CheckPermission) => {
-  const { user, loading } = useAuthStore();
+  const { user, loading } = useAuthStore((state) => ({
+    user: state.user,
+    loading: state.loading,
+  }));
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -3,13 +3,13 @@ import { ReplyDto } from "@/lib/comment/type";
 import { useGetUserProfile } from "@/lib/user/hooks/useGetUserProfile";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 
+import { formatTimestamp } from "@/shared/utils/formatTimestamp";
+import { truncateString } from "@/shared/utils/truncateString";
 import { Timestamp } from "firebase/firestore";
 import { CornerDownRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import EditAndDeleteDropDown from "./EditAndDeleteDropDown";
 import CommentLikeToggleButton from "./LikeButton/CommentLikeToggleButton";
-import { truncateString } from '@/shared/utils/truncateString';
-import { formatTimestamp } from '@/shared/utils/formatTimestamp';
 
 interface ReplyItemProps {
   reply: ReplyDto;
@@ -18,7 +18,7 @@ interface ReplyItemProps {
 }
 
 function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
-  const { user } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
   const { data: userInfo } = useGetUserProfile(reply.userId);
 
   const isMyReply = reply.userId === user?.uid;

@@ -30,7 +30,7 @@ const CommentItemComponent = ({
   onSubmitReply,
   isShowReply = true,
 }: CommentItemProps) => {
-  const { user } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
   const { data: userInfo } = useGetUserProfile(comment.userId);
   const isMyComment = comment.userId === user?.uid;
   const isEdited = comment.createdAt.seconds !== comment.updatedAt.seconds;
