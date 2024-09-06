@@ -37,7 +37,7 @@ function FollowModal({
     <Modal
       isOpen={isOpen}
       onRequestClose={closeModal}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-white"
+      className="fixed inset-0 z-50 flex items-center justify-center max-w-screen-md -translate-x-1/2 bg-white left-1/2"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
       ariaHideApp={false}
     >
