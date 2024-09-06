@@ -12,7 +12,7 @@ interface FindPWForm {
 }
 
 function FindPasswordPage() {
-  const { mutate: resetPassword, isPending } = useResetPw();
+  const { resetPassword, isPending } = useResetPw();
   const {
     register,
     handleSubmit,

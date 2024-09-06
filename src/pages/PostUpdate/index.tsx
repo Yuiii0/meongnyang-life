@@ -15,9 +15,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function PostUpdatePage() {
   const { postId } = useParams();
-  const { data: post, isLoading: isPostLoading } = useGetPostByPostId(
-    postId || ""
-  );
+
+  const { post, isLoading: isPostLoading } = useGetPostByPostId(postId || "");
   const navigate = useNavigate();
 
   const checkPermission = (user: User) => {

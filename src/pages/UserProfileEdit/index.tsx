@@ -26,7 +26,7 @@ function UserEditPage() {
   const { user } = useAuth((user: User) => user.uid === userId);
   const navigate = useNavigate();
   const { mutateAsync: updateUserData } = useUpdateUserProfile(user?.uid || "");
-  const { data: userProfile, isLoading } = useGetUserProfile(user?.uid || "");
+  const { userProfile, isLoading } = useGetUserProfile(user?.uid || "");
 
   const methods = useForm({
     defaultValues: {

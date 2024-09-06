@@ -31,7 +31,7 @@ const CommentItemComponent = ({
   isShowReply = true,
 }: CommentItemProps) => {
   const user = useAuthStore((state) => state.user);
-  const { data: userInfo } = useGetUserProfile(comment.userId);
+  const { userProfile } = useGetUserProfile(comment.userId);
   const isMyComment = comment.userId === user?.uid;
   const isEdited = comment.createdAt.seconds !== comment.updatedAt.seconds;
 
@@ -73,7 +73,7 @@ const CommentItemComponent = ({
           <Link to={`/profiles/${comment.userId}`}>
             <div className="w-[38px] h-[38px] ">
               <img
-                src={userInfo?.profileImg || ""}
+                src={userProfile?.profileImg || ""}
                 alt="profile-img"
                 width={38}
                 height={38}
@@ -84,7 +84,7 @@ const CommentItemComponent = ({
           <div className="w-full">
             <div className="flex items-center gap-x-2">
               <p className="font-semibold text-[15px] text-gray-900">
-                {truncateString(userInfo?.nickName || "", 10)}
+                {truncateString(userProfile?.nickName || "", 10)}
               </p>
               <p className="text-[11px] text-gray-500 ml-1.5">
                 {formatTimestamp(timeStamp)}

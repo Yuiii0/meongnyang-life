@@ -8,7 +8,7 @@ import { authErrorMessages } from "../error";
 export default function useLogInByGoogle(
   onSuccess: (data: { user: User; isNewUser: boolean }) => void
 ) {
-  return useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: googleLogin,
     onError: (error) => {
       if (error instanceof FirebaseError) {
@@ -21,4 +21,8 @@ export default function useLogInByGoogle(
     },
     onSuccess,
   });
+  return {
+    logInByGoogle: mutate,
+    isPending,
+  };
 }

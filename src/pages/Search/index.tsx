@@ -1,3 +1,4 @@
+import NoResults from "@/components/pages/search/NoResults";
 import SearchBar from "@/components/pages/search/SearchBar";
 import SearchResultTab from "@/components/pages/search/SearchResultTab";
 import PrevButton from "@/components/ui/Button/PrevButton";
@@ -16,14 +17,16 @@ function SearchPage() {
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
   const {
-    data: userIds,
+    userIds,
     refetch: refetchUsers,
     isLoading: isLoadingUsers,
+    isError: isUsersError,
   } = useGetUsersByNickname(searchTerm);
   const {
-    data: postData,
+    posts,
     refetch: refetchPosts,
     isLoading: isLoadingPosts,
+    isError: isPostsError,
   } = useGetPostsByTitle(searchTerm);
 
   useEffect(() => {
@@ -86,6 +89,7 @@ function SearchPage() {
   };
 
   const isLoading = isLoadingUsers || isLoadingPosts;
+  const isError = isUsersError || isPostsError;
 
   return (
     <Page fullWidth>
@@ -101,6 +105,13 @@ function SearchPage() {
       />
 
       {isLoading && <LoadingSpinner text="검색 중 입니다." />}
+      {isError && (
+        <NoResults
+          title="검색 중 오류가 발생하였습니다"
+          description="다시 시도해보세요"
+        />
+      )}
+
       <div className="flex items-center w-full pb-4">
         <div
           className="px-3"
@@ -140,7 +151,7 @@ function SearchPage() {
             activeTab={activeTab}
             onTabChange={onChangeTab}
             userIds={userIds || []}
-            postData={postData || []}
+            posts={posts || []}
           />
         </section>
       )}

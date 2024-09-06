@@ -7,7 +7,7 @@ function GoogleLogInButton() {
   const setUser = useAuthStore((state) => state.setUser);
   const navigate = useNavigate();
 
-  const { mutate: logInByGoogle, isPending } = useLogInByGoogle((data) => {
+  const { logInByGoogle, isPending } = useLogInByGoogle((data) => {
     const { user, isNewUser } = data;
     setUser(user || null);
 

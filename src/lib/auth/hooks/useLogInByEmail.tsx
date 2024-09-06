@@ -6,7 +6,7 @@ import { authErrorMessages } from "../error";
 import { LoginDto } from "../type";
 
 export default function useLogInByEmail() {
-  return useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: ({ email, password }: LoginDto) => emailLogin(email, password),
     onError: (error) => {
       if (error instanceof FirebaseError) {
@@ -18,4 +18,5 @@ export default function useLogInByEmail() {
       }
     },
   });
+  return { logInByEmail: mutate, isPending };
 }

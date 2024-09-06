@@ -9,12 +9,8 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 function MainPage() {
-  const {
-    data: posts,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useGetAllPosts();
+  const { posts, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useGetAllPosts();
 
   const { ref, inView } = useInView({
     threshold: 0.5,

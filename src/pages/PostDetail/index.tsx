@@ -32,7 +32,7 @@ const PostDetailPage = () => {
   const { postId } = useParams();
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
-  const { data: post, isError, isLoading } = useGetPostByPostId(postId || "");
+  const { post, isError, isLoading } = useGetPostByPostId(postId || "");
   const { mutate: deletePost } = useDeletePost();
 
   const commentFormRef = useRef<HTMLInputElement>(null);

@@ -4,7 +4,7 @@ import { Auth, sendPasswordResetEmail } from "firebase/auth";
 import toast from "react-hot-toast";
 
 export default function useResetPw() {
-  return useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: ({ auth, email }: { auth: Auth; email: string }) =>
       sendPasswordResetEmail(auth, email),
     onSuccess: () => {
@@ -18,4 +18,5 @@ export default function useResetPw() {
       }
     },
   });
+  return { resetPassword: mutate, isPending };
 }

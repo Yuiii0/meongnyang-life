@@ -10,7 +10,7 @@ interface SearchResultTabProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   userIds: string[];
-  postData: PostDto[];
+  posts: PostDto[];
 }
 
 function SearchResultTab({
@@ -18,7 +18,7 @@ function SearchResultTab({
   activeTab,
   onTabChange,
   userIds: userIds,
-  postData,
+  posts: postData,
 }: SearchResultTabProps) {
   return (
     <Tabs

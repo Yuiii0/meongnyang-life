@@ -11,7 +11,7 @@ interface UserCardProps {
 }
 
 function UserCard({ userId, isDate }: UserCardProps) {
-  const { data: userProfile } = useGetUserProfile(userId || "");
+  const { userProfile } = useGetUserProfile(userId || "");
   const navigate = useNavigate();
   const closeModal = useModalStore((state) => state.closeModal);
 

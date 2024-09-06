@@ -19,7 +19,7 @@ interface ReplyItemProps {
 
 function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
   const user = useAuthStore((state) => state.user);
-  const { data: userInfo } = useGetUserProfile(reply.userId);
+  const { userProfile } = useGetUserProfile(reply.userId);
 
   const isMyReply = reply.userId === user?.uid;
   const isEdited = reply.createdAt.seconds !== reply.updatedAt.seconds;
@@ -52,7 +52,7 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
         <Link to={`/profiles/${reply.userId}`}>
           <div className="w-[36px] h-[36px] ">
             <img
-              src={userInfo?.profileImg || ""}
+              src={userProfile?.profileImg || ""}
               alt="profile-img"
               width={36}
               height={36}
@@ -63,7 +63,7 @@ function ReplyItem({ reply, onEditReply, isMyPost }: ReplyItemProps) {
         <div className="w-full">
           <div className="flex items-center gap-x-2">
             <p className="text-[13px] font-semibold text-gray-900">
-              {truncateString(userInfo?.nickName || "", 10)}
+              {truncateString(userProfile?.nickName || "", 10)}
             </p>
             <p className="text-[11px]  text-gray-500  ml-1">
               {formatTimestamp(timeStamp)}

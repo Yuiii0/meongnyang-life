@@ -11,11 +11,7 @@ import { useParams } from "react-router-dom";
 function UserPage() {
   const { userId } = useParams();
 
-  const {
-    data: userProfile,
-    isLoading,
-    isError,
-  } = useGetUserProfile(userId || "");
+  const { userProfile, isLoading, isError } = useGetUserProfile(userId || "");
   const { data: posts } = useGetPostsByUserId(userId || "");
 
   if (isLoading) return <LoadingSpinner />;

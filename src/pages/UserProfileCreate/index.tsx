@@ -33,7 +33,6 @@ function UserProfileCreatePage() {
 
   const [step, setStep] = useState(1);
 
-  // Step 이동 함수
   const handleClickPrevStep = () => {
     setStep((prev) => prev - 1);
   };

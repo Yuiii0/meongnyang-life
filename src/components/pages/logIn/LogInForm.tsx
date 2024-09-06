@@ -17,7 +17,7 @@ interface LogInForm {
 
 function LogInForm() {
   const setUser = useAuthStore((state) => state.setUser);
-  const { mutate: logInByEmail, isPending } = useLogInByEmail();
+  const { logInByEmail, isPending } = useLogInByEmail();
   const navigate = useNavigate();
   const {
     register,

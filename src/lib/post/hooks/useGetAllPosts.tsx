@@ -4,7 +4,15 @@ import { POST } from "../key";
 
 export const useGetAllPosts = () => {
   const PAGE_SIZE = 3;
-  return useInfiniteQuery({
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+    error,
+  } = useInfiniteQuery({
     queryKey: [POST],
     queryFn: ({ pageParam = null }) => getAllPosts(pageParam),
     initialPageParam: null,
@@ -16,4 +24,13 @@ export const useGetAllPosts = () => {
       }
     },
   });
+  return {
+    posts: data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+    error,
+  };
 };

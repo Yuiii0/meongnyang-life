@@ -3,10 +3,11 @@ import { getPostByPostId } from "../api";
 import { POST } from "../key";
 
 export const useGetPostByPostId = (postId: string) => {
-  return useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: [POST, postId],
     queryFn: () => getPostByPostId(postId),
     staleTime: 1000 * 60 * 2,
     enabled: !!postId,
   });
+  return { post: data, isError, isLoading, error };
 };

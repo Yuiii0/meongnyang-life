@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
+import { FirebaseError } from "firebase/app";
+import toast from "react-hot-toast";
 import { emailSignUp } from "../api";
+import { authErrorMessages } from "../error";
 import { SignUpDto } from "../type";
-import { FirebaseError } from 'firebase/app';
-import toast from 'react-hot-toast';
-import { authErrorMessages } from '../error';
 
 export default function useSignUpByEmail() {
-  return useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: ({ email, password, name }: SignUpDto) =>
       emailSignUp(email, password, name),
     onError: (error) => {
@@ -19,4 +19,5 @@ export default function useSignUpByEmail() {
       }
     },
   });
+  return { signUpByEmail: mutate, isPending };
 }
