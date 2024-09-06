@@ -1,12 +1,8 @@
 import ImageCropModal from "@/components/pages/posts/Image/ImageCropModal";
-import { uploadImagesAndGetUrls } from "@/lib/post/api";
-import { getCroppedImg } from "@/shared/utils/getCroppedImg";
-import { useAuthStore } from "@/stores/auth/useAuthStore";
-import { useModalStore } from "@/stores/modal/useModalStore";
-
-import { Image as ImageIcon } from "lucide-react";
-import React, { useCallback, useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { useImageUpload } from "@/lib/image/hooks/useImageUpload";
+import { ImageIcon } from "lucide-react";
+import React from "react";
+import toast from "react-hot-toast"; // Import toast
 
 interface ImageUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   maxImages?: number;
@@ -17,13 +13,6 @@ interface ImageUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   currentImagesCount: number;
 }
 
-interface CroppedAreaPixels {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
 const ImageUpload: React.FC<ImageUploadProps> = ({
   maxImages = 1,
   onchangeImages,
@@ -31,108 +20,30 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   currentImagesCount,
   ...props
 }) => {
-  const user = useAuthStore((state) => state.user);
-  const { openModal, closeModal, isOpen } = useModalStore((state) => ({
-    isOpen: state.isOpen,
-    openModal: state.openModal,
-    closeModal: state.closeModal,
-  }));
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] =
-    useState<CroppedAreaPixels | null>(null);
+  const {
+    selectedImages,
+    currentImageIndex,
+    crop,
+    zoom,
+    onCropComplete,
+    setCrop,
+    setZoom,
+    handleChangeImages,
+    handleCropImage,
+    handleCancelCrop,
+    setCurrentImageIndex,
+  } = useImageUpload(maxImages, onIsImgUploading);
 
-  const onCropComplete = useCallback(
-    (_: any, croppedAreaPixels: CroppedAreaPixels) => {
-      setCroppedAreaPixels(croppedAreaPixels);
-    },
-    []
-  );
-
-  const handleChangeImages = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    if (currentImagesCount + files.length > maxImages) {
+    const totalImagesCount = currentImagesCount + files.length;
+
+    if (totalImagesCount > maxImages) {
       toast.error(`최대 ${maxImages}장까지 업로드 가능합니다`);
       return;
     }
 
-    const readers = files.map((file) => {
-      return new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.readAsDataURL(file);
-      });
-    });
-
-    Promise.all(readers).then((images) => {
-      setSelectedImages(images);
-      setCurrentImageIndex(0);
-      openModal();
-    });
-  };
-
-  useEffect(() => {
-    if (selectedImages.length > 0) {
-      const img = new window.Image();
-      img.src = selectedImages[currentImageIndex];
-      img.onload = () => {
-        setCrop({ x: 0, y: 0 });
-        setZoom(1);
-      };
-    }
-  }, [selectedImages, currentImageIndex]);
-
-  const handleCropImage = async () => {
-    if (!selectedImages.length || !croppedAreaPixels) return;
-
-    try {
-      const croppedBlob = await getCroppedImg(
-        selectedImages[currentImageIndex],
-        croppedAreaPixels
-      );
-      const croppedFile = new File(
-        [croppedBlob],
-        `cropped_${Date.now()}.jpeg`,
-        {
-          type: croppedBlob.type,
-        }
-      );
-
-      onIsImgUploading(true);
-
-      const imageUrls = await toast.promise(
-        uploadImagesAndGetUrls(user?.uid || "", [croppedFile], "posts"),
-        {
-          loading: "이미지를 업로드 중입니다...",
-          success: "이미지 업로드 성공!",
-          error: "이미지 업로드 실패.",
-        }
-      );
-
-      const filteredImageUrls = imageUrls.filter(
-        (url): url is { original: string; small: string; large: string } =>
-          typeof url !== "string"
-      );
-      onchangeImages(filteredImageUrls);
-
-      if (currentImageIndex < selectedImages.length - 1) {
-        setCurrentImageIndex(currentImageIndex + 1);
-      } else {
-        setSelectedImages([]);
-        closeModal();
-      }
-    } catch (error) {
-      console.warn("이미지 자르기에 실패하였습니다", error);
-    } finally {
-      onIsImgUploading(false);
-    }
-  };
-
-  const handleCancelCrop = () => {
-    setSelectedImages([]);
-    closeModal();
+    handleChangeImages(files);
   };
 
   return (
@@ -143,7 +54,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         accept="image/*"
         multiple={maxImages > 1}
         className="hidden"
-        onChange={handleChangeImages}
+        onChange={handleFileChange}
         {...props}
       />
       <label htmlFor="fileImg">
@@ -153,8 +64,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       </label>
 
       <ImageCropModal
-        isOpen={isOpen}
-        onRequestClose={closeModal}
+        isOpen={selectedImages.length > 0}
+        onRequestClose={handleCancelCrop}
         selectedImages={selectedImages}
         currentImageIndex={currentImageIndex}
         crop={crop}
@@ -163,7 +74,15 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         onZoomChange={setZoom}
         onCropComplete={onCropComplete}
         handleCancelCrop={handleCancelCrop}
-        handleCropImage={handleCropImage}
+        handleCropImage={async () => {
+          const croppedImages = await handleCropImage();
+          onchangeImages(croppedImages || []);
+          if (currentImageIndex < selectedImages.length - 1) {
+            setCurrentImageIndex(currentImageIndex + 1);
+          } else {
+            handleCancelCrop();
+          }
+        }}
       />
     </div>
   );
