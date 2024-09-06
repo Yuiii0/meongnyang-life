@@ -20,10 +20,11 @@ import { PostImage } from "@/lib/post/type";
 import PlaceholderImage from "@/components/pages/posts/Image/PlaceholderImage";
 import { formatCount } from "@/shared/utils/formatCount";
 import { formatTimestamp } from "@/shared/utils/formatTimestamp";
+import { scrollToTop } from "@/shared/utils/scrollTop";
 import { useModalStore } from "@/stores/modal/useModalStore";
 import { Timestamp } from "firebase/firestore";
 import { FilePenLine, MessageSquare, Trash2 } from "lucide-react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../route";
@@ -44,6 +45,10 @@ const PostDetailPage = () => {
     isOpen: state.isOpen,
     closeModal: state.closeModal,
   }));
+
+  useEffect(() => {
+    scrollToTop();
+  }, []);
 
   const focusCommentForm = useCallback(() => {
     if (commentFormRef.current) {
