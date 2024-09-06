@@ -1,16 +1,19 @@
 import Page from "@/components/ui/Page";
 import SEOMetaTag from "@/components/ui/SEOMetaTag";
-import { Button } from "@/shared/components/Button";
 
-import { useNavigate, useRouteError } from "react-router-dom";
-import { PATHS } from "../route";
-import getErrorMessage from '@/shared/utils/getErrorMessage';
+import ErrorLinkButton from "@/shared/components/ErrorLinkButton";
+import getErrorMessage from "@/shared/utils/getErrorMessage";
+import { useRouteError } from "react-router-dom";
+
+interface RouteError {
+  status?: number;
+  statusText?: string;
+  message?: string;
+}
 
 function ErrorPage() {
-  const error: any = useRouteError();
-
-  const { title, content } = getErrorMessage(error.status);
-  const navigate = useNavigate();
+  const error = useRouteError() as RouteError;
+  const { title, content } = getErrorMessage(error?.status || 500);
 
   return (
     <Page>
@@ -33,7 +36,7 @@ function ErrorPage() {
           <h1 className="mb-6 text-lg font-semibold text-gray-700">{title}</h1>
           <p className="text-sm text-gray-500 whitespace-pre-wrap">{content}</p>
         </div>
-        <Button onClick={() => navigate(PATHS.main)}>메인으로 이동</Button>
+        <ErrorLinkButton status={error.status || 500} />
       </div>
     </Page>
   );
