@@ -1,10 +1,10 @@
+import ImageCropModal from "@/components/pages/posts/Image/ImageCropModal";
 import NextButton from "@/components/ui/Button/NextButton";
-import { uploadImagesAndGetUrls } from "@/lib/post/api";
+import { useImageUpload } from "@/lib/image/hooks/useImageUpload";
 import { DEFAULT_PROFILE_IMG_DOG } from "@/shared/const/UserprofileImgPath";
 import { auth } from "@/shared/firebase";
-import { updateProfile } from "firebase/auth";
 import { Pencil } from "lucide-react";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import toast from "react-hot-toast";
 import IntroductionInput from "./IntroductionInput";
@@ -17,8 +17,22 @@ interface RequiredProfileFormProps {
 function RequiredProfileForm({ handleNextStep }: RequiredProfileFormProps) {
   const { setValue, trigger } = useFormContext();
   const profileImg = useWatch({ name: "profileImg" });
+  const [isImgUploading, setIsImgUploading] = useState(false);
+
+  const {
+    selectedImages,
+    crop,
+    zoom,
+    onCropComplete,
+    setCrop,
+    setZoom,
+    handleChangeImages,
+    handleCropImage,
+    handleCancelCrop,
+  } = useImageUpload(1, setIsImgUploading);
 
   const user = auth.currentUser;
+
   const handleClickEditProfileImg = async (
     e: ChangeEvent<HTMLInputElement>
   ) => {
@@ -30,36 +44,7 @@ function RequiredProfileForm({ handleNextStep }: RequiredProfileFormProps) {
     }
     if (files && files.length === 1) {
       const file = files[0];
-      if (file) {
-        try {
-          const profileUrls = await uploadImagesAndGetUrls(
-            user?.uid,
-            [file],
-            "users",
-            {
-              maxSizeMB: 1,
-              maxWidthOrHeight: 300,
-              useWebWorker: true,
-              fileType: "image/webp",
-            }
-          );
-
-          let profileUrl;
-          if (typeof profileUrls[0] === "string") {
-            profileUrl = profileUrls[0];
-          } else {
-            profileUrl = profileUrls[0].original;
-          }
-
-          setValue("profileImg", profileUrl);
-
-          await updateProfile(user, {
-            photoURL: profileUrl,
-          });
-        } catch (error) {
-          toast.error("오류가 발생했습니다. 다시 시도해주세요");
-        }
-      }
+      handleChangeImages([file]);
     }
   };
 
@@ -102,7 +87,32 @@ function RequiredProfileForm({ handleNextStep }: RequiredProfileFormProps) {
         <NicknameInput />
         <IntroductionInput />
       </div>
-      <NextButton onClick={onNextClick} />
+      <NextButton onClick={onNextClick} disabled={isImgUploading} />{" "}
+      {/* 업로드 중 버튼 비활성화 */}
+      {isImgUploading && (
+        <div className="flex items-center justify-center h-16">
+          <p>이미지 업로드 중...</p>
+        </div>
+      )}
+      <ImageCropModal
+        currentImageIndex={0}
+        isOpen={selectedImages.length > 0}
+        onRequestClose={handleCancelCrop}
+        selectedImages={selectedImages}
+        crop={crop}
+        zoom={zoom}
+        onCropChange={setCrop}
+        onZoomChange={setZoom}
+        onCropComplete={onCropComplete}
+        handleCancelCrop={handleCancelCrop}
+        handleCropImage={async () => {
+          const croppedImages = await handleCropImage();
+          if (croppedImages.length > 0) {
+            setValue("profileImg", croppedImages[0].original);
+          }
+          handleCancelCrop();
+        }}
+      />
     </div>
   );
 }

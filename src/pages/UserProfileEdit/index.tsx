@@ -65,12 +65,11 @@ function UserEditPage() {
     }
   }, [step, navigate, user?.uid]);
 
-  // Step 이동 함수
   const handleClickPrevStep = () => {
     setStep((prev) => prev - 1);
   };
 
-  const handleClickNextStep = () => {
+  const onClickNextStep = () => {
     setStep((prev) => prev + 1);
   };
 
@@ -103,7 +102,7 @@ function UserEditPage() {
       },
       {
         onSuccess: () => {
-          handleClickNextStep();
+          onClickNextStep();
         },
       }
     );
@@ -132,7 +131,7 @@ function UserEditPage() {
         >
           {step === 1 && (
             <>
-              <RequiredProfileForm handleNextStep={handleClickNextStep} />
+              <RequiredProfileForm handleNextStep={onClickNextStep} />
             </>
           )}
           {step === 2 && (
