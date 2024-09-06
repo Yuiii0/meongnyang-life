@@ -86,17 +86,22 @@ function UserProfileCreatePage() {
         url="https://dev-meongnyang-life.vercel.app/profiles/create"
       />
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(handleSubmitProfile)}>
+        <form
+          onSubmit={methods.handleSubmit(handleSubmitProfile)}
+          className="relative"
+        >
           {step === 1 && (
             <RequiredProfileForm handleNextStep={handleClickNextStep} />
           )}
           {step === 2 && (
             <>
               <OptionalProfileForm />
-              <div className="fixed bottom-10 left-8">
+              <div className="fixed inset-x-0 flex justify-between max-w-screen-md px-4 mx-auto bottom-10">
                 <PrevButton onClick={handleClickPrevStep} />
+                <NextButton
+                  onClick={methods.handleSubmit(handleSubmitProfile)}
+                />
               </div>
-              <NextButton onClick={methods.handleSubmit(handleSubmitProfile)} />
             </>
           )}
           {step === 3 && (
