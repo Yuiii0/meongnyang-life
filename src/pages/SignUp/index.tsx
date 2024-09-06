@@ -11,7 +11,7 @@ function SignUpPage() {
         keywords="회원가입, 멍냥 생활, 반려동물 커뮤니티"
         url="https://dev-meongnyang-life.vercel.app/signup"
       />
-      <section className="flex flex-col justify-center max-w-lg">
+      <section className="flex flex-col justify-center w-full max-w-md">
         <Heading>회원가입</Heading>
         <SignUpForm />
       </section>
