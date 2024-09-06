@@ -79,9 +79,9 @@ export function SelectedBreed({
               <CommandList className="overflow-y-auto max-h-32">
                 <CommandEmpty>{`해당하는 ${petTypeKr}이 없습니다`}</CommandEmpty>
                 <CommandGroup>
-                  {breedData.map((b) => (
+                  {breedData.map((b, index) => (
                     <CommandItem
-                      key={b.value}
+                      key={`${b.value}-${index}`}
                       value={b.value}
                       onSelect={() => handleSelectBreed(b.value)}
                       aria-label={`Select ${b.label}`}
