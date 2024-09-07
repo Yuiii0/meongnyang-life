@@ -1,6 +1,6 @@
-import SimplePostCardsList from "@/components/pages/posts/SimplePostCardsList";
+import UserPostsSection from "@/components/pages/posts/UserPostsSection";
 import NoResults from "@/components/pages/search/NoResults";
-import UserProfileCard from "@/components/pages/user/profiles/UserProfileCard";
+import UserProfileSection from "@/components/pages/user/profiles/UserProfileSection";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
 import SEOMetaTag from "@/components/ui/SEOMetaTag";
@@ -12,7 +12,7 @@ function UserPage() {
   const { userId } = useParams();
 
   const { userProfile, isLoading, isError } = useGetUserProfile(userId || "");
-  const { data: posts } = useGetPostsByUserId(userId || "");
+  const { posts } = useGetPostsByUserId(userId || "");
 
   if (isLoading) return <LoadingSpinner />;
   if (isError || !userProfile) {
@@ -36,22 +36,11 @@ function UserPage() {
         }
         url={`https://dev-meongnyang-life.vercel.app/profiles/${userId}`}
       />
-      <UserProfileCard userProfile={userProfile} />
-      <div className="px-6">
-        <h2 className="pt-6 pb-3 text-center border-b text-brand-100 border-brand-100">
-          게시물 {posts?.length}
-        </h2>
-      </div>
-      <section className="px-6 pt-4">
-        {posts && posts.length > 0 ? (
-          <SimplePostCardsList posts={posts} />
-        ) : (
-          <NoResults
-            title="아직 작성한 게시물이 없습니다."
-            imageName="cats_in_box.webp"
-          />
-        )}
-      </section>
+      <UserProfileSection
+        userProfile={userProfile}
+        postCount={posts?.length || 0}
+      />
+      <UserPostsSection posts={posts} />
     </Page>
   );
 }
