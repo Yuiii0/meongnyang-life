@@ -1,10 +1,6 @@
-import OptionalProfileForm from "@/components/pages/user/profiles/OptionalProfileForm";
-import RequiredProfileForm from "@/components/pages/user/profiles/RequiredProfileForm";
-import NextButton from "@/components/ui/Button/NextButton";
-import PrevButton from "@/components/ui/Button/PrevButton";
+import ProfileFormSteps from "@/components/pages/user/profiles/ProfileFormSteps";
 import Page from "@/components/ui/Page";
 import SEOMetaTag from "@/components/ui/SEOMetaTag";
-import Success from "@/components/ui/Success";
 import { useCreateUserProfile } from "@/lib/user/hooks/useCreateUserProfile";
 import {
   DEFAULT_PROFILE_IMG_CAT,
@@ -45,15 +41,15 @@ function UserProfileCreatePage() {
     }
   }, [step, navigate]);
 
-  const handleClickPrevStep = () => {
+  const onClickPrevStep = () => {
     setStep((prev) => prev - 1);
   };
 
-  const handleClickNextStep = () => {
+  const onClickNextStep = () => {
     setStep((prev) => prev + 1);
   };
 
-  const handleSubmitProfile = async (data: any) => {
+  const onSubmitProfile = async (data: any) => {
     const user = auth.currentUser;
     if (!user) {
       toast.error("접근 권한이 없습니다");
@@ -83,7 +79,7 @@ function UserProfileCreatePage() {
       },
       {
         onSuccess: () => {
-          handleClickNextStep();
+          onClickNextStep();
         },
       }
     );
@@ -98,28 +94,15 @@ function UserProfileCreatePage() {
       />
       <FormProvider {...methods}>
         <form
-          onSubmit={methods.handleSubmit(handleSubmitProfile)}
+          onSubmit={methods.handleSubmit(onSubmitProfile)}
           className="relative"
         >
-          {step === 1 && (
-            <RequiredProfileForm handleNextStep={handleClickNextStep} />
-          )}
-          {step === 2 && (
-            <>
-              <OptionalProfileForm />
-              <div className="fixed inset-x-0 flex justify-between max-w-screen-md px-4 mx-auto bottom-10">
-                <PrevButton onClick={handleClickPrevStep} />
-                <NextButton
-                  onClick={methods.handleSubmit(handleSubmitProfile)}
-                />
-              </div>
-            </>
-          )}
-          {step === 3 && (
-            <div className="fixed flex flex-col items-center justify-center gap-y-8">
-              <Success text="멍냥생활 회원이 되신것을">환영합니다</Success>
-            </div>
-          )}
+          <ProfileFormSteps
+            step={step}
+            onClickPrevStep={onClickPrevStep}
+            onClickNextStep={onClickNextStep}
+            onSubmitProfile={methods.handleSubmit(onSubmitProfile)}
+          />
         </form>
       </FormProvider>
     </Page>
