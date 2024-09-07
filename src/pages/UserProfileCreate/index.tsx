@@ -1,6 +1,6 @@
 import ProfileFormSteps from "@/components/pages/user/profiles/ProfileFormSteps";
 import Page from "@/components/ui/Page";
-import SEOMetaTag from "@/components/ui/SEOMetaTag";
+import SEOMetaTag, { BASE_URL } from "@/components/ui/SEOMetaTag";
 import { useCreateUserProfile } from "@/lib/user/hooks/useCreateUserProfile";
 import {
   DEFAULT_PROFILE_IMG_CAT,
@@ -90,7 +90,7 @@ function UserProfileCreatePage() {
       <SEOMetaTag
         description="새로운 반려동물 프로필을 생성하세요. 멍냥생활에서 반려동물의 프로필을 작성하고 커뮤니티에 참여해보세요."
         keywords="프로필 생성, 반려동물, 멍냥 생활, 강아지, 고양이, 회원 가입"
-        url="https://dev-meongnyang-life.vercel.app/profiles/create"
+        url={`${BASE_URL}/profiles/create`}
       />
       <FormProvider {...methods}>
         <form

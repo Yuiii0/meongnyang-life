@@ -4,7 +4,7 @@ import SearchHeader from "@/components/pages/search/SearchHeader";
 import SearchResultTab from "@/components/pages/search/SearchResultTab";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
-import SEOMetaTag from "@/components/ui/SEOMetaTag";
+import SEOMetaTag, { BASE_URL } from "@/components/ui/SEOMetaTag";
 import { useGetPostsByTitle } from "@/lib/search/hooks/useGetPostsByTitle";
 import { useGetUsersByNickname } from "@/lib/search/hooks/useGetUsersByNickname";
 import { useCallback, useEffect, useState } from "react";
@@ -104,7 +104,7 @@ function SearchPage() {
         }
         description="반려동물 관련 정보를 검색하세요. 다양한 반려동물 이야기와 정보를 찾을 수 있습니다."
         keywords={`검색, ${searchTerm}, 반려동물, 멍냥 생활, 강아지, 고양이,`}
-        url="https://dev-meongnyang-life.vercel.app/search"
+        url={`${BASE_URL}/search`}
       />
 
       {isLoading && <LoadingSpinner text="검색 중 입니다." />}
@@ -138,4 +138,3 @@ function SearchPage() {
 }
 
 export default SearchPage;
-

@@ -1,7 +1,7 @@
 import FindPasswordForm from "@/components/pages/logIn/FindPasswordForm";
 import Heading from "@/components/ui/Heading";
 import Page from "@/components/ui/Page";
-import SEOMetaTag from "@/components/ui/SEOMetaTag";
+import SEOMetaTag, { BASE_URL } from "@/components/ui/SEOMetaTag";
 import useResetPw from "@/lib/auth/hooks/useResetPW";
 import { auth } from "@/shared/firebase";
 import { useForm } from "react-hook-form";
@@ -29,7 +29,7 @@ function FindPasswordPage() {
         <SEOMetaTag
           description="비밀번호를 잊으셨나요? 비밀번호를 재발급하세요."
           keywords="비밀번호 찾기, 멍냥 생활, 반려동물 커뮤니티"
-          url="https://dev-meongnyang-life.vercel.app/find/pw"
+          url={`${BASE_URL}/find/pw`}
         />
         <Heading>비밀번호 재설정</Heading>
         <FindPasswordForm

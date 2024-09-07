@@ -5,7 +5,7 @@ import NoResults from "@/components/pages/search/NoResults";
 import ConfirmModal from "@/components/ui/ConfirmModal";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
-import SEOMetaTag from "@/components/ui/SEOMetaTag";
+import SEOMetaTag, { BASE_URL } from "@/components/ui/SEOMetaTag";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
 import { removeImageFromStorage } from "@/lib/post/api";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
@@ -134,11 +134,8 @@ const PostDetailPage = () => {
         title={`${post.title} | 멍냥생활`}
         description={`${post.title} 반려동물에 대한 이야기를 확인해보세요.`}
         keywords={`반려동물, 게시글, ${post.title}`}
-        imgsrc={
-          post.images[0] ||
-          "https://tools.bemypet.kr/static/media/regist_samsek_lili.6a0e7afd4dac533b2c07.png"
-        }
-        url={`https://dev-meongnyang-life.vercel.app/posts/${postId}`}
+        imgSrc={post.images[0]}
+        url={`${BASE_URL}posts/${postId}`}
       />
       <PostContentSection
         post={post as PostDto}
