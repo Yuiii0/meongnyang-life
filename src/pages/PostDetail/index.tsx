@@ -6,8 +6,6 @@ import UserCard from "@/components/pages/user/userList/UserCard";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
 
-import { removeImageFromStorage } from "@/lib/post/api";
-
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 
 import ConfirmModal from "@/components/ui/ConfirmModal";
@@ -18,6 +16,7 @@ import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 import { PostImage } from "@/lib/post/type";
 
 import PlaceholderImage from "@/components/pages/posts/Image/PlaceholderImage";
+import { removeImageFromStorage } from "@/lib/post/api";
 import { formatCount } from "@/shared/utils/formatCount";
 import { formatTimestamp } from "@/shared/utils/formatTimestamp";
 import { scrollToTop } from "@/shared/utils/scrollTop";
@@ -104,6 +103,29 @@ const PostDetailPage = () => {
     [focusCommentForm]
   );
 
+  const onDeletePost = useCallback(async () => {
+    if (!postId) {
+      toast.error("잘못된 접근입니다. 포스트 ID가 존재하지 않습니다.");
+      return;
+    }
+
+    try {
+      if (post?.images && post.images.length > 0) {
+        await Promise.all(
+          post.images.map((image: PostImage) =>
+            removeImageFromStorage(image.original)
+          )
+        );
+      }
+      deletePost({ postId });
+      toast.success("성공적으로 삭제되었습니다");
+      closeModal();
+      navigate(PATHS.main);
+    } catch (error) {
+      toast.error("게시물 삭제에 실패하였습니다.");
+    }
+  }, [post?.images, postId, deletePost, closeModal, navigate]);
+
   const isMyPost = user?.uid === post?.userId;
   const timeStamp = new Timestamp(
     post?.createdAt.seconds,
@@ -122,24 +144,6 @@ const PostDetailPage = () => {
   if (!post || !postId || isLoading) {
     return <LoadingSpinner text="포스트를 가져오는 중 입니다" />;
   }
-
-  const onDeletePost = async () => {
-    try {
-      if (post.images && post.images.length > 0) {
-        await Promise.all(
-          post.images.map((image: PostImage) =>
-            removeImageFromStorage(image.original)
-          )
-        );
-      }
-      deletePost({ postId });
-      toast.success("성공적으로 삭제되었습니다");
-      closeModal();
-      navigate(PATHS.main);
-    } catch (error) {
-      toast.error("게시물 삭제에 실패하였습니다.");
-    }
-  };
 
   return (
     <Page>
