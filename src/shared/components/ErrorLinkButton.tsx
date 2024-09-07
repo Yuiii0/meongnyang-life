@@ -26,15 +26,11 @@ function ErrorLinkButton({ status }: ErrorLinkButton) {
       );
     case 409:
       return (
-        <Button onClick={() => window.location.reload()}>
-          페이지 새로고침
-        </Button>
+        <Button onClick={() => navigate(PATHS.main)}>메인으로 이동</Button>
       );
     case 500:
       return (
-        <Button onClick={() => window.location.reload()}>
-          페이지 새로고침
-        </Button>
+        <Button onClick={() => navigate(PATHS.main)}>메인으로 이동</Button>
       );
     default:
       return (
