@@ -3,9 +3,10 @@ import { getPostsByUserId } from "../api";
 import { POST } from "../key";
 
 export const useGetPostsByUserId = (userId: string) => {
-  return useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: [POST, userId],
     queryFn: () => getPostsByUserId(userId),
     enabled: !!userId,
   });
+  return { posts: data, isError, isLoading };
 };
