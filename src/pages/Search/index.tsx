@@ -1,13 +1,12 @@
 import NoResults from "@/components/pages/search/NoResults";
-import SearchBar from "@/components/pages/search/SearchBar";
+import RecentSearches from "@/components/pages/search/RecentSearches";
+import SearchHeader from "@/components/pages/search/SearchHeader";
 import SearchResultTab from "@/components/pages/search/SearchResultTab";
-import PrevButton from "@/components/ui/Button/PrevButton";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
 import SEOMetaTag from "@/components/ui/SEOMetaTag";
 import { useGetPostsByTitle } from "@/lib/search/hooks/useGetPostsByTitle";
 import { useGetUsersByNickname } from "@/lib/search/hooks/useGetUsersByNickname";
-import { X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
 function SearchPage() {
@@ -22,6 +21,7 @@ function SearchPage() {
     isLoading: isLoadingUsers,
     isError: isUsersError,
   } = useGetUsersByNickname(searchTerm);
+
   const {
     posts,
     refetch: refetchPosts,
@@ -29,16 +29,16 @@ function SearchPage() {
     isError: isPostsError,
   } = useGetPostsByTitle(searchTerm);
 
-  useEffect(() => {
-    loadRecentSearches();
-  }, []);
-
   const loadRecentSearches = useCallback(() => {
     const storedSearches = JSON.parse(
       localStorage.getItem("recentSearches") || "[]"
     );
     setRecentSearches(storedSearches.reverse());
   }, []);
+
+  useEffect(() => {
+    loadRecentSearches();
+  }, [loadRecentSearches]);
 
   useEffect(() => {
     if (searchStarted && searchTerm) {
@@ -77,11 +77,14 @@ function SearchPage() {
     [searchStarted, searchTerm, refetchUsers, refetchPosts]
   );
 
-  const handleRemoveRecentSearch = (index: number) => {
-    const updatedSearches = recentSearches.filter((_, idx) => index !== idx);
-    setRecentSearches(updatedSearches);
-    localStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
-  };
+  const onRemoveRecentSearch = useCallback(
+    (index: number) => {
+      const updatedSearches = recentSearches.filter((_, idx) => index !== idx);
+      setRecentSearches(updatedSearches);
+      localStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
+    },
+    [recentSearches]
+  );
 
   const onGoBack = () => {
     setSearchStarted(false);
@@ -111,52 +114,28 @@ function SearchPage() {
           description="다시 시도해보세요"
         />
       )}
-
-      <div className="flex items-center w-full pb-4">
-        <div
-          className="px-3"
-          onClick={searchStarted ? onGoBack : undefined}
-          aria-label="Go back"
-        >
-          <PrevButton isNavigate={!searchStarted} />
-        </div>
-        <SearchBar onSearch={onSearch} />
-      </div>
+      <SearchHeader
+        searchStarted={searchStarted}
+        onGoBack={onGoBack}
+        onSearch={onSearch}
+      />
       {!searchStarted ? (
-        <section className="px-10">
-          <h5 className="pb-4 pt-4 text-[20px] font-semibold text-gray-600">
-            최근검색어
-          </h5>
-          <ul className="text-gray-500">
-            {recentSearches.map((search, index) => (
-              <li
-                key={index}
-                className="flex pl-2 py-2.5 gray-500 justify-between items-center text-sm"
-              >
-                <p>{search}</p>
-                <button
-                  onClick={() => handleRemoveRecentSearch(index)}
-                  aria-label={`Remove Recent search: ${search}`}
-                >
-                  <X size={16} />
-                </button>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <RecentSearches
+          recentSearches={recentSearches}
+          onRemoveRecentSearch={onRemoveRecentSearch}
+        />
       ) : (
-        <section>
-          <SearchResultTab
-            initialTab="users"
-            activeTab={activeTab}
-            onTabChange={onChangeTab}
-            userIds={userIds || []}
-            posts={posts || []}
-          />
-        </section>
+        <SearchResultTab
+          initialTab="users"
+          activeTab={activeTab}
+          onTabChange={onChangeTab}
+          userIds={userIds || []}
+          posts={posts || []}
+        />
       )}
     </Page>
   );
 }
 
 export default SearchPage;
+
