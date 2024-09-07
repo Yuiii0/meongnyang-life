@@ -1,31 +1,21 @@
 import CommentForm from "@/components/pages/posts/Comments/CommentForm";
-import CommentList from "@/components/pages/posts/Comments/CommentList";
-import PostLikeToggleButton from "@/components/pages/posts/LikeButton/PostLikeToggleButton";
+import CommentSection from "@/components/pages/posts/Comments/CommentSection";
+import PostContentSection from "@/components/pages/posts/PostContentSection";
 import NoResults from "@/components/pages/search/NoResults";
-import UserCard from "@/components/pages/user/userList/UserCard";
+import ConfirmModal from "@/components/ui/ConfirmModal";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Page from "@/components/ui/Page";
-
-import { useAuthStore } from "@/stores/auth/useAuthStore";
-
-import ConfirmModal from "@/components/ui/ConfirmModal";
 import SEOMetaTag from "@/components/ui/SEOMetaTag";
 import { CommentDto, ReplyDto } from "@/lib/comment/type";
+import { removeImageFromStorage } from "@/lib/post/api";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
-import { PostImage } from "@/lib/post/type";
-
-import PlaceholderImage from "@/components/pages/posts/Image/PlaceholderImage";
-import { removeImageFromStorage } from "@/lib/post/api";
-import { formatCount } from "@/shared/utils/formatCount";
-import { formatTimestamp } from "@/shared/utils/formatTimestamp";
+import { PostDto, PostImage } from "@/lib/post/type";
 import { scrollToTop } from "@/shared/utils/scrollTop";
-import { useModalStore } from "@/stores/modal/useModalStore";
-import { Timestamp } from "firebase/firestore";
-import { FilePenLine, MessageSquare, Trash2 } from "lucide-react";
+import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../route";
 
 const PostDetailPage = () => {
@@ -40,10 +30,7 @@ const PostDetailPage = () => {
   const [commentId, setCommentId] = useState<string | null>(null);
   const [replyId, setReplyId] = useState<string | null>(null);
   const [isReplying, setIsReplying] = useState(false);
-  const { isOpen, closeModal } = useModalStore((state) => ({
-    isOpen: state.isOpen,
-    closeModal: state.closeModal,
-  }));
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   useEffect(() => {
     scrollToTop();
@@ -103,7 +90,7 @@ const PostDetailPage = () => {
     [focusCommentForm]
   );
 
-  const onDeletePost = useCallback(async () => {
+  const handleDeletePost = useCallback(async () => {
     if (!postId) {
       toast.error("잘못된 접근입니다. 포스트 ID가 존재하지 않습니다.");
       return;
@@ -119,18 +106,14 @@ const PostDetailPage = () => {
       }
       deletePost({ postId });
       toast.success("성공적으로 삭제되었습니다");
-      closeModal();
+      setIsConfirmModalOpen(false);
       navigate(PATHS.main);
     } catch (error) {
       toast.error("게시물 삭제에 실패하였습니다.");
     }
-  }, [post?.images, postId, deletePost, closeModal, navigate]);
+  }, [post?.images, postId, deletePost, navigate]);
 
   const isMyPost = user?.uid === post?.userId;
-  const timeStamp = new Timestamp(
-    post?.createdAt.seconds,
-    post?.createdAt.nanoseconds
-  );
 
   if (isError) {
     return (
@@ -157,82 +140,36 @@ const PostDetailPage = () => {
         }
         url={`https://dev-meongnyang-life.vercel.app/posts/${postId}`}
       />
-      <section>
-        <div className="flex items-center justify-between pb-4">
-          <UserCard userId={post.userId} isDate={formatTimestamp(timeStamp)} />
-          {isMyPost && (
-            <div className="flex text-brand-100 gap-x-4">
-              <Link to={`/posts/update/${postId}`} aria-label="Edit post">
-                <FilePenLine size={20} />
-              </Link>
-              <button onClick={onDeletePost} aria-label="Delete post">
-                <Trash2 size={20} />
-              </button>
-              <ConfirmModal
-                isOpen={isOpen}
-                onRequestClose={closeModal}
-                onConfirm={onDeletePost}
-                title="게시물 삭제"
-                content="정말로 이 게시물을 삭제하시겠습니까?"
-              />
-            </div>
-          )}
-        </div>
-        <h1 className="text-xl font-semibold">{post.title}</h1>
-        <div className="pt-6">
-          {post.images && post.images.length > 0 && (
-            <div className="flex flex-col overflow-auto gap-y-4">
-              {post.images.map((image: PostImage, index: number) => (
-                <div key={index} className="overflow-hidden rounded-sm">
-                  <PlaceholderImage
-                    key={index}
-                    src={image.original}
-                    srcSet={`${image.small} 400w, ${image.large} 1080w`}
-                    sizes="(max-width: 600px) 480px, 1080px"
-                    alt={`Post image ${index + 1}`}
-                    aria-label={`Post image ${index + 1}`}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-          <div className="py-6 text-gray-600 whitespace-pre-wrap">
-            {post.content}
-          </div>
-          <div className="flex pt-2 pb-3.5 border-b gap-x-4">
-            <PostLikeToggleButton postId={postId} />
-            <div className="flex items-center text-gray-600 gap-x-2">
-              <MessageSquare strokeWidth={1.5} aria-label="Comments" />
-              <span>{formatCount(post.commentCount || 0)}</span>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="pt-3">
-        <div className="pb-8">
-          <CommentList
-            postId={postId}
-            isMyPost={isMyPost}
-            onEditComment={onEditComment}
-            onEditReply={onEditReply}
-            onSubmitReply={onSubmitReply}
-            aria-label="Comment list"
-          />
-        </div>
-      </section>
-      <div className="fixed bottom-0 left-0 right-0 w-full bg-white ">
-        <CommentForm
-          postId={postId}
-          userId={user?.uid || ""}
-          inputRef={commentFormRef}
-          isEdit={isEdit}
-          commentId={commentId || ""}
-          replyId={replyId || ""}
-          isReply={isReplying}
-          onSubmitComment={onSubmitComment}
-          aria-label="Comment form"
-        />
-      </div>
+      <PostContentSection
+        post={post as PostDto}
+        isMyPost={isMyPost}
+        onOpenConfirmModal={() => setIsConfirmModalOpen(true)}
+      />
+      <CommentSection
+        postId={postId}
+        isMyPost={isMyPost}
+        onEditComment={onEditComment}
+        onEditReply={onEditReply}
+        onSubmitReply={onSubmitReply}
+      />
+      <CommentForm
+        postId={postId}
+        userId={user?.uid || ""}
+        inputRef={commentFormRef}
+        isEdit={isEdit}
+        commentId={commentId || ""}
+        replyId={replyId || ""}
+        isReply={isReplying}
+        onSubmitComment={onSubmitComment}
+        aria-label="Comment form"
+      />
+      <ConfirmModal
+        isOpen={isConfirmModalOpen}
+        onRequestClose={() => setIsConfirmModalOpen(false)}
+        onConfirm={handleDeletePost}
+        title="게시물 삭제"
+        content="정말로 이 게시물을 삭제하시겠습니까?"
+      />
     </Page>
   );
 };

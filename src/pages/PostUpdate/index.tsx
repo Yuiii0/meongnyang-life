@@ -8,25 +8,58 @@ import { useAuth } from "@/lib/auth/hooks/useAuth";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 import { useUpdatePost } from "@/lib/post/hooks/useUpdatePost";
 import { PostFormData } from "@/lib/post/type";
-import { User } from "firebase/auth";
-
 import { Timestamp } from "firebase/firestore";
+import { useCallback } from "react";
+import toast from "react-hot-toast";
+
 import { useNavigate, useParams } from "react-router-dom";
 
 function PostUpdatePage() {
   const { postId } = useParams();
-
-  const { post, isLoading: isPostLoading } = useGetPostByPostId(postId || "");
   const navigate = useNavigate();
 
-  const checkPermission = (user: User) => {
-    return post ? post.userId === user.uid : false;
-  };
-
+  const { post, isLoading: isPostLoading } = useGetPostByPostId(postId || "");
   const { user, loading: isAuthLoading } = useAuth(
-    post ? checkPermission : undefined
+    post ? (user) => post.userId === user.uid : undefined
   );
   const { mutate: updatePost, isError } = useUpdatePost();
+
+  const onUpdatePost = useCallback(
+    async (data: PostFormData) => {
+      if (!postId) {
+        toast.error("게시물 ID가 없습니다.");
+        return;
+      }
+
+      const postDto = {
+        userId: user?.uid || "",
+        nickname: user?.displayName || "",
+        title: data.title,
+        content: data.content,
+        images: data.images || null,
+        createdAt: post?.createdAt,
+        updatedAt: Timestamp.now(),
+        likeCount: post?.likeCount,
+        commentCount: post?.commentCount,
+      };
+
+      updatePost(
+        { postDto, postId },
+        {
+          onSuccess: () => {
+            navigate(`/posts/${postId}`);
+          },
+        }
+      );
+    },
+    [updatePost, postId, user, navigate, post]
+  );
+
+  const initialData = {
+    title: post?.title,
+    content: post?.content,
+    images: post?.images,
+  };
 
   if (isAuthLoading || isPostLoading) return <LoadingSpinner />;
   if (isError || !post || !postId) {
@@ -38,35 +71,6 @@ function PostUpdatePage() {
     );
   }
 
-  const initialData = {
-    title: post.title,
-    content: post.content,
-    images: post.images || [],
-  };
-
-  const handleUpdatePost = async (data: PostFormData) => {
-    const postDto = {
-      userId: user?.uid || "",
-      nickname: user?.displayName || "",
-      title: data.title,
-      content: data.content,
-      images: data.images || null,
-      createdAt: post.createdAt,
-      updatedAt: Timestamp.now(),
-      likeCount: post.likeCount,
-      commentCount: post.commentCount,
-    };
-
-    updatePost(
-      { postDto, postId },
-      {
-        onSuccess: () => {
-          navigate(`/posts/${postId}`);
-        },
-      }
-    );
-  };
-
   return (
     <Page>
       <SEOMetaTag
@@ -75,7 +79,7 @@ function PostUpdatePage() {
         keywords={`게시글 수정, ${post.title}, 반려동물, 멍냥 생활, 강아지, 고양이, 사진`}
         url="https://dev-meongnyang-life.vercel.app/posts/create"
       />
-      <PostForm onSubmit={handleUpdatePost} initialData={initialData} />
+      <PostForm onSubmit={onUpdatePost} initialData={initialData} />
     </Page>
   );
 }

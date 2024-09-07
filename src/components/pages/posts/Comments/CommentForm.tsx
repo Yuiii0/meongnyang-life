@@ -103,7 +103,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
   }, []);
 
   return (
-    <div>
+    <div className="fixed bottom-0 left-0 right-0 w-full bg-white ">
       <form
         onSubmit={handleSubmitComment}
         className="flex items-center w-screen max-w-screen-md px-6 py-4 mx-auto gap-x-4"

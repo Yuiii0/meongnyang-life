@@ -5,7 +5,7 @@ import Input from "@/components/ui/Input/Input";
 import TextArea from "@/components/ui/Input/TextArea";
 import { removeImageFromStorage } from "@/lib/post/api";
 import { PostFormData } from "@/lib/post/type";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import ImageCarousel from "./Image/ImageCarousel";
@@ -57,22 +57,25 @@ function PostForm({ onSubmit, initialData }: PostFormProps) {
     setSelectedFiles(newSelectedFiles);
   };
 
-  const onValid = (data: PostFormData) => {
-    if (isImgUploading) {
-      toast("아직 이미지가 업로드 중입니다.", {
-        icon: "🙏🏻",
-      });
-      return;
-    }
-    try {
-      onSubmit({
-        ...data,
-        images: [...selectedFiles],
-      });
-    } catch (error) {
-      toast.error("에러가 발생하였습니다. 다시 시도해주세요");
-    }
-  };
+  const onValid = useCallback(
+    (data: PostFormData) => {
+      if (isImgUploading) {
+        toast("아직 이미지가 업로드 중입니다.", {
+          icon: "🙏🏻",
+        });
+        return;
+      }
+      try {
+        onSubmit({
+          ...data,
+          images: [...selectedFiles],
+        });
+      } catch (error) {
+        toast.error("에러가 발생하였습니다. 다시 시도해주세요");
+      }
+    },
+    [isImgUploading, onSubmit, selectedFiles]
+  );
 
   return (
     <form onSubmit={handleSubmit(onValid)}>
