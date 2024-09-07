@@ -11,7 +11,6 @@ import { removeImageFromStorage } from "@/lib/post/api";
 import { useDeletePost } from "@/lib/post/hooks/useDeletePost";
 import { useGetPostByPostId } from "@/lib/post/hooks/useGetPostByPostId";
 import { PostDto, PostImage } from "@/lib/post/type";
-import { scrollToTop } from "@/shared/utils/scrollTop";
 import { useAuthStore } from "@/stores/auth/useAuthStore";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -25,16 +24,21 @@ const PostDetailPage = () => {
   const { post, isError, isLoading } = useGetPostByPostId(postId || "");
   const { mutate: deletePost } = useDeletePost();
 
+  const commentSectionRef = useRef<HTMLDivElement>(null);
   const commentFormRef = useRef<HTMLInputElement>(null);
   const [isEdit, setIsEdit] = useState(false);
   const [commentId, setCommentId] = useState<string | null>(null);
   const [replyId, setReplyId] = useState<string | null>(null);
   const [isReplying, setIsReplying] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [shouldScroll, setShouldScroll] = useState(false);
 
   useEffect(() => {
-    scrollToTop();
-  }, []);
+    if (shouldScroll && commentSectionRef.current) {
+      commentSectionRef.current.scrollIntoView({ behavior: "smooth" });
+      setShouldScroll(false);
+    }
+  }, [shouldScroll]);
 
   const focusCommentForm = useCallback(() => {
     if (commentFormRef.current) {
@@ -75,9 +79,14 @@ const PostDetailPage = () => {
   );
 
   const onSubmitComment = useCallback(() => {
+    // isReplying이 false일 때만 스크롤 이동
+    if (!isEdit && !isReplying) {
+      setShouldScroll(true);
+    }
     setCommentId(null);
     setIsEdit(false);
-  }, []);
+    setIsReplying(false); // 답글 작성 후 상태 초기화
+  }, [isEdit, isReplying]);
 
   const onSubmitReply = useCallback(
     (commentId: string) => {
@@ -86,6 +95,7 @@ const PostDetailPage = () => {
       setIsEdit(false);
       setIsReplying(true);
       focusCommentForm();
+      setShouldScroll(false);
     },
     [focusCommentForm]
   );
@@ -141,6 +151,7 @@ const PostDetailPage = () => {
         post={post as PostDto}
         isMyPost={isMyPost}
         onOpenConfirmModal={() => setIsConfirmModalOpen(true)}
+        ref={commentSectionRef}
       />
       <CommentSection
         postId={postId}
