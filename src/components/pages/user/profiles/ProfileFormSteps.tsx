@@ -38,7 +38,7 @@ const ProfileFormSteps = ({
               ? "멍냥생활 회원 정보가 수정되었습니다"
               : "멍냥생활 회원이 되신것을"
           }
-          imageName="cats.webp"
+          imageName="family.webp"
         >
           {isEditing ? "프로필 수정 완료" : "환영합니다"}
         </Success>
