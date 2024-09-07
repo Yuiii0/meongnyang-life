@@ -54,8 +54,10 @@ function Navbar({ isShowNavbar, onClose }: NavbarProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col opacity-100 duration-500 bg-white items-center justify-center w-screen max-w-screen-md   ${
-        isShowNavbar ? " -translate-x-1/2 left-1/2" : "hidden "
+      className={`fixed inset-0 z-50 flex flex-col bg-white items-center justify-center w-screen max-w-screen-md transition-transform duration-500 ease-in-out transform ${
+        isShowNavbar
+          ? "opacity-100 -translate-x-1/2 left-1/2"
+          : "opacity-0 -translate-x-full"
       }`}
     >
       <div className="w-full max-w-md px-12">
