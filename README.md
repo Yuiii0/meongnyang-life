@@ -138,10 +138,10 @@ npm run dev
 - [이미지 최적화로 사이즈 85% 감소, 다양한 사이즈로 반응형 이미지 적용](https://s-organization-335.gitbook.io/meongnang/undefined)
 	- browser-image-compression 활용한 이미지 폭, 타입 정의
 	- width, height, aspect-ratio값 지정으로 Reflow 방지
-	-  다양한 size 이미지
+	-  다양한 size 이미지 생성, srcSet 적용으로 파일크기 50% 절감
 	- lazy loading
 
-- [code splitting, prefetch 적용으로 로딩속도 개선](https://s-organization-335.gitbook.io/meongnang/prefetch-code-splitting)
+- [code splitting, prefetch 적용으로 33% 로딩속도 개선](https://s-organization-335.gitbook.io/meongnang/prefetch-code-splitting)
 	- React.lazy와 suspense
 	- manualChunks
  	- prefetch
