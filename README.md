@@ -1,8 +1,10 @@
 # 🐾 멍냥생활
 
- ![image](https://github.com/user-attachments/assets/78bad134-cec6-4938-b7ac-6f31d3d90125)
+![image](https://github.com/user-attachments/assets/78bad134-cec6-4938-b7ac-6f31d3d90125)
+dsfew
 
 #### 프로젝트 소개
+
 멍냥생활은 강아지와 고양이를 위한 반려동물 커뮤니티입니다. <br>
 반려견과의 함께하는 일상을 기록하고, 사진과 다양한 정보를 공유하는 공간을 제공합니다.<br>
 멍냥 생활과 함께 반려동물과의 소중한 추억을 간직해보세요
@@ -21,7 +23,6 @@
 #### 📎 배포 링크
 
 [🐾 멍냥생활 배포 URL ](https://dev-meongnyang-life.vercel.app/)
-
 
 #### 🔒 테스트 계정
 
@@ -46,9 +47,10 @@ npm run dev
 ## 🔍 유저 플로우
 
 ![Screen Flow Template - Frame 1](https://github.com/user-attachments/assets/d8ecd4f9-a1a5-4379-a595-842d7db44f5e)
+
 - [UserFlow](https://miro.com/app/board/uXjVK6L-Tmo=/)
 - [WireFrame](https://miro.com/app/board/uXjVK6LP-lc=/)
-<br/>
+  <br/>
 
 ## 🛠 기술 스택
 
@@ -59,25 +61,22 @@ npm run dev
 <br/>
 
 ## 📌 주요기능
+
 ##### 토글을 열면 시연영상을 확인하실 수 있습니다
 
-#### <details><summary>로그인 / 회원가입</summary> <p align="left"><img src="https://github.com/user-attachments/assets/dd9898f4-41be-40ce-acef-061671177067" style="margin-right: 15px;"> <img src="https://github.com/user-attachments/assets/a3079322-14c6-4bde-b196-fc6a90a2cd25"></p>  <br/></details>
-
+#### <details><summary>로그인 / 회원가입</summary> <p align="left"><img src="https://github.com/user-attachments/assets/dd9898f4-41be-40ce-acef-061671177067" style="margin-right: 15px;"> <img src="https://github.com/user-attachments/assets/a3079322-14c6-4bde-b196-fc6a90a2cd25"></p> <br/></details>
 
 - 폼 유효성 검증 (email 형식, 대소문자, 특수문자 포함 8글자 이상 비밀번호)
 - 구글 소셜 로그인
 - 전역상태로 인증상태 유지 및 유저정보 관리</details>
 - 인증된 유저에 따른 서비스 접근 제한 및 보호 (타인의 프로필, 게시글 수정 페이지 접근 불가)
 
-
  <br/>
  
 #### <details><summary>전체 게시글 조회</summary><img src="https://github.com/user-attachments/assets/7b943b27-704c-488a-8f3b-7b62e625cfc7"><br/></details>
 
-
 - 무한스크롤을 활용한 페이지네이션
 - 스와이퍼를 통한 게시물 이미지 확인 기능
-
 
 <br/>
 
@@ -103,8 +102,6 @@ npm run dev
 - 최대 5장 이미지 업로드 가능 (webp 변환, resizing 적용)
 - 이미지 크롭 기능 제공
 
-
-
 <br/>
 
 #### <details><summary>유저 조회</summary><img src="https://github.com/user-attachments/assets/39e27799-bc68-47df-9adb-7a09ab5fc8b5"><br/></details>
@@ -113,12 +110,9 @@ npm run dev
 - 유저의 반려동물 종류, 성별, 소개 및 게시글 조회
 - 유저의 팔로우 관계 조회, 관리 기능
 
-
-
 <br/>
 
 #### <details><summary>검색 기능</summary><img src="https://github.com/user-attachments/assets/89016c79-afc9-4696-aa58-99975c1abc10"><br/></details>
-
 
 - 유저 검색 기능
 - 게시물 검색 기능
@@ -136,19 +130,20 @@ npm run dev
 ## 🔥 성능 최적화
 
 - [이미지 최적화로 사이즈 85% 감소, 다양한 사이즈로 반응형 이미지 적용](https://s-organization-335.gitbook.io/meongnang/undefined)
-	- browser-image-compression 활용한 이미지 폭, 타입 정의
-	- width, height, aspect-ratio값 지정으로 Reflow 방지
-	-  다양한 size 이미지 생성, srcSet 적용으로 파일크기 50% 절감
-	- lazy loading
+
+  - browser-image-compression 활용한 이미지 폭, 타입 정의
+  - width, height, aspect-ratio값 지정으로 Reflow 방지
+  - 다양한 size 이미지 생성, srcSet 적용으로 파일크기 50% 절감
+  - lazy loading
 
 - [code splitting, prefetch 적용으로 33% 로딩속도 개선](https://s-organization-335.gitbook.io/meongnang/prefetch-code-splitting)
-	- React.lazy와 suspense
-	- manualChunks
- 	- prefetch
+  - React.lazy와 suspense
+  - manualChunks
+  - prefetch
 - [웹 접근성 37%, SEO 83→100 점수 개선](https://s-organization-335.gitbook.io/db/seo)
 
-	- aria label 적용
-	- meta 태그 관리 , Robots.txt , Sitemap 생성
+  - aria label 적용
+  - meta 태그 관리 , Robots.txt , Sitemap 생성
 
 <br/>
 
@@ -168,8 +163,8 @@ npm run dev
 <br/>
 
 ## ⚙️ 아키텍쳐
-<img width="812" alt="image" src="https://github.com/user-attachments/assets/4500508b-18f1-4216-9faa-b9eda8da035d">
 
+<img width="812" alt="image" src="https://github.com/user-attachments/assets/4500508b-18f1-4216-9faa-b9eda8da035d">
 
 ## 🗂 프로젝트 구조
 
@@ -230,10 +225,9 @@ npm run dev
 ```
 
 ## 📄 Log
+
 <img width="727" alt="image" src="https://github.com/user-attachments/assets/38b35cec-3ed5-4d55-b368-573f242a8dbb">
 <br/>
 <br/>
 
 [📎 PR 기록](https://github.com/Yuiii0/meongnyang-life/pulls?q=is%3Apr+is%3Aclosed)
-
-
