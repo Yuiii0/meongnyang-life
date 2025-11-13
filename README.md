@@ -1,9 +1,10 @@
 # 🐾 멍냥생활
 
- ![image](https://github.com/user-attachments/assets/78bad134-cec6-4938-b7ac-6f31d3d90125)
+![image](https://github.com/user-attachments/assets/78bad134-cec6-4938-b7ac-6f31d3d90125)
 
 #### 프로젝트 소개
-멍냥생활은 강아지와 고양이를 위한 반려동물 커뮤니티입니다. <br>
+
+멍냥생활은 강아지와 고양이를 위한 반려동물 커뮤니티입니다. <br>. sddwe
 반려견과의 함께하는 일상을 기록하고, 사진과 다양한 정보를 공유하는 공간을 제공합니다.<br>
 멍냥 생활과 함께 반려동물과의 소중한 추억을 간직해보세요
 
@@ -21,7 +22,6 @@
 #### 📎 배포 링크
 
 [🐾 멍냥생활 배포 URL ](https://dev-meongnyang-life.vercel.app/)
-
 
 #### 🔒 테스트 계정
 
@@ -46,9 +46,10 @@ npm run dev
 ## 🔍 유저 플로우
 
 ![Screen Flow Template - Frame 1](https://github.com/user-attachments/assets/d8ecd4f9-a1a5-4379-a595-842d7db44f5e)
+
 - [UserFlow](https://miro.com/app/board/uXjVK6L-Tmo=/)
 - [WireFrame](https://miro.com/app/board/uXjVK6LP-lc=/)
-<br/>
+  <br/>
 
 ## 🛠 기술 스택
 
@@ -83,8 +84,6 @@ npm run dev
 
 <br/>
 
-
-
 #### [게시글 상세 조회]
 
 - 게시물 상세 정보 조회 기능
@@ -97,12 +96,10 @@ npm run dev
 - 무한스크롤을 활용한 댓글 조회
 - 댓글, 대댓글 좋아요 기능
 
-
 <p align="left">
   <img src="https://github.com/user-attachments/assets/51480d7a-2502-43f3-8d72-bcb7c06c2502" style="margin-right: 15px;">
   <img src="https://github.com/user-attachments/assets/40822ab3-00f2-4909-8995-5e3dbb319b57">
 </p>
-
 
 <br/>
 
@@ -118,7 +115,6 @@ npm run dev
 </p>
 
 <br/>
-
 
 #### [유저 조회]
 
@@ -152,19 +148,20 @@ npm run dev
 ## 🔥 성능 최적화
 
 - [이미지 최적화로 사이즈 85% 감소, 다양한 사이즈로 반응형 이미지 적용](https://s-organization-335.gitbook.io/meongnang/undefined)
-	- browser-image-compression 활용한 이미지 폭, 타입 정의
-	- width, height, aspect-ratio값 지정으로 Reflow 방지
-	-  다양한 size 이미지
-	- lazy loading
+
+  - browser-image-compression 활용한 이미지 폭, 타입 정의
+  - width, height, aspect-ratio값 지정으로 Reflow 방지
+  - 다양한 size 이미지
+  - lazy loading
 
 - [code splitting, prefetch 적용으로 로딩속도 개선](https://s-organization-335.gitbook.io/meongnang/prefetch-code-splitting)
-	- React.lazy와 suspense
-	- manualChunks
- 	- prefetch
+  - React.lazy와 suspense
+  - manualChunks
+  - prefetch
 - [웹 접근성 37%, SEO 83→100 점수 개선](https://s-organization-335.gitbook.io/db/seo)
 
-	- aria label 적용
-	- meta 태그 관리 , Robots.txt , Sitemap 생성
+  - aria label 적용
+  - meta 태그 관리 , Robots.txt , Sitemap 생성
 
 <br/>
 
@@ -184,8 +181,8 @@ npm run dev
 <br/>
 
 ## ⚙️ 아키텍쳐
-<img width="812" alt="image" src="https://github.com/user-attachments/assets/4500508b-18f1-4216-9faa-b9eda8da035d">
 
+<img width="812" alt="image" src="https://github.com/user-attachments/assets/4500508b-18f1-4216-9faa-b9eda8da035d">
 
 ## 🗂 프로젝트 구조
 
@@ -246,10 +243,9 @@ npm run dev
 ```
 
 ## 📄 Log
+
 <img width="727" alt="image" src="https://github.com/user-attachments/assets/38b35cec-3ed5-4d55-b368-573f242a8dbb">
 <br/>
 <br/>
 
 [📎 PR 기록](https://github.com/Yuiii0/meongnyang-life/pulls?q=is%3Apr+is%3Aclosed)
-
-
